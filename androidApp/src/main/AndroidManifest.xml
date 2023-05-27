@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission-sdk-23 android:name="android.permission.CAMERA"/>
     <application
-        android:name=".TuduApplication"
+        android:name=".ARApplication"
         android:allowBackup="false"
         android:supportsRtl="true"
         android:icon="@mipmap/ic_launcher"

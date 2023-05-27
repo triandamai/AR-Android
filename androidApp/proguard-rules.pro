@@ -13,7 +13,7 @@
 #}
 -keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
 -keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.
--keep class app.trian.tudu.sqldelight.Database
+-keep class app.hilwa.ar.sqldelight.Database
 -keep class
 
 # Uncomment this to preserve the line number information for
