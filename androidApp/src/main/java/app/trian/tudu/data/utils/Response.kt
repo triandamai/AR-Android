@@ -7,9 +7,7 @@
 
 package app.trian.tudu.data.utils
 
-import com.google.errorprone.annotations.Keep
 
-@Keep
 sealed class Response<out R> {
     object Loading : Response<Nothing>()
     data class Result<out Result>(val data: Result) : Response<Result>()
@@ -18,7 +16,7 @@ sealed class Response<out R> {
 }
 
 
-@Keep
+
 sealed class ResponseWithProgress<out R> {
     object Loading : ResponseWithProgress<Nothing>()
     data class Finish<out Result>(val data: Result) : ResponseWithProgress<Result>()

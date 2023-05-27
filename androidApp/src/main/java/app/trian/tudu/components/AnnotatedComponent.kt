@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -119,12 +120,12 @@ fun CheckBoxWithAction(
 fun TextWithAction(
     labels: List<AnnotationTextItem> = listOf(),
     onTextClick: (Int) -> Unit = {},
+    textAlign: TextAlign= TextAlign.Start
 ) {
     val annotates = buildAnnotatedString {
         labels.forEachIndexed { index, data ->
             when (data) {
                 is AnnotationTextItem.Button -> {
-                    append(" ")
                     pushStringAnnotation(
                         tag = "text_${index}",
                         annotation = "text_${index}"
@@ -135,17 +136,18 @@ fun TextWithAction(
                         )
                     ) {
                         append(data.text)
+                        append(" ")
                     }
                     pop()
                 }
                 is AnnotationTextItem.Text -> {
-                    append(" ")
                     withStyle(
                         style = SpanStyle(
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     ) {
                         append(data.text)
+                        append(" ")
                     }
                 }
             }
@@ -154,7 +156,8 @@ fun TextWithAction(
     ClickableText(
         text = annotates,
         style = MaterialTheme.typography.bodyLarge.copy(
-            color = MaterialTheme.colorScheme.onSecondary
+            color = MaterialTheme.colorScheme.onSecondary,
+            textAlign = textAlign
         ),
         onClick = { offset ->
             labels.forEachIndexed { index, _ ->
@@ -168,7 +171,7 @@ fun TextWithAction(
                     }
             }
 
-        }
+        },
     )
 
 }

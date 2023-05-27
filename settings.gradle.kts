@@ -23,6 +23,5 @@ dependencyResolutionManagement {
     }
 
 }
-rootProject.name = "Tudu"
+rootProject.name = "Hilwa"
 include(":androidApp")
-//include(":shared")

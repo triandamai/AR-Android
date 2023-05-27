@@ -1,10 +1,11 @@
 package app.trian.tudu.data.domain.user
 
-import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class CheckSessionUserUseCase @Inject constructor(
-    private val auth: FirebaseAuth
-) {
-    operator fun invoke(): Boolean = auth.currentUser != null
+class CheckSessionUserUseCase @Inject constructor() {
+    operator fun invoke(): Flow<Boolean> = flow{
+        emit(true)
+    }
 }

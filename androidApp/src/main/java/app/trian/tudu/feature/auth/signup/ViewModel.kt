@@ -7,7 +7,6 @@ import app.trian.tudu.data.domain.user.SignUpWithEmailAndPasswordUseCase
 import app.trian.tudu.data.utils.Response
 import app.trian.tudu.feature.auth.signin.SignIn
 import app.trian.tudu.feature.auth.signup.SignUpEvent.SignUpWithEmail
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -35,7 +34,7 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun handleResponse(result: Response<FirebaseUser>) {
+    private fun handleResponse(result: Response<Any>) {
         when (result) {
             Response.Loading -> showLoading()
             is Response.Error -> {

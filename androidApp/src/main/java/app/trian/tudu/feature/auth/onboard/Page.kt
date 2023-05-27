@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -83,7 +85,7 @@ internal fun ScreenOnboard(
     ) {
         Spacer(modifier = Modifier.height(60.dp))
         Image(
-            modifier = Modifier.fillMaxSize(fraction = 0.6f),
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 0.5f),
             painter = painterResource(id = R.drawable.ic_onboard),
             contentDescription = stringResource(R.string.content_description_image_onboard),
             contentScale = ContentScale.FillHeight
@@ -98,12 +100,31 @@ internal fun ScreenOnboard(
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal
-                )
+                ),
+                textAlign = TextAlign.Center
             )
+            Text(
+                text = stringResource(R.string.title1_onboard),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = stringResource(R.string.title2_onboard),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = stringResource(R.string.subtitle_onboard),
                 style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 36.sp,
+                    fontSize = 26.sp,
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.primary
                 )

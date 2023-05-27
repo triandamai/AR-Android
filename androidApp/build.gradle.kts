@@ -10,8 +10,6 @@ plugins {
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.app.cash.sqldelight)
     alias(libs.plugins.io.gitlab.arthubosch.detekt)
-    alias(libs.plugins.com.google.services)
-    alias(libs.plugins.com.google.crashanalytics)
     id("kotlin-parcelize")
 }
 
@@ -67,6 +65,10 @@ android {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        java{
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+        }
     }
     kotlinOptions {
         jvmTarget = "17"
@@ -119,24 +121,11 @@ dependencies {
         kaptTest(android.compiler)
         kapt(compiler)
     }
-    with(libs.gms.play.service) {
-        implementation(auth)
-        implementation(base)
-    }
 
     implementation(libs.sqldelight.android.driver)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.storage)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.crashanalytics)
 
     implementation(libs.kotlinx.coroutine.play.services)
     testImplementation(libs.kotlinx.coroutine.test)
-
-    implementation(libs.gms.play.service.auth)
-    implementation(libs.gms.play.service.base)
 
     implementation(libs.work.runtime)
     implementation(libs.kotlinx.serialization)
