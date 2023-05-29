@@ -31,6 +31,7 @@ import androidx.navigation.compose.composable
 import app.hilwa.ar.ApplicationState
 import app.hilwa.ar.R.string
 import app.hilwa.ar.base.BaseMainApp
+import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
 import app.hilwa.ar.base.extensions.backPressedAndClose
 import app.hilwa.ar.base.extensions.hideKeyboard
@@ -42,6 +43,8 @@ import app.hilwa.ar.components.FormInput
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.resetPassword.ResetPassword
 import app.hilwa.ar.feature.auth.signup.SignUp
+import app.hilwa.ar.rememberApplicationState
+import app.hilwa.ar.theme.MyApplicationTheme
 
 object SignIn {
     const val routeName = "SignIn"
@@ -71,134 +74,129 @@ internal fun ScreenSignIn(
     )
 
     val uiState by uiState.collectAsState()
-
-
-    val ctx = LocalContext.current
-
-    with(appState) {
-        hideBottomAppBar()
-        setupTopAppBar {
-            AppbarAuth(
-                onBackPressed = {
-                    backPressedAndClose()
-                }
-            )
-        }
-    }
-
     DialogLoading(
         show = uiState.isLoading,
         message = stringResource(string.text_message_loading_signin),
         title = stringResource(string.text_title_loading)
     )
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.SpaceBetween
+    BaseScreen(
+        topAppBar = {
+            AppbarAuth(
+                onBackPressed = {
+                    backAndClose()
+                }
+            )
+        }
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 20.dp
-                ),
-            horizontalAlignment = Alignment.Start
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = stringResource(string.title_sign_in),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.SemiBold,
-                ),
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                text = stringResource(string.subtitle_signin),
-                style = MaterialTheme.typography.displayMedium.copy(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Light,
-                ),
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Spacer(modifier = Modifier.height(36.dp))
-            FormInput(
-                label = {
-                    Text(
-                        text = stringResource(string.label_input_email),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                },
-                initialValue = uiState.email,
-                placeholder = stringResource(string.placeholder_input_email),
-                onChange = {
-                    commit { copy(email = it) }
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = 20.dp
+                    ),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = stringResource(string.title_sign_in),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.SemiBold,
+                    ),
+                    color = MaterialTheme.colorScheme.onBackground
                 )
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            FormInput(
-                label = {
-                    Text(
-                        text = stringResource(string.label_input_password),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                },
-                initialValue = uiState.password,
-                placeholder = stringResource(string.placeholder_input_password),
-                onChange = {
-                    commit { copy(password = it) }
-                },
-                showPasswordObsecure = true,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Send
-                ),
-                keyboardActions = KeyboardActions(
-                    onSend = {
-                        ctx.hideKeyboard()
-                        dispatch(SignInEvent.SignInWithEmail)
-                    }
+                Text(
+                    text = stringResource(string.subtitle_signin),
+                    style = MaterialTheme.typography.displayMedium.copy(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light,
+                    ),
+                    color = MaterialTheme.colorScheme.onBackground
                 )
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            TextWithAction(
-                labels = forgetPasswordText,
-                onTextClick = {
-                    if (it == 1) {
-                        navigateSingleTop(ResetPassword.routeName)
-                    }
-                }
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-            ButtonPrimary(text = stringResource(id = string.btn_signin)) {
-                ctx.hideKeyboard()
-                dispatch(SignInEvent.SignInWithEmail)
-            }
-
-            Spacer(modifier = Modifier.height(30.dp))
-            Column {
                 Spacer(modifier = Modifier.height(36.dp))
-                Column(
-                    modifier = Modifier.padding(horizontal = 20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    TextWithAction(
-                        labels = signUp,
-                        onTextClick = {
-                            if (it == 1) {
-                                navigateSingleTop(SignUp.routeName)
-                            }
+                FormInput(
+                    label = {
+                        Text(
+                            text = stringResource(string.label_input_email),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    },
+                    initialValue = uiState.email,
+                    placeholder = stringResource(string.placeholder_input_email),
+                    onChange = {
+                        commit { copy(email = it) }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                FormInput(
+                    label = {
+                        Text(
+                            text = stringResource(string.label_input_password),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    },
+                    initialValue = uiState.password,
+                    placeholder = stringResource(string.placeholder_input_password),
+                    onChange = {
+                        commit { copy(password = it) }
+                    },
+                    showPasswordObsecure = true,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Send
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onSend = {
+                            hideKeyboard()
+                            dispatch(SignInEvent.SignInWithEmail)
                         }
                     )
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                TextWithAction(
+                    labels = forgetPasswordText,
+                    onTextClick = {
+                        if (it == 1) {
+                            navigateSingleTop(ResetPassword.routeName)
+                        }
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(30.dp))
+                ButtonPrimary(text = stringResource(id = string.btn_signin)) {
+                    hideKeyboard()
+                    dispatch(SignInEvent.SignInWithEmail)
                 }
+
+                Spacer(modifier = Modifier.height(30.dp))
+                Column {
+                    Spacer(modifier = Modifier.height(36.dp))
+                    Column(
+                        modifier = Modifier.padding(horizontal = 20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        TextWithAction(
+                            labels = signUp,
+                            onTextClick = {
+                                if (it == 1) {
+                                    navigateSingleTop(SignUp.routeName)
+                                }
+                            }
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
             }
-            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }
@@ -210,11 +208,9 @@ internal fun ScreenSignIn(
 )
 @Composable
 fun PreviewScreenSignIn() {
-    BaseMainApp(
-        topAppBar = {
-            AppbarAuth()
-        }
-    ) {
-        ScreenSignIn(it)
+    BaseMainApp {
+        ScreenSignIn(
+            it
+        )
     }
 }

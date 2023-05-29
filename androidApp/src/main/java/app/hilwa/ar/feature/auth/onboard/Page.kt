@@ -29,6 +29,7 @@ import androidx.navigation.compose.composable
 import app.hilwa.ar.ApplicationState
 import app.hilwa.ar.R
 import app.hilwa.ar.base.BaseMainApp
+import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
 import app.hilwa.ar.components.AnnotationTextItem
 import app.hilwa.ar.components.BottomSheetPrivacyPolicy
@@ -59,119 +60,120 @@ internal fun ScreenOnboard(
         AnnotationTextItem.Text(stringResource(id = R.string.text_license_agreement)),
         AnnotationTextItem.Button(stringResource(id = R.string.text_privacy_policy)),
     )
-    with(appState) {
-        hideTopAppBar()
-        hideBottomAppBar()
-        setupBottomSheet{
+
+    BaseScreen(
+        bottomSheet = {
             BottomSheetPrivacyPolicy(
                 onAccept = {
                     hideBottomSheet()
                 }
             )
         }
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 16.dp,
-                end = 16.dp,
-                top = 20.dp,
-                bottom = 40.dp
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Spacer(modifier = Modifier.height(60.dp))
-        Image(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 0.5f),
-            painter = painterResource(id = R.drawable.ic_onboard),
-            contentDescription = stringResource(R.string.content_description_image_onboard),
-            contentScale = ContentScale.FillHeight
-        )
-        Spacer(modifier = Modifier.height(20.dp))
         Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 20.dp,
+                    bottom = 40.dp
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = stringResource(R.string.title_onboard),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Normal
-                ),
-                textAlign = TextAlign.Center
+            Spacer(modifier = Modifier.height(60.dp))
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(fraction = 0.5f),
+                painter = painterResource(id = R.drawable.ic_onboard),
+                contentDescription = stringResource(R.string.content_description_image_onboard),
+                contentScale = ContentScale.FillHeight
             )
-            Text(
-                text = stringResource(R.string.title1_onboard),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Normal
-                ),
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = stringResource(R.string.title2_onboard),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal
-                ),
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = stringResource(R.string.subtitle_onboard),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            )
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
+            Spacer(modifier = Modifier.height(20.dp))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                ButtonPrimary(
-                    text = stringResource(id = R.string.btn_signin),
-                    modifier = Modifier
-                        .defaultMinSize(
-                            minWidth = 150.dp
-                        ),
-                    fullWidth = false
-                ) {
-                    navigateAndReplaceAll(SignIn.routeName)
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                ButtonSecondary(
-                    text = stringResource(R.string.btn_create_new_account),
-                    modifier = Modifier
-                        .defaultMinSize(
-                            minWidth = 150.dp
-                        ),
-                    fullWidth = false
-                ) {
-                    navigateSingleTop(SignUp.routeName)
-                }
+                Text(
+                    text = stringResource(R.string.title_onboard),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Normal
+                    ),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = stringResource(R.string.title1_onboard),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Normal
+                    ),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = stringResource(R.string.title2_onboard),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal
+                    ),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = stringResource(R.string.subtitle_onboard),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            TextWithAction(
-                labels = privacyPolicyText,
-                onTextClick = {
-                    if(it==1){
-                        showBottomSheet()
+            Spacer(modifier = Modifier.height(20.dp))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ButtonPrimary(
+                        text = stringResource(id = R.string.btn_signin),
+                        modifier = Modifier
+                            .defaultMinSize(
+                                minWidth = 150.dp
+                            ),
+                        fullWidth = false
+                    ) {
+                        navigateAndReplaceAll(SignIn.routeName)
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    ButtonSecondary(
+                        text = stringResource(R.string.btn_create_new_account),
+                        modifier = Modifier
+                            .defaultMinSize(
+                                minWidth = 150.dp
+                            ),
+                        fullWidth = false
+                    ) {
+                        navigateSingleTop(SignUp.routeName)
                     }
                 }
-            )
+                Spacer(modifier = Modifier.height(16.dp))
+                TextWithAction(
+                    labels = privacyPolicyText,
+                    onTextClick = {
+                        if (it == 1) {
+                            showBottomSheet()
+                        }
+                    }
+                )
 
+            }
         }
     }
 }

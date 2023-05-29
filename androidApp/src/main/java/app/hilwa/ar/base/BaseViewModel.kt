@@ -14,6 +14,7 @@ import app.hilwa.ar.ApplicationState
 import app.hilwa.ar.base.extensions.backPressedAndClose
 import app.hilwa.ar.base.extensions.getString
 import app.hilwa.ar.base.extensions.hideBottomSheet
+import app.hilwa.ar.base.extensions.hideKeyboard
 import app.hilwa.ar.base.extensions.navigate
 import app.hilwa.ar.base.extensions.navigateAndReplace
 import app.hilwa.ar.base.extensions.navigateAndReplaceAll
@@ -143,6 +144,8 @@ abstract class BaseViewModel<State : Parcelable, Action>(
     //region bottom sheet
     fun showBottomSheet() = _app.showBottomSheet()
     fun hideBottomSheet() = _app.hideBottomSheet()
+
+    fun hideKeyboard()=_app.context.hideKeyboard()
     //end region
 
     //region theme

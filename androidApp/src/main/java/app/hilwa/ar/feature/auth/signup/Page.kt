@@ -30,6 +30,7 @@ import androidx.navigation.compose.composable
 import app.hilwa.ar.ApplicationState
 import app.hilwa.ar.R.string
 import app.hilwa.ar.base.BaseMainApp
+import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
 import app.hilwa.ar.base.extensions.hideKeyboard
 import app.hilwa.ar.base.extensions.navigateUp
@@ -69,18 +70,22 @@ internal fun ScreenSignUp(
         AnnotationTextItem.Button(stringResource(id = string.text_signin))
     )
     val uiState by uiState.collectAsState()
-    val ctx = LocalContext.current
 
-    with(state) {
-        hideBottomAppBar()
-        setupTopAppBar {
+
+    DialogLoading(
+        show = uiState.isLoading,
+        message = stringResource(string.text_message_loading_signup),
+        title = stringResource(string.text_title_loading)
+    )
+    BaseScreen(
+        topAppBar = {
             AppbarAuth(
                 onBackPressed = {
                     navigateUp()
                 }
             )
-        }
-        setupBottomSheet {
+        },
+        bottomSheet = {
             BottomSheetPrivacyPolicy(
                 onAccept = {
                     hideBottomSheet()
@@ -92,151 +97,147 @@ internal fun ScreenSignUp(
                 }
             )
         }
-    }
-    DialogLoading(
-        show = uiState.isLoading,
-        message = stringResource(string.text_message_loading_signup),
-        title = stringResource(string.text_title_loading)
-    )
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                horizontal = 20.dp
-            )
-            .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = stringResource(string.title_register),
-            style = MaterialTheme.typography.bodyLarge.copy(
-                fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-        )
-        Row {
-            TextWithAction(
-                labels = signInText,
-                onTextClick = {
-                    if (it == 1) {
-                        navigateAndReplaceAll(SignIn.routeName)
-                    }
-                }
-            )
-        }
-        Spacer(modifier = Modifier.height(20.dp))
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 10.dp)
+                .fillMaxSize()
+                .padding(
+                    horizontal = 20.dp
+                )
+                .verticalScroll(rememberScrollState())
         ) {
-            FormInput(
-                initialValue = uiState.displayName,
-                label = {
-                    Text(
-                        text = stringResource(string.label_input_display_nama),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                },
-                placeholder = stringResource(string.placeholder_input_display_name),
-                onChange = {
-                    commit { copy(displayName = it) }
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
+            Text(
+                text = stringResource(string.title_register),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.SemiBold
                 )
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            FormInput(
-                initialValue = uiState.email,
-                label = {
-                    Text(
-                        text = stringResource(id = string.label_input_email),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                },
-                placeholder = stringResource(id = string.placeholder_input_email),
-                onChange = {
-                    commit { copy(email = it) }
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
-                )
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            FormInput(
-                initialValue = uiState.password,
-                label = {
-                    Text(
-                        text = stringResource(id = string.label_input_password),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                },
-                showPasswordObsecure = true,
-                placeholder = stringResource(id = string.placeholder_input_password),
-                onChange = {
-                    commit { copy(password = it) }
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onSend = {
-                        ctx.hideKeyboard()
-                        dispatch(SignUpEvent.SignUpWithEmail)
+            Row {
+                TextWithAction(
+                    labels = signInText,
+                    onTextClick = {
+                        if (it == 1) {
+                            navigateAndReplaceAll(SignIn.routeName)
+                        }
                     }
                 )
-            )
-            FormInput(
-                initialValue = uiState.confirmPassword,
-                label = {
-                    Text(
-                        text = stringResource(id = string.label_input_confirm_new_password),
-                        style = MaterialTheme.typography.bodyMedium
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp)
+            ) {
+                FormInput(
+                    initialValue = uiState.displayName,
+                    label = {
+                        Text(
+                            text = stringResource(string.label_input_display_nama),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
+                    placeholder = stringResource(string.placeholder_input_display_name),
+                    onChange = {
+                        commit { copy(displayName = it) }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
                     )
-                },
-                showPasswordObsecure = true,
-                placeholder = stringResource(id = string.placeholder_input_confirm_new_password),
-                onChange = {
-                    commit { copy(confirmPassword = it) }
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Send
-                ),
-                keyboardActions = KeyboardActions(
-                    onSend = {
-                        ctx.hideKeyboard()
-                        dispatch(SignUpEvent.SignUpWithEmail)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                FormInput(
+                    initialValue = uiState.email,
+                    label = {
+                        Text(
+                            text = stringResource(id = string.label_input_email),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
+                    placeholder = stringResource(id = string.placeholder_input_email),
+                    onChange = {
+                        commit { copy(email = it) }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                FormInput(
+                    initialValue = uiState.password,
+                    label = {
+                        Text(
+                            text = stringResource(id = string.label_input_password),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
+                    showPasswordObsecure = true,
+                    placeholder = stringResource(id = string.placeholder_input_password),
+                    onChange = {
+                        commit { copy(password = it) }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onSend = {
+                            hideKeyboard()
+                            dispatch(SignUpEvent.SignUpWithEmail)
+                        }
+                    )
+                )
+                FormInput(
+                    initialValue = uiState.confirmPassword,
+                    label = {
+                        Text(
+                            text = stringResource(id = string.label_input_confirm_new_password),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
+                    showPasswordObsecure = true,
+                    placeholder = stringResource(id = string.placeholder_input_confirm_new_password),
+                    onChange = {
+                        commit { copy(confirmPassword = it) }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Send
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onSend = {
+                            hideKeyboard()
+                            dispatch(SignUpEvent.SignUpWithEmail)
+                        }
+                    )
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                CheckBoxWithAction(
+                    labels = privacyPolicy,
+                    checked = uiState.agreeTnc,
+                    onTextClick = {
+                        if (it == 1) {
+                            showBottomSheet()
+                        }
+                    },
+                    onCheckedChange = {
+                        commit { copy(agreeTnc = it) }
                     }
                 )
-            )
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            CheckBoxWithAction(
-                labels = privacyPolicy,
-                checked = uiState.agreeTnc,
-                onTextClick = {
-                    if (it == 1) {
-                        showBottomSheet()
-                    }
-                },
-                onCheckedChange = {
-                    commit { copy(agreeTnc = it) }
-                }
-            )
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        ButtonPrimary(
-            text = stringResource(string.btn_continue),
-            enabled = uiState.agreeTnc
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            ButtonPrimary(
+                text = stringResource(string.btn_continue),
+                enabled = uiState.agreeTnc
 
-        ) {
-            ctx.hideKeyboard()
-            dispatch(SignUpEvent.SignUpWithEmail)
+            ) {
+                hideKeyboard()
+                dispatch(SignUpEvent.SignUpWithEmail)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 

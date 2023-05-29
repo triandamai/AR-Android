@@ -11,7 +11,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,15 +24,6 @@ import app.hilwa.ar.base.extensions.runSuspend
 import app.hilwa.ar.data.theme.ThemeData
 import kotlinx.coroutines.CoroutineScope
 
-
-class CreateContent(
-    private val content: @Composable () -> Unit
-) {
-    @Composable
-    fun invoke() {
-        content.invoke()
-    }
-}
 
 class CreateSnackbarContent(
     private val content: @Composable (SnackbarData) -> Unit
@@ -52,7 +42,6 @@ class ApplicationState internal constructor(
     val context: Context
 ) {
 
-
     var currentRoute by mutableStateOf("")
 
     var snackbarHostState by mutableStateOf(
@@ -61,76 +50,9 @@ class ApplicationState internal constructor(
     var theme by mutableStateOf(
         ThemeData.DEFAULT
     )
-
-    internal var showBottomAppBar by mutableStateOf(false)
-    internal var bottomAppBar by mutableStateOf(CreateContent {})
-
-    internal var showTopAppBar by mutableStateOf(false)
-    internal var topAppBar by mutableStateOf(CreateContent {})
-
     internal var snackbar by mutableStateOf(CreateSnackbarContent {
         Snackbar(snackbarData = it)
     })
-    internal var bottomSheet by mutableStateOf(CreateContent {})
-
-    @Composable
-    fun setupBottomAppBar(
-        content: @Composable () -> Unit = {}
-    ) {
-        LaunchedEffect(key1 = this, block = {
-            bottomAppBar = CreateContent(content)
-            if (!showBottomAppBar) {
-                showBottomAppBar = true
-            }
-        })
-    }
-
-    @Composable
-    fun setupTopAppBar(
-        content: @Composable () -> Unit = {}
-    ) {
-        LaunchedEffect(key1 = this, block = {
-            topAppBar = CreateContent(content)
-            if (!showTopAppBar) {
-                showTopAppBar = true
-            }
-        })
-
-    }
-
-
-    fun setupBottomSheet(content: @Composable () -> Unit = {}) {
-        bottomSheet = CreateContent(content)
-    }
-
-    fun setupSnackbar(content: @Composable (SnackbarData) -> Unit = {}) {
-        snackbar = CreateSnackbarContent(content)
-    }
-
-    fun setupDefaultSnackbar() {
-        snackbar = CreateSnackbarContent {
-            Snackbar(it)
-        }
-    }
-
-    @Composable
-    fun hideBottomAppBar() {
-        LaunchedEffect(key1 = this, block = {
-            if (showBottomAppBar) {
-                showBottomAppBar = false
-            }
-        })
-    }
-
-    @Composable
-    fun hideTopAppBar() {
-        LaunchedEffect(key1 = this, block = {
-            if (showTopAppBar) {
-                showTopAppBar = false
-            }
-        })
-
-    }
 
     fun showSnackbar(message: String) {
         runSuspend {

@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import app.hilwa.ar.R
 import app.hilwa.ar.ApplicationState
 import app.hilwa.ar.base.BaseMainApp
+import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
 import app.hilwa.ar.base.extensions.hideKeyboard
 import app.hilwa.ar.base.extensions.navigateUp
@@ -48,11 +49,15 @@ internal fun ScreenResetPassword(
     appState: ApplicationState,
 ) = UIWrapper<ResetPasswordViewModel>(appState = appState) {
     val state by uiState.collectAsState()
-    val ctx = LocalContext.current
-    with(appState) {
-        hideBottomAppBar()
-        hideBottomSheet()
-        setupTopAppBar {
+
+    DialogLoading(
+        show = state.isLoading,
+        message = stringResource(R.string.text_message_loading_reset_password),
+        title = stringResource(R.string.text_title_loading)
+    )
+
+    BaseScreen(
+        topAppBar = {
             AppbarBasic(
                 title = stringResource(id = R.string.title_appbar_reset_password),
                 onBackPressed = {
@@ -60,45 +65,38 @@ internal fun ScreenResetPassword(
                 }
             )
         }
-    }
-    DialogLoading(
-        show = state.isLoading,
-        message = stringResource(R.string.text_message_loading_reset_password),
-        title = stringResource(R.string.text_title_loading)
-    )
-
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 20.dp)
     ) {
-        FormInput(
-            label = {
-                Text(
-                    text = stringResource(id = R.string.label_input_email),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            },
-            placeholder = stringResource(R.string.placeholder_email_reset_password),
-            initialValue = state.email,
-            onChange = {
-                commit { copy(email = it) }
-            },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Send
-            ),
-            keyboardActions = KeyboardActions(
-                onSend = {
-                    ctx.hideKeyboard()
-                    dispatch(ResetPasswordEvent.Submit)
-                }
-            )
-        )
-        Spacer(modifier = Modifier.height(30.dp))
-        ButtonPrimary(
-            text = stringResource(R.string.btn_reset_password)
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
         ) {
-            ctx.hideKeyboard()
-            dispatch(ResetPasswordEvent.Submit)
+            FormInput(
+                label = {
+                    Text(
+                        text = stringResource(id = R.string.label_input_email),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                },
+                placeholder = stringResource(R.string.placeholder_email_reset_password),
+                initialValue = state.email,
+                onChange = {
+                    commit { copy(email = it) }
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Send
+                ),
+                keyboardActions = KeyboardActions(
+                    onSend = {
+                        dispatch(ResetPasswordEvent.Submit)
+                    }
+                )
+            )
+            Spacer(modifier = Modifier.height(30.dp))
+            ButtonPrimary(
+                text = stringResource(R.string.btn_reset_password)
+            ) {
+                dispatch(ResetPasswordEvent.Submit)
+            }
         }
     }
 }
