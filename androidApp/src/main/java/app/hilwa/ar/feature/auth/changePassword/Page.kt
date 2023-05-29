@@ -21,12 +21,14 @@ import androidx.navigation.compose.composable
 import app.hilwa.ar.R
 import app.hilwa.ar.ApplicationState
 import app.hilwa.ar.base.BaseMainApp
+import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
 import app.hilwa.ar.base.extensions.hideKeyboard
 import app.hilwa.ar.components.AppbarBasic
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
+import app.hilwa.ar.rememberApplicationState
 
 object ChangePassword {
     const val routeName = "ChangePassword"
@@ -45,12 +47,14 @@ internal fun ScreenChangePassword(
     appState: ApplicationState,
 ) = UIWrapper<ChangePasswordViewModel>(appState = appState) {
     val state by uiState.collectAsState()
-    val ctx = LocalContext.current
 
-    with(appState) {
-        hideBottomAppBar()
-        hideBottomSheet()
-        setupTopAppBar {
+    DialogLoading(
+        show = state.isLoading,
+        message = stringResource(R.string.text_message_loading_update_password),
+        title = stringResource(R.string.text_title_loading)
+    )
+    BaseScreen(
+        topAppBar = {
             AppbarBasic(
                 title = stringResource(id = R.string.title_appbar_change_password),
                 onBackPressed = {
@@ -58,76 +62,69 @@ internal fun ScreenChangePassword(
                 }
             )
         }
-    }
-    DialogLoading(
-        show = state.isLoading,
-        message = stringResource(R.string.text_message_loading_update_password),
-        title = stringResource(R.string.text_title_loading)
-    )
-    Column(
-        modifier = Modifier
-            .padding(
-                horizontal = 16.dp
-            )
     ) {
-        FormInput(
-            label = {
-                Text(text = stringResource(R.string.label_input_new_password))
-            },
-            placeholder = stringResource(R.string.placeholder_input_new_password),
-            showPasswordObsecure = true,
-            initialValue = state.newPassword,
-            onChange = {
-                commit { copy(newPassword = it) }
-            },
-            maxLines = 1,
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        FormInput(
-            label = {
-                Text(text = stringResource(R.string.label_input_confirm_new_password))
-            },
-            placeholder = stringResource(R.string.placeholder_input_confirm_new_password),
-            showPasswordObsecure = true,
-            initialValue = state.confirmPassword,
-            onChange = {
-                commit { copy(confirmPassword = it) }
-            },
-            maxLines = 1,
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Send
-            ),
-            keyboardActions = KeyboardActions(
-                onSend = {
-                    ctx.hideKeyboard()
-                    dispatch(ChangePasswordEvent.Submit)
-                }
-            )
-        )
-        Spacer(modifier = Modifier.height(30.dp))
-        ButtonPrimary(
-            text = stringResource(R.string.btn_change_password)
+        Column(
+            modifier = Modifier
+                .padding(
+                    horizontal = 16.dp
+                )
         ) {
-            ctx.hideKeyboard()
-            dispatch(ChangePasswordEvent.Submit)
+            FormInput(
+                label = {
+                    Text(text = stringResource(R.string.label_input_new_password))
+                },
+                placeholder = stringResource(R.string.placeholder_input_new_password),
+                showPasswordObsecure = true,
+                initialValue = state.newPassword,
+                onChange = {
+                    commit { copy(newPassword = it) }
+                },
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                )
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            FormInput(
+                label = {
+                    Text(text = stringResource(R.string.label_input_confirm_new_password))
+                },
+                placeholder = stringResource(R.string.placeholder_input_confirm_new_password),
+                showPasswordObsecure = true,
+                initialValue = state.confirmPassword,
+                onChange = {
+                    commit { copy(confirmPassword = it) }
+                },
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Send
+                ),
+                keyboardActions = KeyboardActions(
+                    onSend = {
+                        hideKeyboard()
+                        dispatch(ChangePasswordEvent.Submit)
+                    }
+                )
+            )
+            Spacer(modifier = Modifier.height(30.dp))
+            ButtonPrimary(
+                text = stringResource(R.string.btn_change_password)
+            ) {
+                hideKeyboard()
+                dispatch(ChangePasswordEvent.Submit)
+            }
         }
     }
-
-
 }
 
 
 @Preview
 @Composable
 fun PreviewScreenChangePassword() {
-    BaseMainApp(
-        topAppBar = {
-            AppbarBasic(title = stringResource(id = R.string.title_appbar_change_password))
-        }
-    ) {
-        ScreenChangePassword(it)
+
+    BaseMainApp {
+        ScreenChangePassword(
+           it
+        )
     }
 }

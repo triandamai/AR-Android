@@ -39,6 +39,7 @@ import androidx.navigation.compose.composable
 import app.hilwa.ar.ApplicationState
 import app.hilwa.ar.R
 import app.hilwa.ar.base.BaseMainApp
+import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
 import app.hilwa.ar.base.extensions.addOnBottomSheetStateChangeListener
 import app.hilwa.ar.base.extensions.hideKeyboard
@@ -62,25 +63,12 @@ internal fun ScreenHome(
 ) = UIWrapper<HomeViewModel>(appState = appState) {
     val state by uiState.collectAsState()
     val dataState by uiDataState.collectAsState()
-    val ctx = LocalContext.current
 
-    LaunchedEffect(key1 = this, block = {
-
-    })
 
     with(appState) {
-        setupTopAppBar {
-
-        }
-        setupBottomSheet {
-
-        }
-        setupBottomAppBar {
-
-        }
         addOnBottomSheetStateChangeListener {
             if (it == Hidden) {
-                ctx.hideKeyboard()
+                hideKeyboard()
             }
         }
     }
@@ -100,54 +88,57 @@ internal fun ScreenHome(
         }
     )
 
-    Box(
-        modifier = Modifier
-            .padding(bottom = 8.dp)
-            .fillMaxSize()
-    ) {
-
-        LazyColumn(
+    BaseScreen() {
+        Box(
             modifier = Modifier
+                .padding(bottom = 8.dp)
                 .fillMaxSize()
         ) {
 
-            item {
-                Spacer(modifier = Modifier.height(20.dp))
-            }
-            item {
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Top,
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(
-                            horizontal = 20.dp
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+
+                item {
+                    Spacer(modifier = Modifier.height(20.dp))
+                }
+                item {
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Top,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = 20.dp
+                            )
+                    ) {
+                        Text(
+                            text = stringResource(R.string.title_home),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Normal
+                            ),
+                            textAlign = TextAlign.Center
                         )
-                ) {
-                    Text(
-                        text = stringResource(R.string.title_home),
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Normal
-                        ),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = stringResource(R.string.subtitle_home,"Hilwa"),
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            fontSize = 26.sp,
-                            fontWeight = FontWeight.Normal,
-                            color = MaterialTheme.colorScheme.primary
-                        ),
-                        textAlign = TextAlign.Start
+                        Text(
+                            text = stringResource(R.string.subtitle_home, "Hilwa"),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontSize = 26.sp,
+                                fontWeight = FontWeight.Normal,
+                                color = MaterialTheme.colorScheme.primary
+                            ),
+                            textAlign = TextAlign.Start
+                        )
+                    }
+                }
+                items(dataState.menu) { data ->
+                    ItemHome(
+                        name = data.name,
+                        description = data.description,
+                        image = data.image
                     )
                 }
-            }
-            items(dataState.menu) { data ->
-                ItemHome(
-                    name = data.name,
-                    description = data.description,
-                    image = data.image
-                )
             }
         }
     }

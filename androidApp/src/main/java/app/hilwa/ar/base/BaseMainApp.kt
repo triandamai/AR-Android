@@ -33,77 +33,63 @@ import app.hilwa.ar.theme.MyApplicationTheme
 @Composable
 fun BaseMainApp(
     appState: ApplicationState = rememberApplicationState(),
-    topAppBar: @Composable (ApplicationState) -> Unit = {
-        if (it.showTopAppBar) {
-            it.topAppBar.invoke()
-        }
-    },
-    bottomBar: @Composable (ApplicationState) -> Unit = {
-        if (it.showBottomAppBar) {
-            it.bottomAppBar.invoke()
-        }
-    },
-    snackbarBar: @Composable (ApplicationState) -> Unit = { state ->
-        SnackbarHost(
-            hostState = state.snackbarHostState,
-            snackbar = { state.snackbar.invoke(it) })
-    },
-    bottomSheet: @Composable (ApplicationState) -> Unit = { it.bottomSheet.invoke() },
     content: @Composable (appState: ApplicationState) -> Unit = { }
 ) {
-    MyApplicationTheme(
-        darkTheme = when (appState.theme) {
-            ThemeData.DEFAULT -> isSystemInDarkTheme()
-            ThemeData.DARK -> true
-            ThemeData.LIGHT -> false
-        }
-    ) {
+    MyApplicationTheme() {
         // A surface container using the 'background' color from the theme
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.surface
         ) {
-            ModalBottomSheetLayout(
-                sheetContent = {
-                    Column(
-                        Modifier
-                            .defaultMinSize(
-                                minHeight = 50.dp
-                            )
-                            .wrapContentHeight()
-                    ) {
-                        bottomSheet(appState)
-                    }
-                },
-                sheetState = appState.bottomSheetState,
-                sheetBackgroundColor = MaterialTheme.colorScheme.surface,
-                sheetShape = RoundedCornerShape(
-                    topStart = 10.dp,
-                    topEnd = 10.dp
-                )
-            ) {
-                Scaffold(
-                    topBar = {
-                        topAppBar(appState)
-                    },
-                    bottomBar = {
-                        bottomBar(appState)
-                    },
-                    snackbarHost = {
-                        snackbarBar(appState)
-                    },
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    contentWindowInsets = WindowInsets.ime
-                ) {
-                    Column(
-                        modifier = Modifier.padding(it)
-                    ) {
-                        content(appState)
-                    }
-                }
-            }
+            content.invoke(appState)
+        }
+    }
+}
 
+@Composable
+fun BaseScreen(
+    appState: ApplicationState = rememberApplicationState(),
+    topAppBar: @Composable () -> Unit = {},
+    bottomBar: @Composable () -> Unit = {},
+    bottomSheet: @Composable () -> Unit = { },
+    content: @Composable (appState: ApplicationState) -> Unit = { }
+) {
+    ModalBottomSheetLayout(
+        sheetContent = {
+            Column(
+                Modifier
+                    .defaultMinSize(
+                        minHeight = 50.dp
+                    )
+                    .wrapContentHeight()
+            ) {
+                bottomSheet()
+            }
+        },
+        sheetState = appState.bottomSheetState,
+        sheetBackgroundColor = MaterialTheme.colorScheme.surface,
+        sheetShape = RoundedCornerShape(
+            topStart = 10.dp,
+            topEnd = 10.dp
+        )
+    ) {
+        Scaffold(
+            topBar = topAppBar,
+            bottomBar = bottomBar,
+            snackbarHost = {
+                SnackbarHost(
+                    hostState = appState.snackbarHostState,
+                    snackbar = { appState.snackbar.invoke(it) })
+            },
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            contentWindowInsets = WindowInsets.ime
+        ) {
+            Column(
+                modifier = Modifier.padding(it)
+            ) {
+                content(appState)
+            }
         }
     }
 }
