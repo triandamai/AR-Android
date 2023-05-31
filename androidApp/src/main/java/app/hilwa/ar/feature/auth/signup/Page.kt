@@ -18,7 +18,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -32,8 +31,6 @@ import app.hilwa.ar.R.string
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.extensions.hideKeyboard
-import app.hilwa.ar.base.extensions.navigateUp
 import app.hilwa.ar.components.AnnotationTextItem
 import app.hilwa.ar.components.AppbarAuth
 import app.hilwa.ar.components.BottomSheetPrivacyPolicy
