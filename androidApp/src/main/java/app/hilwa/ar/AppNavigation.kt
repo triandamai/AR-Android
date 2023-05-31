@@ -8,6 +8,9 @@ import app.hilwa.ar.feature.auth.resetPassword.routeResetPassword
 import app.hilwa.ar.feature.auth.signin.routeSignIn
 import app.hilwa.ar.feature.auth.signup.routeSignUp
 import app.hilwa.ar.feature.home.routeHome
+import app.hilwa.ar.feature.quiz.detailQuiz.routeDetailQuiz
+import app.hilwa.ar.feature.quiz.listQuiz.routeListQuiz
+import app.hilwa.ar.feature.quiz.startQuiz.routeStartQuiz
 import app.hilwa.ar.feature.splash.Splash
 import app.hilwa.ar.feature.splash.routeSplash
 
@@ -33,6 +36,12 @@ fun AppNavigation(
 
         routeHome(applicationState)
 
+        //quiz
+        routeListQuiz(applicationState)
+
+        routeDetailQuiz(applicationState)
+
+        routeStartQuiz(applicationState)
 
     }
 }

@@ -22,12 +22,10 @@ import androidx.compose.material.ModalBottomSheetValue.Hidden
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -42,10 +40,10 @@ import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
 import app.hilwa.ar.base.extensions.addOnBottomSheetStateChangeListener
-import app.hilwa.ar.base.extensions.hideKeyboard
 import app.hilwa.ar.components.DialogConfirmation
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.ItemHome
+import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
 
 object Home {
     const val routeName = "Home"
@@ -136,7 +134,10 @@ internal fun ScreenHome(
                     ItemHome(
                         name = data.name,
                         description = data.description,
-                        image = data.image
+                        image = data.image,
+                        onClick = {
+                            navigateSingleTop(ListQuiz.routeName)
+                        }
                     )
                 }
             }

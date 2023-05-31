@@ -6,23 +6,26 @@
  *
  */
 
-package app.hilwa.ar.feature.listQuiz
+package app.hilwa.ar.feature.quiz.detailQuiz
 
 import android.os.Parcelable
+import app.hilwa.ar.data.model.Quiz
+import app.hilwa.ar.data.utils.dummyQuiz
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
 
 @Immutable
 @Parcelize
-data class ListQuizState(
-    val a: String = ""
+data class DetailQuizState(
+    val showContent:Boolean=false
 ) : Parcelable
 
 @Immutable
 @Parcelize
-data class ListQuizDataState(
-    val a: String = ""
+data class DetailQuizDataState(
+    val quiz: @RawValue Quiz = dummyQuiz[0]
 ) : Parcelable
 
-sealed interface ListQuizEvent {
+sealed interface DetailQuizEvent {
 }

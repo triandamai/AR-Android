@@ -7,7 +7,6 @@
 
 package app.hilwa.ar.base
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.defaultMinSize
@@ -23,10 +22,10 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.ApplicationState
-import app.hilwa.ar.data.theme.ThemeData
 import app.hilwa.ar.rememberApplicationState
 import app.hilwa.ar.theme.MyApplicationTheme
 
@@ -49,6 +48,7 @@ fun BaseMainApp(
 @Composable
 fun BaseScreen(
     appState: ApplicationState = rememberApplicationState(),
+    backgroundColor:Color = MaterialTheme.colorScheme.surface,
     topAppBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     bottomSheet: @Composable () -> Unit = { },
@@ -81,7 +81,7 @@ fun BaseScreen(
                     hostState = appState.snackbarHostState,
                     snackbar = { appState.snackbar.invoke(it) })
             },
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = backgroundColor,
             contentColor = MaterialTheme.colorScheme.onSurface,
             contentWindowInsets = WindowInsets.ime
         ) {
