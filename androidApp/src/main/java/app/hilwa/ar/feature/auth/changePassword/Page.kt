@@ -11,24 +11,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.hilwa.ar.R
 import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.R
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.extensions.hideKeyboard
 import app.hilwa.ar.components.AppbarBasic
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
-import app.hilwa.ar.rememberApplicationState
 
 object ChangePassword {
     const val routeName = "ChangePassword"
