@@ -77,7 +77,8 @@ android {
             "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
             "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
             "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
-            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi"
+            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+            "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
         )
     }
 
@@ -159,7 +160,7 @@ kapt {
 sqldelight {
     databases {
         create("Database") {
-            packageName.set("app.trian.tudu.sqldelight")
+            packageName.set("${libs.versions.namespace.get()}.sqldelight")
         }
     }
 }

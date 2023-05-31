@@ -6,7 +6,7 @@
  *
  */
 
-package app.hilwa.ar.feature.listQuiz
+package app.hilwa.ar.feature.quiz.listQuiz
 
 import app.hilwa.ar.base.BaseViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -8,9 +8,9 @@
 
 package app.hilwa.ar.data.model
 
-import app.hilwa.ar.R.drawable
-data class HomeMenu(
-    val name:String="",
-    val description:String="",
-    val image:Int= drawable.ic_about
+data class QuizQuestion(
+    val id:String,
+    val question:String,
+    val image:Int,
+    val answer:List<String>
 )

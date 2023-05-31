@@ -78,11 +78,8 @@ fun AppbarBasic(
 )
 @Composable
 fun PreviewAppbarBasic() {
-    BaseMainApp(
-        topAppBar = {
-            AppbarBasic(title = "Change password")
-        }
-    ) {
+    BaseMainApp() {
+        AppbarBasic(title = "Change password")
 
     }
 }
