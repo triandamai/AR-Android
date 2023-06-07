@@ -84,18 +84,19 @@ internal fun ScreenDetailQuiz(
     })
 
     BaseScreen(
-        appState=appState,
+        appState = appState,
         bottomSheet = {
             BottomSheetConfirmation(
                 title = "Sudah siap?",
                 message = "Kamu akan mengerjakan quiz ini, tekan lanjutkan untuk mengerjakan",
-                textConfirmation = "Keluar",
+                textConfirmation = "Oke",
                 textCancel = "Batal",
                 onDismiss = {
                     hideBottomSheet()
                 },
                 onConfirm = {
-                   navigateSingleTop(StartQuiz.routeName)
+                    hideBottomSheet()
+                    navigateSingleTop(StartQuiz.routeName)
                 }
             )
         }
@@ -106,7 +107,7 @@ internal fun ScreenDetailQuiz(
                 .background(MaterialTheme.colorScheme.surfaceVariant)
         ) {
             IconButton(
-                onClick = {navigateUp()},
+                onClick = { navigateUp() },
                 modifier = Modifier.align(Alignment.TopEnd)
             ) {
                 Icon(
@@ -124,7 +125,7 @@ internal fun ScreenDetailQuiz(
                     )
             ) {
                 AnimatedVisibility(
-                    visible  = state.showContent,
+                    visible = state.showContent,
                     enter = slideInVertically(
                         initialOffsetY = {
                             it / 2
@@ -184,7 +185,7 @@ internal fun ScreenDetailQuiz(
                         ButtonPrimary(
                             text = "Kerjakan Sekarang",
                             onClick = {
-                               showBottomSheet()
+                                showBottomSheet()
                             }
                         )
                     }

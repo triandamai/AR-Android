@@ -8,6 +8,7 @@
 
 package app.hilwa.ar.feature.quiz.startQuiz
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -30,6 +31,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -45,9 +47,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.ApplicationStateConstants
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
+import app.hilwa.ar.base.extensions.coloredShadow
+import app.hilwa.ar.base.extensions.sendEvent
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ButtonSecondary
@@ -73,6 +78,18 @@ internal fun ScreenStartQuiz(
     val state by uiState.collectAsState()
     val dataState by uiDataState.collectAsState()
 
+    with(appState) {
+        event.addTimerListener { timeout, data ->
+            Log.e("HOHO",data[0])
+            if (!timeout) {
+                val time = data[0]
+                commit { copy(timer = time) }
+            } else {
+                showSnackbar("Time up!")
+            }
+        }
+    }
+
     fun onBackPressed() {
         if (state.currentIndex == 0) {
             showBottomSheet()
@@ -84,8 +101,17 @@ internal fun ScreenStartQuiz(
         onBackPressed()
     }
 
+    LaunchedEffect(
+        key1 = this,
+        block = {
+            if (state.currentIndex == 0) {
+                appState.sendEvent(ApplicationStateConstants.START_TIMER)
+            }
+        }
+    )
+
     BaseScreen(
-        appState=appState,
+        appState = appState,
         bottomBar = {
             AnimatedVisibility(
                 visible = state.visibleButton,
@@ -103,15 +129,19 @@ internal fun ScreenStartQuiz(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .coloredShadow(
+                            color = MaterialTheme.colorScheme.primary
+                        )
                         .clip(
                             RoundedCornerShape(
-                                topStart = 16.dp,
-                                topEnd = 16.dp
+                                topStart = 20.dp,
+                                topEnd = 20.dp
                             )
                         )
                         .background(MaterialTheme.colorScheme.surface)
                         .padding(
-                            vertical = 16.dp
+                            top = 25.dp,
+                            bottom = 16.dp
                         ),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
@@ -158,8 +188,7 @@ internal fun ScreenStartQuiz(
                     navigateUp()
                 }
             )
-        },
-        backgroundColor = MaterialTheme.colorScheme.surfaceVariant
+        }
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -171,6 +200,17 @@ internal fun ScreenStartQuiz(
                 content = {
                     item {
                         Spacer(modifier = Modifier.height(50.dp))
+                    }
+                    item {
+                        Text(
+                            text = state.timer,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                        )
                     }
                     item {
                         Column(
@@ -228,7 +268,7 @@ internal fun ScreenStartQuiz(
                     total = dataState.quiz.size,
                     onBackPress = ::onBackPressed,
                     onClose = {
-
+                        showBottomSheet()
                     }
                 )
             }

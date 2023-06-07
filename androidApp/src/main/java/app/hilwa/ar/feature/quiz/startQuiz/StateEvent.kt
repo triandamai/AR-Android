@@ -21,6 +21,8 @@ data class StartQuizState(
     val visibleButton: Boolean = false,
     val currentIndex:Int=0,
     val hasAnswer:String?=null,
+
+    val timer:String=""
 ) : Parcelable
 
 @Immutable

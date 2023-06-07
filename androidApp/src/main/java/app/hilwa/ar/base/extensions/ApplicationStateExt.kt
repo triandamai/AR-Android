@@ -8,6 +8,7 @@
 package app.hilwa.ar.base.extensions
 
 import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.ApplicationStateConstants
 import app.hilwa.ar.base.listener.AppStateEventListener
 import app.hilwa.ar.base.listener.BottomSheetStateListener
 import kotlinx.coroutines.CoroutineScope
@@ -166,11 +167,11 @@ fun ApplicationState.addOnBottomSheetStateChangeListener(listener: BottomSheetSt
     event.addOnBottomSheetStateListener(listener)
 
 
-fun ApplicationState.sendEvent(eventName: String) =
+fun ApplicationState.sendEvent(eventName: ApplicationStateConstants) =
     event.sendEvent(eventName)
 
 fun ApplicationState.exit() =
-    event.sendEvent("EXIT")
+    event.sendEvent(ApplicationStateConstants.EXIT_APP)
 //end region
 
 fun ApplicationState.listenChanges() = this.router.addOnDestinationChangedListener { _, destination, _ ->

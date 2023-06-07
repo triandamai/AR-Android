@@ -42,7 +42,7 @@ class SignInViewModel @Inject constructor(
 
             is Response.Result -> {
                 hideLoading()
-                showSnackbar(R.string.text_message_welcome_user, String.Empty)
+             //   showSnackbar(R.string.text_message_welcome_user, String.Empty)
                 navigateAndReplaceAll(Home.routeName)
             }
         }
