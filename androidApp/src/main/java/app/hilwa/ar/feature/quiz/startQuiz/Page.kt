@@ -8,7 +8,6 @@
 
 package app.hilwa.ar.feature.quiz.startQuiz
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -46,11 +45,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.UIController
 import app.hilwa.ar.ApplicationStateConstants
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
+import app.hilwa.ar.base.UIWrapperListenerData
+import app.hilwa.ar.base.pageWrapper
 import app.hilwa.ar.base.extensions.coloredShadow
 import app.hilwa.ar.base.extensions.sendEvent
 import app.hilwa.ar.components.BottomSheetConfirmation
@@ -58,37 +59,29 @@ import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ButtonSecondary
 import app.hilwa.ar.components.HeaderStepWithProgress
 import app.hilwa.ar.components.ItemQuizOption
+import app.hilwa.ar.rememberUIController
 
 object StartQuiz {
     const val routeName = "Quiz"
 }
 
-fun NavGraphBuilder.routeStartQuiz(
-    state: ApplicationState,
-) {
-    composable(StartQuiz.routeName) {
-        ScreenStartQuiz(appState = state)
-    }
-}
-
 @Composable
 internal fun ScreenStartQuiz(
-    appState: ApplicationState,
-) = UIWrapper<StartQuizViewModel>(appState = appState) {
-    val state by uiState.collectAsState()
-    val dataState by uiDataState.collectAsState()
-
-    with(appState) {
-        event.addTimerListener { timeout, data ->
-            Log.e("HOHO",data[0])
+    state: StartQuizState = StartQuizState(),
+    data: StartQuizDataState = StartQuizDataState(),
+    invoker: UIWrapperListenerData<StartQuizState, StartQuizDataState, StartQuizEvent>
+) = UIWrapper(invoker = invoker) {
+    LaunchedEffect(key1 = this, block = {
+        controller.event.addTimerListener { timeout, data ->
             if (!timeout) {
-                val time = data[0]
-                commit { copy(timer = time) }
+                commit { copy(timer = data[0]) }
             } else {
                 showSnackbar("Time up!")
             }
         }
-    }
+    })
+
+
 
     fun onBackPressed() {
         if (state.currentIndex == 0) {
@@ -105,13 +98,13 @@ internal fun ScreenStartQuiz(
         key1 = this,
         block = {
             if (state.currentIndex == 0) {
-                appState.sendEvent(ApplicationStateConstants.START_TIMER)
+                controller.sendEvent(ApplicationStateConstants.START_TIMER)
             }
         }
     )
 
     BaseScreen(
-        appState = appState,
+        controller = controller,
         bottomBar = {
             AnimatedVisibility(
                 visible = state.visibleButton,
@@ -223,7 +216,7 @@ internal fun ScreenStartQuiz(
                             verticalArrangement = Arrangement.Top
                         ) {
                             Image(
-                                painter = painterResource(id = dataState.quiz[state.currentIndex].image),
+                                painter = painterResource(id = data.quiz[state.currentIndex].image),
                                 contentDescription = "",
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -232,7 +225,7 @@ internal fun ScreenStartQuiz(
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                text = dataState.quiz[state.currentIndex].question,
+                                text = data.quiz[state.currentIndex].question,
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
                                 style = MaterialTheme.typography.bodyMedium,
@@ -242,7 +235,7 @@ internal fun ScreenStartQuiz(
                             )
                         }
                     }
-                    items(dataState.quiz[state.currentIndex].answer) {
+                    items(data.quiz[state.currentIndex].answer) {
                         ItemQuizOption(
                             selected = it == state.hasAnswer,
                             answer = it,
@@ -265,7 +258,7 @@ internal fun ScreenStartQuiz(
             ) {
                 HeaderStepWithProgress(
                     progress = (state.currentIndex + 1),
-                    total = dataState.quiz.size,
+                    total = data.quiz.size,
                     onBackPress = ::onBackPressed,
                     onClose = {
                         showBottomSheet()
@@ -281,6 +274,12 @@ internal fun ScreenStartQuiz(
 @Composable
 fun PreviewScreenStartQuiz() {
     BaseMainApp {
-        ScreenStartQuiz(it)
+        ScreenStartQuiz(
+            invoker = UIWrapperListenerData(
+                controller = rememberUIController(),
+                state = StartQuizState(),
+                data = StartQuizDataState()
+            )
+        )
     }
 }

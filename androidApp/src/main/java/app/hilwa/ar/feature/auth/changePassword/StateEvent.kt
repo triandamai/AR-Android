@@ -2,7 +2,9 @@ package app.hilwa.ar.feature.auth.changePassword
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
+import app.hilwa.ar.base.BaseState
 import app.hilwa.ar.base.extensions.Empty
+import app.hilwa.ar.feature.auth.signin.SignInState
 import kotlinx.parcelize.Parcelize
 
 @Immutable
@@ -12,7 +14,9 @@ data class ChangePasswordState(
     val confirmPassword: String = String.Empty,
 
     val isLoading:Boolean=false
-) : Parcelable
+) :  Parcelable {
+}
+
 
 @Immutable
 sealed interface ChangePasswordEvent {

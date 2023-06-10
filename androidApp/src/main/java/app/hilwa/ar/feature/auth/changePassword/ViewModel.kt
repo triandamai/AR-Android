@@ -3,7 +3,7 @@ package app.hilwa.ar.feature.auth.changePassword
 import app.hilwa.ar.R
 import app.hilwa.ar.base.BaseViewModel
 import app.hilwa.ar.data.domain.user.ChangePasswordUseCase
-import app.hilwa.ar.data.utils.Response
+import app.hilwa.ar.data.utils.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -22,6 +22,8 @@ class ChangePasswordViewModel @Inject constructor(
     private fun validateData(
         cb: suspend (String) -> Unit
     ) = asyncWithState {
+
+        hideKeyboard()
         when {
             newPassword != confirmPassword -> showSnackbar(R.string.message_confirm_password_not_match)
             newPassword.isEmpty() || confirmPassword.isEmpty() ->
@@ -31,11 +33,11 @@ class ChangePasswordViewModel @Inject constructor(
         }
     }
 
-    private fun handleResponse(result: Response<Boolean>) = async {
+    private fun handleResponse(result: ResultState<Boolean>) = async {
         when (result) {
-            is Response.Error -> hideLoading()
-            Response.Loading -> showLoading()
-            is Response.Result -> {
+            is ResultState.Error -> hideLoading()
+            ResultState.Loading -> showLoading()
+            is ResultState.Result -> {
                 hideLoading()
                 showSnackbar(R.string.text_message_success_change_password)
             }

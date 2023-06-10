@@ -46,33 +46,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.UIController
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
+import app.hilwa.ar.base.UIWrapperListenerData
+import app.hilwa.ar.base.pageWrapper
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.feature.quiz.startQuiz.StartQuiz
+import app.hilwa.ar.rememberUIController
 import kotlinx.coroutines.delay
 
 object DetailQuiz {
     const val routeName = "DetailQuiz"
 }
 
-fun NavGraphBuilder.routeDetailQuiz(
-    state: ApplicationState,
-) {
-    composable(DetailQuiz.routeName) {
-        ScreenDetailQuiz(appState = state)
-    }
-}
-
 @Composable
 internal fun ScreenDetailQuiz(
-    appState: ApplicationState,
-) = UIWrapper<DetailQuizViewModel>(appState = appState) {
-    val state by uiState.collectAsState()
-    val dataState by uiDataState.collectAsState()
+    state: DetailQuizState = DetailQuizState(),
+    data: DetailQuizDataState = DetailQuizDataState(),
+
+    invoker: UIWrapperListenerData<DetailQuizState, DetailQuizDataState, DetailQuizEvent>
+) = UIWrapper(invoker = invoker) {
 
     LaunchedEffect(key1 = this, block = {
         delay(1000)
@@ -84,7 +80,7 @@ internal fun ScreenDetailQuiz(
     })
 
     BaseScreen(
-        appState = appState,
+        controller = controller,
         bottomSheet = {
             BottomSheetConfirmation(
                 title = "Sudah siap?",
@@ -161,7 +157,7 @@ internal fun ScreenDetailQuiz(
                             verticalArrangement = Arrangement.Top
                         ) {
                             Image(
-                                painter = painterResource(id = dataState.quiz.quizImage),
+                                painter = painterResource(id = data.quiz.quizImage),
                                 contentDescription = "",
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -172,7 +168,7 @@ internal fun ScreenDetailQuiz(
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                text = dataState.quiz.quizDescription,
+                                text = data.quiz.quizDescription,
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
                                 style = MaterialTheme.typography.bodyMedium,
@@ -201,6 +197,14 @@ internal fun ScreenDetailQuiz(
 @Composable
 fun PreviewScreenDetailQuiz() {
     BaseMainApp {
-        ScreenDetailQuiz(it)
+        ScreenDetailQuiz(
+            state = DetailQuizState(),
+            data = DetailQuizDataState(),
+            invoker = UIWrapperListenerData(
+                controller = rememberUIController(),
+                state = DetailQuizState(),
+                data = DetailQuizDataState()
+            )
+        )
     }
 }

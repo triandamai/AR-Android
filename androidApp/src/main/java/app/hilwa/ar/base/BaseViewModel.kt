@@ -10,7 +10,7 @@ package app.hilwa.ar.base
 import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.UIController
 import app.hilwa.ar.base.extensions.backPressedAndClose
 import app.hilwa.ar.base.extensions.getString
 import app.hilwa.ar.base.extensions.hideBottomSheet
@@ -23,7 +23,7 @@ import app.hilwa.ar.base.extensions.navigateUp
 import app.hilwa.ar.base.extensions.runSuspend
 import app.hilwa.ar.base.extensions.showBottomSheet
 import app.hilwa.ar.data.theme.ThemeData
-import app.hilwa.ar.data.utils.Response
+import app.hilwa.ar.data.utils.ResultStateData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +48,7 @@ abstract class BaseViewModel<State : Parcelable, Action>(
 
     private val action = Channel<Action>(Channel.UNLIMITED)
 
-    private lateinit var _app: ApplicationState
+    private lateinit var _app: UIController
     protected fun onEvent(
         block: suspend (Action) -> Unit
     ) {
@@ -101,12 +101,12 @@ abstract class BaseViewModel<State : Parcelable, Action>(
 
     fun dispatch(e: Action) = async { action.send(e) }
 
-    fun setAppState(appState: ApplicationState) {
+    fun setAppState(appState: UIController) {
         _app = appState
     }
 
     //region snakcbar
-    protected fun Response.Error.showErrorSnackbar() =  showSnackbar(this.message, this.stringId)
+    protected fun ResultStateData.Error.showErrorSnackbar() =  showSnackbar(this.message, this.stringId)
 
     fun showSnackbar(message: String) = _app.showSnackbar(message)
     fun showSnackbar(message: String, res: Int) =

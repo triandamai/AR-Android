@@ -9,8 +9,10 @@
 package app.hilwa.ar.feature.quiz.detailQuiz
 
 import android.os.Parcelable
+import app.hilwa.ar.base.BaseState
 import app.hilwa.ar.data.model.Quiz
 import app.hilwa.ar.data.utils.dummyQuiz
+import app.hilwa.ar.feature.auth.signin.SignInState
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
@@ -19,13 +21,16 @@ import javax.annotation.concurrent.Immutable
 @Parcelize
 data class DetailQuizState(
     val showContent:Boolean=false
-) : Parcelable
+) :  Parcelable {
+}
 
 @Immutable
 @Parcelize
 data class DetailQuizDataState(
     val quiz: @RawValue Quiz = dummyQuiz[0]
-) : Parcelable
+) :  Parcelable {
+}
+
 
 sealed interface DetailQuizEvent {
 }

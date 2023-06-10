@@ -22,34 +22,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.UIController
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
+import app.hilwa.ar.base.UIWrapperListenerData
+import app.hilwa.ar.base.pageWrapper
 import app.hilwa.ar.base.extensions.gridItems
 import app.hilwa.ar.components.ItemQuiz
 import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
+import app.hilwa.ar.rememberUIController
 
 object ListQuiz {
     const val routeName = "ListQuiz"
 }
 
-fun NavGraphBuilder.routeListQuiz(
-    state: ApplicationState,
-) {
-    composable(ListQuiz.routeName) {
-        ScreenListQuiz(appState = state)
-    }
-}
 
 @Composable
 internal fun ScreenListQuiz(
-    appState: ApplicationState,
-) = UIWrapper<ListQuizViewModel>(appState = appState) {
-    val state by uiState.collectAsState()
-    val dataState by uiDataState.collectAsState()
+    state: ListQuizState = ListQuizState(),
+    data: ListQuizDataState = ListQuizDataState(),
+    invoker: UIWrapperListenerData<ListQuizState, ListQuizDataState, ListQuizEvent>
+) = UIWrapper(invoker = invoker) {
 
     BaseScreen(
+        controller=controller,
         topAppBar = {
             TopAppBar(
                 title = {
@@ -70,7 +67,7 @@ internal fun ScreenListQuiz(
     ) {
         LazyColumn(
             content = {
-                gridItems(dataState.quiz, columnCount = 2) {
+                gridItems(data.quiz, columnCount = 2) {
                     ItemQuiz(
                         quizName = it.quizTitle,
                         quizImage = it.quizImage,
@@ -91,6 +88,12 @@ internal fun ScreenListQuiz(
 @Composable
 fun PreviewScreenListQuiz() {
     BaseMainApp {
-        ScreenListQuiz(it)
+        ScreenListQuiz(
+            invoker = UIWrapperListenerData(
+                controller = rememberUIController(),
+                state = ListQuizState(),
+                data = ListQuizDataState()
+            )
+        )
     }
 }

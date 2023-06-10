@@ -12,7 +12,7 @@ import app.hilwa.ar.R
 
 data class Quiz(
     val id:String="",
-    val quizImage:Int= R.drawable.ic_start_ar,
+    val quizImage: Int= R.drawable.ic_start_ar,
     val quizTitle:String="",
     val quizDescription:String="",
     val quizDuration:String="",

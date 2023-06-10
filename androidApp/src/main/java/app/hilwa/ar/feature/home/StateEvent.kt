@@ -14,15 +14,18 @@ import app.hilwa.ar.data.model.HomeMenu
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import app.hilwa.ar.R.drawable
+import app.hilwa.ar.base.BaseState
+import app.hilwa.ar.feature.auth.signin.SignInState
 
 @Parcelize
 @Immutable
 data class HomeState(
     val showDialogDeleteTask: Boolean = false,
     val showDropdownMoreOption: Boolean = false,
-    val isLoading:Boolean=false,
-    val message:String="Sync...",
-) :  Parcelable
+    val isLoading: Boolean = false,
+    val message: String = "Sync...",
+) : Parcelable {
+}
 
 @Parcelize
 @Immutable
@@ -46,7 +49,9 @@ data class HomeDataState constructor(
             image = drawable.ic_about
         )
     )
-) : Parcelable
+) :  Parcelable {
+}
+
 
 @Immutable
 sealed interface HomeEvent {

@@ -17,33 +17,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.UIController
 import app.hilwa.ar.R
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
+import app.hilwa.ar.base.UIWrapperListener
+import app.hilwa.ar.base.pageWrapper
 import app.hilwa.ar.components.AppbarBasic
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
+import app.hilwa.ar.rememberUIController
 
 object ChangePassword {
     const val routeName = "ChangePassword"
 }
 
-fun NavGraphBuilder.routeChangePassword(
-    state: ApplicationState,
-) {
-    composable(ChangePassword.routeName) {
-        ScreenChangePassword(appState = state)
-    }
-}
-
 @Composable
 internal fun ScreenChangePassword(
-    appState: ApplicationState,
-) = UIWrapper<ChangePasswordViewModel>(appState = appState) {
-    val state by uiState.collectAsState()
+    state: ChangePasswordState = ChangePasswordState(),
+    invoker: UIWrapperListener<ChangePasswordState, ChangePasswordEvent>
+) = UIWrapper(invoker = invoker) {
 
     DialogLoading(
         show = state.isLoading,
@@ -54,17 +49,12 @@ internal fun ScreenChangePassword(
         topAppBar = {
             AppbarBasic(
                 title = stringResource(id = R.string.title_appbar_change_password),
-                onBackPressed = {
-                    navigateUp()
-                }
-            )
+                onBackPressed = { navigateUp() })
         }
     ) {
         Column(
             modifier = Modifier
-                .padding(
-                    horizontal = 16.dp
-                )
+                .padding(horizontal = 16.dp)
         ) {
             FormInput(
                 label = {
@@ -98,7 +88,6 @@ internal fun ScreenChangePassword(
                 ),
                 keyboardActions = KeyboardActions(
                     onSend = {
-                        hideKeyboard()
                         dispatch(ChangePasswordEvent.Submit)
                     }
                 )
@@ -107,7 +96,6 @@ internal fun ScreenChangePassword(
             ButtonPrimary(
                 text = stringResource(R.string.btn_change_password)
             ) {
-                hideKeyboard()
                 dispatch(ChangePasswordEvent.Submit)
             }
         }
@@ -118,10 +106,13 @@ internal fun ScreenChangePassword(
 @Preview
 @Composable
 fun PreviewScreenChangePassword() {
-
     BaseMainApp {
         ScreenChangePassword(
-           it
+            state = ChangePasswordState(),
+            invoker = UIWrapperListener(
+                state = ChangePasswordState(),
+                controller = rememberUIController()
+            )
         )
     }
 }

@@ -26,51 +26,47 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.UIController
 import app.hilwa.ar.R.string
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.components.AnnotationTextItem
+import app.hilwa.ar.base.pageWrapper
+import app.hilwa.ar.base.UIWrapperListener
 import app.hilwa.ar.components.AppbarAuth
 import app.hilwa.ar.components.BottomSheetPrivacyPolicy
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.CheckBoxWithAction
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
+import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.signin.SignIn
+import app.hilwa.ar.rememberUIController
 
 object SignUp {
     const val routeName = "SignUp"
 }
-
-fun NavGraphBuilder.routeSignUp(
-    state: ApplicationState,
-) {
-    composable(SignUp.routeName) {
-        ScreenSignUp(state = state)
-
-    }
-}
-
 @Composable
 internal fun ScreenSignUp(
-    state: ApplicationState,
-) = UIWrapper<SignUpViewModel>(appState = state) {
+    state: SignUpState = SignUpState(),
+    invoker: UIWrapperListener<SignUpState, SignUpEvent>,
+) = UIWrapper(
+    invoker = invoker
+) {
     val privacyPolicy = listOf(
-        AnnotationTextItem.Text(stringResource(id = string.text_license_agreement)),
-        AnnotationTextItem.Button(stringResource(id = string.text_privacy_policy))
+        TextType.Text(stringResource(id = string.text_license_agreement)),
+        TextType.Button(stringResource(id = string.text_privacy_policy))
     )
     val signInText = listOf(
-        AnnotationTextItem.Text(stringResource(id = string.label_already_have_account)),
-        AnnotationTextItem.Button(stringResource(id = string.text_signin))
+        TextType.Text(stringResource(id = string.label_already_have_account)),
+        TextType.Button(stringResource(id = string.text_signin))
     )
-    val uiState by uiState.collectAsState()
+
 
 
     DialogLoading(
-        show = uiState.isLoading,
+        show = state.isLoading,
         message = stringResource(string.text_message_loading_signup),
         title = stringResource(string.text_title_loading)
     )
@@ -127,7 +123,7 @@ internal fun ScreenSignUp(
                     .padding(vertical = 10.dp)
             ) {
                 FormInput(
-                    initialValue = uiState.displayName,
+                    initialValue = state.displayName,
                     label = {
                         Text(
                             text = stringResource(string.label_input_display_nama),
@@ -144,7 +140,7 @@ internal fun ScreenSignUp(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 FormInput(
-                    initialValue = uiState.email,
+                    initialValue = state.email,
                     label = {
                         Text(
                             text = stringResource(id = string.label_input_email),
@@ -161,7 +157,7 @@ internal fun ScreenSignUp(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 FormInput(
-                    initialValue = uiState.password,
+                    initialValue = state.password,
                     label = {
                         Text(
                             text = stringResource(id = string.label_input_password),
@@ -184,7 +180,7 @@ internal fun ScreenSignUp(
                     )
                 )
                 FormInput(
-                    initialValue = uiState.confirmPassword,
+                    initialValue = state.confirmPassword,
                     label = {
                         Text(
                             text = stringResource(id = string.label_input_confirm_new_password),
@@ -213,7 +209,7 @@ internal fun ScreenSignUp(
             ) {
                 CheckBoxWithAction(
                     labels = privacyPolicy,
-                    checked = uiState.agreeTnc,
+                    checked = state.agreeTnc,
                     onTextClick = {
                         if (it == 1) {
                             showBottomSheet()
@@ -227,7 +223,7 @@ internal fun ScreenSignUp(
             Spacer(modifier = Modifier.height(20.dp))
             ButtonPrimary(
                 text = stringResource(string.btn_continue),
-                enabled = uiState.agreeTnc
+                enabled = state.agreeTnc
 
             ) {
                 hideKeyboard()
@@ -243,6 +239,14 @@ internal fun ScreenSignUp(
 @Composable
 fun PreviewScreenSignUp() {
     BaseMainApp {
-        ScreenSignUp(it)
+        ScreenSignUp(
+            state = SignUpState(),
+            invoker = UIWrapperListener(
+                state = SignUpState(),
+                controller = rememberUIController(),
+                commit = {},
+                dispatcher = {}
+            )
+        )
     }
 }

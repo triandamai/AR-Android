@@ -5,6 +5,9 @@ import android.content.SharedPreferences
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import app.hilwa.ar.sqldelight.Database
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,4 +45,14 @@ object DataModule {
     fun provideSharedPrefEditor(
         sp:SharedPreferences
     ):SharedPreferences.Editor =  sp.edit()
+
+    @Provides
+    fun provideFirebaseAuth():FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Provides
+    fun provideFirebaseFirestore():FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    @Provides
+    fun provideFirebaseStorage():FirebaseStorage = FirebaseStorage.getInstance()
+
 }

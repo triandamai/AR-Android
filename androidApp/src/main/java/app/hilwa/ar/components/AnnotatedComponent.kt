@@ -27,15 +27,15 @@ import androidx.compose.ui.unit.dp
 import app.hilwa.ar.base.BaseMainApp
 
 
-sealed class AnnotationTextItem(var text: String) {
-    data class Text(var label: String) : AnnotationTextItem(label)
-    data class Button(var label: String) : AnnotationTextItem(label)
+sealed class TextType(var text: String) {
+    data class Text(var label: String) : TextType(label)
+    data class Button(var label: String) : TextType(label)
 }
 
 @Composable
 fun CheckBoxWithAction(
     checked: Boolean = false,
-    labels: List<AnnotationTextItem> = listOf(),
+    labels: List<TextType> = listOf(),
     onCheckedChange: (Boolean) -> Unit = {},
     onTextClick: (Int) -> Unit = {},
     modifier: Modifier = Modifier
@@ -43,7 +43,7 @@ fun CheckBoxWithAction(
     val annotates = buildAnnotatedString {
         labels.forEachIndexed { index, data ->
             when (data) {
-                is AnnotationTextItem.Button -> {
+                is TextType.Button -> {
                     append(" ")
                     pushStringAnnotation(
                         tag = "text_${index}",
@@ -58,7 +58,8 @@ fun CheckBoxWithAction(
                     }
                     pop()
                 }
-                is AnnotationTextItem.Text -> {
+
+                is TextType.Text -> {
                     append(" ")
                     withStyle(
                         style = SpanStyle(
@@ -118,14 +119,14 @@ fun CheckBoxWithAction(
 
 @Composable
 fun TextWithAction(
-    labels: List<AnnotationTextItem> = listOf(),
+    labels: List<TextType> = listOf(),
     onTextClick: (Int) -> Unit = {},
-    textAlign: TextAlign= TextAlign.Start
+    textAlign: TextAlign = TextAlign.Start
 ) {
     val annotates = buildAnnotatedString {
         labels.forEachIndexed { index, data ->
             when (data) {
-                is AnnotationTextItem.Button -> {
+                is TextType.Button -> {
                     pushStringAnnotation(
                         tag = "text_${index}",
                         annotation = "text_${index}"
@@ -140,7 +141,8 @@ fun TextWithAction(
                     }
                     pop()
                 }
-                is AnnotationTextItem.Text -> {
+
+                is TextType.Text -> {
                     withStyle(
                         style = SpanStyle(
                             color = MaterialTheme.colorScheme.onBackground,
@@ -188,10 +190,10 @@ fun PreviewCheckboxInput() {
             Spacer(modifier = Modifier.height(20.dp))
             CheckBoxWithAction(
                 labels = listOf(
-                    AnnotationTextItem.Text("Tes"),
-                    AnnotationTextItem.Button("Ini Button"),
-                    AnnotationTextItem.Text("Tes 1"),
-                    AnnotationTextItem.Button("Ini Button 1")
+                    TextType.Text("Tes"),
+                    TextType.Button("Ini Button"),
+                    TextType.Text("Tes 1"),
+                    TextType.Button("Ini Button 1")
                 ),
                 onTextClick = {}
             )

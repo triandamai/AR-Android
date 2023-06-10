@@ -10,6 +10,8 @@ plugins {
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.app.cash.sqldelight)
     alias(libs.plugins.io.gitlab.arthubosch.detekt)
+    alias(libs.plugins.com.google.services)
+    alias(libs.plugins.com.google.crashanalytics)
     id("kotlin-parcelize")
 }
 
@@ -125,6 +127,20 @@ dependencies {
 
     implementation(libs.sqldelight.android.driver)
 
+    with(libs.gms.play.service) {
+        implementation(auth)
+        implementation(base)
+    }
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.storage)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashanalytics)
+
+    implementation(libs.kotlinx.coroutine.play.services)
+    testImplementation(libs.kotlinx.coroutine.test)
     implementation(libs.kotlinx.coroutine.play.services)
     testImplementation(libs.kotlinx.coroutine.test)
 

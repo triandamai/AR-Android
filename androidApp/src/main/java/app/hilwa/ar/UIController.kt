@@ -34,7 +34,7 @@ class CreateSnackbarContent(
     }
 }
 
-class ApplicationState internal constructor(
+class UIController internal constructor(
     val router: NavHostController,
     val bottomSheetState: ModalBottomSheetState,
     val scope: CoroutineScope,
@@ -107,12 +107,12 @@ class ApplicationState internal constructor(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun rememberApplicationState(
+fun rememberUIController(
     router: NavHostController = rememberNavController(),
     scope: CoroutineScope = rememberCoroutineScope(),
     event: EventListener = EventListener(),
     context: Context = LocalContext.current
-): ApplicationState {
+): UIController {
     val state = rememberModalBottomSheetState(
         initialValue = Hidden,
         confirmValueChange = {
@@ -121,7 +121,7 @@ fun rememberApplicationState(
         }
     )
     return remember {
-        ApplicationState(
+        UIController(
             router,
             state,
             scope,

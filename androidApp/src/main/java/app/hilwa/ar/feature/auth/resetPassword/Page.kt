@@ -18,34 +18,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.UIController
 import app.hilwa.ar.R
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
+import app.hilwa.ar.base.UIWrapperListener
+import app.hilwa.ar.base.pageWrapper
 import app.hilwa.ar.components.AppbarBasic
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
+import app.hilwa.ar.rememberUIController
 
 
 object ResetPassword {
     const val routeName = "ResetPassword"
 }
-
-fun NavGraphBuilder.routeResetPassword(
-    state: ApplicationState,
-) {
-    composable(ResetPassword.routeName) {
-        ScreenResetPassword(appState = state)
-    }
-}
-
 @Composable
 internal fun ScreenResetPassword(
-    appState: ApplicationState,
-) = UIWrapper<ResetPasswordViewModel>(appState = appState) {
-    val state by uiState.collectAsState()
+    state: ResetPasswordState= ResetPasswordState(),
+    invoker:UIWrapperListener<ResetPasswordState,ResetPasswordEvent>
+) = UIWrapper(invoker = invoker) {
 
     DialogLoading(
         show = state.isLoading,
@@ -103,6 +97,11 @@ internal fun ScreenResetPassword(
 @Composable
 fun PreviewScreenResetPassword() {
     BaseMainApp {
-        ScreenResetPassword(it)
+        ScreenResetPassword(
+            invoker = UIWrapperListener(
+                controller = rememberUIController(),
+                state = ResetPasswordState()
+            )
+        )
     }
 }

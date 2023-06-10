@@ -7,7 +7,7 @@
 
 package app.hilwa.ar.base.extensions
 
-import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.UIController
 import app.hilwa.ar.ApplicationStateConstants
 import app.hilwa.ar.base.listener.AppStateEventListener
 import app.hilwa.ar.base.listener.BottomSheetStateListener
@@ -19,7 +19,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 
 
 //region route
-fun ApplicationState.backPressedAndClose() {
+fun UIController.backPressedAndClose() {
     router.popBackStack(
         currentRoute,
         inclusive = true
@@ -27,7 +27,7 @@ fun ApplicationState.backPressedAndClose() {
     exit()
 }
 
-fun ApplicationState.navigateUp() {
+fun UIController.navigateUp() {
     router.navigateUp()
 }
 
@@ -39,7 +39,7 @@ fun ApplicationState.navigateUp() {
  *
  * @throws IllegalArgumentException from navHostController
  */
-fun ApplicationState.navigate(routeName: String, vararg args:String) {
+fun UIController.navigate(routeName: String, vararg args:String) {
     var buildRoute = routeName
     if (args.isNotEmpty()) {
         args.forEach {
@@ -62,7 +62,7 @@ fun ApplicationState.navigate(routeName: String, vararg args:String) {
  *
  * @throws IllegalArgumentException from navHostController
  */
-fun ApplicationState.navigateSingleTop(routeName: String, vararg args:String) {
+fun UIController.navigateSingleTop(routeName: String, vararg args:String) {
     var buildRoute = routeName
     if (args.isNotEmpty()) {
         args.forEach {
@@ -77,7 +77,7 @@ fun ApplicationState.navigateSingleTop(routeName: String, vararg args:String) {
         launchSingleTop = true
     }
 }
-fun ApplicationState.navigateSingleTop(routeName: String) {
+fun UIController.navigateSingleTop(routeName: String) {
     this.router.navigate(routeName) {
         launchSingleTop = true
     }
@@ -92,7 +92,7 @@ fun ApplicationState.navigateSingleTop(routeName: String) {
  *
  * @throws IllegalArgumentException from navHostController
  */
-fun ApplicationState.navigateAndReplace(routeName: String, vararg args:String) {
+fun UIController.navigateAndReplace(routeName: String, vararg args:String) {
     var buildRoute = routeName
     if (args.isNotEmpty()) {
         args.forEach {
@@ -119,7 +119,7 @@ fun ApplicationState.navigateAndReplace(routeName: String, vararg args:String) {
  *
  * @throws IllegalArgumentException from navHostController
  */
-fun ApplicationState.navigateAndReplaceAll(routeName: String, vararg args:String) {
+fun UIController.navigateAndReplaceAll(routeName: String, vararg args:String) {
     var buildRoute = routeName
     if (args.isNotEmpty()) {
         args.forEach {
@@ -136,7 +136,7 @@ fun ApplicationState.navigateAndReplaceAll(routeName: String, vararg args:String
         }
     }
 }
-fun ApplicationState.navigateAndReplaceAll(routeName: String) {
+fun UIController.navigateAndReplaceAll(routeName: String) {
     this.router.navigate(routeName) {
         popUpTo(currentRoute) {
             inclusive = true
@@ -148,7 +148,7 @@ fun ApplicationState.navigateAndReplaceAll(routeName: String) {
 //end region
 
 //region coroutine
-fun ApplicationState.runSuspend(
+fun UIController.runSuspend(
     context: CoroutineContext = EmptyCoroutineContext,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     block: suspend CoroutineScope.() -> Unit
@@ -160,38 +160,38 @@ fun ApplicationState.runSuspend(
 
 
 //region event
-fun ApplicationState.addOnEventListener(listener: AppStateEventListener) =
+fun UIController.addOnEventListener(listener: AppStateEventListener) =
     event.addOnEventListener(listener)
 
-fun ApplicationState.addOnBottomSheetStateChangeListener(listener: BottomSheetStateListener) =
+fun UIController.addOnBottomSheetStateChangeListener(listener: BottomSheetStateListener) =
     event.addOnBottomSheetStateListener(listener)
 
 
-fun ApplicationState.sendEvent(eventName: ApplicationStateConstants) =
+fun UIController.sendEvent(eventName: ApplicationStateConstants) =
     event.sendEvent(eventName)
 
-fun ApplicationState.exit() =
+fun UIController.exit() =
     event.sendEvent(ApplicationStateConstants.EXIT_APP)
 //end region
 
-fun ApplicationState.listenChanges() = this.router.addOnDestinationChangedListener { _, destination, _ ->
+fun UIController.listenChanges() = this.router.addOnDestinationChangedListener { _, destination, _ ->
     currentRoute = destination.route.orEmpty()
 
 }
 
-fun ApplicationState.showBottomSheet(){
+fun UIController.showBottomSheet(){
     runSuspend {
         bottomSheetState.show()
     }
 }
 
-fun ApplicationState.hideBottomSheet(){
+fun UIController.hideBottomSheet(){
     runSuspend {
         bottomSheetState.hide()
     }
 }
 
 //region string
-fun ApplicationState.getString(res:Int):String = context.getString(res)
-fun ApplicationState.getString(res:Int,vararg params:String):String = context.getString(res,*params)
+fun UIController.getString(res:Int):String = context.getString(res)
+fun UIController.getString(res:Int, vararg params:String):String = context.getString(res,*params)
 //end region

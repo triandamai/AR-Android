@@ -4,8 +4,9 @@ import app.hilwa.ar.R
 import app.hilwa.ar.base.BaseViewModel
 import app.hilwa.ar.base.extensions.Empty
 import app.hilwa.ar.data.domain.user.SignInWithEmailAndPasswordUseCase
-import app.hilwa.ar.data.utils.Response
+import app.hilwa.ar.data.utils.ResultState
 import app.hilwa.ar.feature.home.Home
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -24,6 +25,7 @@ class SignInViewModel @Inject constructor(
     private fun validateData(
         cb: suspend (String, String) -> Unit
     ) = asyncWithState {
+        hideKeyboard()
         when {
             email.isEmpty() || password.isEmpty() ->
                 showSnackbar(R.string.message_password_or_email_cannot_empty)
@@ -32,17 +34,17 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun handleResponse(result: Response<Any>) {
+    private fun handleResponse(result: ResultState<FirebaseUser>) {
         when (result) {
-            Response.Loading -> showLoading()
-            is Response.Error -> {
+            ResultState.Loading -> showLoading()
+            is ResultState.Error -> {
                 hideLoading()
-                result.showErrorSnackbar()
+//                result.showErrorSnackbar()
             }
 
-            is Response.Result -> {
+            is ResultState.Result -> {
                 hideLoading()
-             //   showSnackbar(R.string.text_message_welcome_user, String.Empty)
+                showSnackbar(R.string.text_message_welcome_user, String.Empty)
                 navigateAndReplaceAll(Home.routeName)
             }
         }

@@ -4,7 +4,7 @@ import android.util.Patterns
 import app.hilwa.ar.R
 import app.hilwa.ar.base.BaseViewModel
 import app.hilwa.ar.data.domain.user.ChangePasswordUseCase
-import app.hilwa.ar.data.utils.Response
+import app.hilwa.ar.data.utils.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -20,6 +20,7 @@ class ResetPasswordViewModel @Inject constructor(
     private fun hideLoading() = commit { copy(isLoading = false) }
 
     private fun validateData(cb: suspend (String) -> Unit) = asyncWithState {
+        hideKeyboard()
         when {
             email.isEmpty() -> showSnackbar(R.string.alert_email_empty)
             !Patterns.EMAIL_ADDRESS
@@ -30,14 +31,14 @@ class ResetPasswordViewModel @Inject constructor(
         }
     }
 
-    private fun handleResponse(result: Response<Boolean>) {
+    private fun handleResponse(result: ResultState<Boolean>) {
         when (result) {
-            Response.Loading -> showLoading()
-            is Response.Error -> {
+            ResultState.Loading -> showLoading()
+            is ResultState.Error -> {
                 hideLoading()
                 showSnackbar(result.message)
             }
-            is Response.Result -> {
+            is ResultState.Result -> {
                 hideLoading()
                 showSnackbar(R.string.message_success_reset_password)
                 navigateUp()
