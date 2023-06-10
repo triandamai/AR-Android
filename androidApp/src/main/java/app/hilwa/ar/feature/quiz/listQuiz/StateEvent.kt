@@ -9,10 +9,8 @@
 package app.hilwa.ar.feature.quiz.listQuiz
 
 import android.os.Parcelable
-import app.hilwa.ar.base.BaseState
 import app.hilwa.ar.data.model.Quiz
 import app.hilwa.ar.data.utils.dummyQuiz
-import app.hilwa.ar.feature.auth.signin.SignInState
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable

@@ -1,6 +1,5 @@
 package app.hilwa.ar.feature.splash
 
-import app.hilwa.ar.base.BaseViewModel
 import app.hilwa.ar.base.BaseViewModelData
 import app.hilwa.ar.data.domain.user.CheckSessionUserUseCase
 import app.hilwa.ar.feature.auth.onboard.Onboard

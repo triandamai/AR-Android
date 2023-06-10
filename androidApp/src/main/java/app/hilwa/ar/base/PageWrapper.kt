@@ -26,7 +26,6 @@ import app.hilwa.ar.base.extensions.navigateSingleTop
 import app.hilwa.ar.base.extensions.navigateUp
 import app.hilwa.ar.base.extensions.showBottomSheet
 import app.hilwa.ar.base.listener.BottomSheetStateListener
-import app.hilwa.ar.data.utils.ResultStateData
 
 
 inline fun <reified VM : BaseViewModel<*, *>> NavGraphBuilder.pageWrapper(
