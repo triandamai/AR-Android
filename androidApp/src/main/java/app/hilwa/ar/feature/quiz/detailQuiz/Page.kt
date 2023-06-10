@@ -32,8 +32,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,14 +42,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import app.hilwa.ar.UIController
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
 import app.hilwa.ar.base.UIWrapperListenerData
-import app.hilwa.ar.base.pageWrapper
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.feature.quiz.startQuiz.StartQuiz

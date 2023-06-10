@@ -9,7 +9,6 @@
 package app.hilwa.ar.components
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.RawRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,8 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.hilwa.ar.theme.MyApplicationTheme
 import app.hilwa.ar.R.drawable
+import app.hilwa.ar.theme.MyApplicationTheme
 
 @Composable
 fun ItemHome(

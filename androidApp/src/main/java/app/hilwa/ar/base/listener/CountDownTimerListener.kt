@@ -7,8 +7,6 @@
 
 package app.hilwa.ar.base.listener
 
-import app.hilwa.ar.ApplicationStateConstants
-
 
 fun interface CountDownTimerListener {
     fun onNotify(isTimeout:Boolean, vararg data:String)

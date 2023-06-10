@@ -14,8 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,14 +22,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import app.hilwa.ar.UIController
 import app.hilwa.ar.R.string
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.pageWrapper
 import app.hilwa.ar.base.UIWrapperListener
 import app.hilwa.ar.components.AppbarAuth
 import app.hilwa.ar.components.BottomSheetPrivacyPolicy
