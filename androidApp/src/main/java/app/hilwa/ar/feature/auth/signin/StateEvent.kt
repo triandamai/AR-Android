@@ -2,7 +2,6 @@ package app.hilwa.ar.feature.auth.signin
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
-import app.hilwa.ar.base.BaseState
 import app.hilwa.ar.base.extensions.Empty
 import kotlinx.parcelize.Parcelize
 
