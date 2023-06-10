@@ -56,7 +56,7 @@ inline fun <reified VM : BaseViewModel<*, *>> NavGraphBuilder.pageWrapper(
 }
 
 @Composable
-inline fun <reified VM : BaseViewModel<*, *>> pageWrapper(
+inline fun <reified VM : BaseViewModel<*, *>> PageWrapper(
     appState: UIController,
     parent: String? = null,
     content: @Composable VM.() -> Unit = {}
