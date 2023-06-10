@@ -4,7 +4,7 @@ import android.util.Patterns
 import app.hilwa.ar.R
 import app.hilwa.ar.base.BaseViewModel
 import app.hilwa.ar.data.domain.user.SignUpWithEmailAndPasswordUseCase
-import app.hilwa.ar.data.utils.Response
+import app.hilwa.ar.data.utils.ResultState
 import app.hilwa.ar.feature.auth.signin.SignIn
 import app.hilwa.ar.feature.auth.signup.SignUpEvent.SignUpWithEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +21,7 @@ class SignUpViewModel @Inject constructor(
     private fun showLoading() = commit { copy(isLoading = true) }
     private fun hideLoading() = commit { copy(isLoading = false) }
     private fun validateData(cb: suspend (String, String, String) -> Unit) = asyncWithState {
+        hideKeyboard()
         when {
             email.isEmpty() ||
                     password.isEmpty() ||
@@ -34,14 +35,14 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun handleResponse(result: Response<Any>) {
+    private fun handleResponse(result: ResultState<Any>) {
         when (result) {
-            Response.Loading -> showLoading()
-            is Response.Error -> {
+            ResultState.Loading -> showLoading()
+            is ResultState.Error -> {
                 hideLoading()
                 showSnackbar(result.message)
             }
-            is Response.Result -> {
+            is ResultState.Result -> {
                 hideLoading()
                 showSnackbar(R.string.text_message_success_register)
                 navigateAndReplaceAll(SignIn.routeName)

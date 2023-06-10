@@ -1,6 +1,7 @@
 package app.hilwa.ar.data.domain.user
 
-import app.hilwa.ar.data.utils.Response
+import app.hilwa.ar.data.utils.ResultState
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -8,13 +9,17 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class ResetPasswordUseCase @Inject constructor(
-
+    private val firebaseAuth: FirebaseAuth
 ) {
     operator fun invoke(
-        email:String
-    ):Flow<Response<Boolean>> = flow {
-        emit(Response.Loading)
-
-        emit(Response.Result(true))
+        email: String
+    ): Flow<ResultState<Boolean>> = flow {
+        emit(ResultState.Loading)
+        try {
+            firebaseAuth.sendPasswordResetEmail(email)
+            emit(ResultState.Result(true))
+        } catch (e: Exception) {
+            emit(ResultState.Error(e.message.orEmpty()))
+        }
     }.flowOn(Dispatchers.IO)
 }

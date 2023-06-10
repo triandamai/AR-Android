@@ -2,7 +2,9 @@ package app.hilwa.ar.feature.auth.signup
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
+import app.hilwa.ar.base.BaseState
 import app.hilwa.ar.base.extensions.Empty
+import app.hilwa.ar.feature.auth.signin.SignInState
 import kotlinx.parcelize.Parcelize
 
 @Immutable
@@ -12,9 +14,11 @@ data class SignUpState(
     val email: String = String.Empty,
     val password: String = String.Empty,
     val confirmPassword: String = String.Empty,
-    val isLoading:Boolean=false,
-    val agreeTnc:Boolean=false
-) : Parcelable
+    val isLoading: Boolean = false,
+    val agreeTnc: Boolean = false
+) : Parcelable {
+}
+
 
 @Immutable
 sealed interface SignUpEvent {

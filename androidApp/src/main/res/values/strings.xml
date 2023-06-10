@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Tudu</string>
+    <string name="app_name">Hilwa</string>
     <string name="btn_edit">Ubah</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_confirm">Oke</string>
 
     <string name="btn_hide">Sembunyikan</string>
     <string name="nav_item_home">Beranda</string>
-    <string name="nav_item_drawer" />
+    <string name="nav_item_drawer" >item drawer</string>
     <string name="nav_item_calendar">Kalender</string>
     <string name="nav_item_profile">Profil</string>
     <string name="blank_validation">%1$s tidak boleh kosong!</string>
@@ -29,7 +29,7 @@
     <string name="title_sign_in">Masuk menggunakan akun kamu</string>
     <string name="subtitle_signin">Masuk untuk belajar tentang sistem saraf otak.</string>
     <string name="label_input_email">Email</string>
-    <string name="placeholder_input_email">contoh@triap.app</string>
+    <string name="placeholder_input_email">contoh@contoh.com</string>
     <string name="label_input_password">Password</string>
     <string name="placeholder_input_password">Password mu</string>
     <string name="btn_signin">Masuk</string>
@@ -103,7 +103,7 @@
     <string name="text_confirmation_delete">Apakah kamu yakin menghapus %1$s?</string>
     <string name="text_confirmation_back">Apakah yakin mau membatalkan?</string>
     <string name="content_description_icon_label_task">Icon label tugas</string>
-    <string name="email_feedback">triandamai@gmail.com</string>
+    <string name="email_feedback">hilwa@gmail.com</string>
     <string name="subject_feedback">[Feedback-Tudu]</string>
     <string name="content_description_hide_show_password">Sembunyikan atau tampilkan password</string>
     <string name="btn_reset_password">Reset password saya</string>
@@ -171,7 +171,7 @@
     <string name="text_no_note">Note is not set, click to edit</string>
     <string name="text_option_edit_profile">Edit Profile</string>
     <string name="text_user_display_name_placeholder">Nama Pengguna</string>
-    <string name="text_user_email_placeholder">user@trian.app</string>
+    <string name="text_user_email_placeholder">user@contoh.com</string>
     <string name="btn_share_profile">Share Profile</string>
     <string name="text_total_task">Total Task</string>
     <string name="text_total_completed_task">Completed</string>
@@ -207,5 +207,4 @@
     <string name="system">Bawaan</string>
     <string name="title_home">Hi, Selamat datang!</string>
     <string name="subtitle_home">%1$s 👋</string>
-
 </resources>

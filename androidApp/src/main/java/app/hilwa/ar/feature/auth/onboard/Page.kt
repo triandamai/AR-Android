@@ -26,39 +26,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.UIController
 import app.hilwa.ar.R
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.components.AnnotationTextItem
+import app.hilwa.ar.base.UIWrapperListener
+import app.hilwa.ar.base.pageWrapper
+import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.BottomSheetPrivacyPolicy
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ButtonSecondary
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.signin.SignIn
 import app.hilwa.ar.feature.auth.signup.SignUp
+import app.hilwa.ar.rememberUIController
 
 object Onboard {
     const val routeName = "Onboard"
 }
 
-fun NavGraphBuilder.routeOnboard(
-    state: ApplicationState,
-) {
-    composable(Onboard.routeName) {
-        ScreenOnboard(appState = state)
-
-    }
-}
-
 @Composable
 internal fun ScreenOnboard(
-    appState: ApplicationState,
-) = UIWrapper<OnboardViewModel>(appState = appState) {
+    invoker:UIWrapperListener<OnboardState,OnboardEvent>
+) = UIWrapper(invoker = invoker ) {
     val privacyPolicyText = listOf(
-        AnnotationTextItem.Text(stringResource(id = R.string.text_license_agreement)),
-        AnnotationTextItem.Button(stringResource(id = R.string.text_privacy_policy)),
+        TextType.Text(stringResource(id = R.string.text_license_agreement)),
+        TextType.Button(stringResource(id = R.string.text_privacy_policy)),
     )
 
     BaseScreen(
@@ -183,6 +177,11 @@ internal fun ScreenOnboard(
 @Composable
 fun PreviewScreenOnboard() {
     BaseMainApp {
-        ScreenOnboard(it)
+        ScreenOnboard(
+            invoker = UIWrapperListener(
+                controller = rememberUIController(),
+                state = OnboardState()
+            )
+        )
     }
 }

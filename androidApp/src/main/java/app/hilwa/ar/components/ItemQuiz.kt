@@ -8,6 +8,7 @@
 
 package app.hilwa.ar.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,7 +43,7 @@ import app.hilwa.ar.base.extensions.Empty
 @Composable
 fun ItemQuiz(
     quizName: String = String.Empty,
-    quizImage: Int = drawable.ic_onboard,
+    @DrawableRes quizImage: Int = drawable.ic_onboard,
     quizProgress: Int = 0,
     quizAmountQuestion:Int=0,
     onClick:()->Unit={}

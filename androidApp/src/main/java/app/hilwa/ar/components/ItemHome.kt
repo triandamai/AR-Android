@@ -8,6 +8,8 @@
 
 package app.hilwa.ar.components
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.RawRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,7 +39,7 @@ import app.hilwa.ar.R.drawable
 
 @Composable
 fun ItemHome(
-    image: Int = drawable.ic_about,
+    @DrawableRes image: Int = drawable.ic_about,
     name: String = "",
     description: String = "",
     onClick:()->Unit={}

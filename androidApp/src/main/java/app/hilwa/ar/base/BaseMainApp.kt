@@ -25,14 +25,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.hilwa.ar.ApplicationState
-import app.hilwa.ar.rememberApplicationState
+import app.hilwa.ar.UIController
+import app.hilwa.ar.rememberUIController
 import app.hilwa.ar.theme.MyApplicationTheme
 
 @Composable
 fun BaseMainApp(
-    appState: ApplicationState = rememberApplicationState(),
-    content: @Composable (appState: ApplicationState) -> Unit = { }
+    appState: UIController = rememberUIController(),
+    content: @Composable (appState: UIController) -> Unit = { }
 ) {
     MyApplicationTheme() {
         // A surface container using the 'background' color from the theme
@@ -47,12 +47,12 @@ fun BaseMainApp(
 
 @Composable
 fun BaseScreen(
-    appState: ApplicationState = rememberApplicationState(),
+    controller: UIController = rememberUIController(),
     backgroundColor:Color = MaterialTheme.colorScheme.surface,
     topAppBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     bottomSheet: @Composable () -> Unit = { },
-    content: @Composable (appState: ApplicationState) -> Unit = { }
+    content: @Composable (appState: UIController) -> Unit = { }
 ) {
     ModalBottomSheetLayout(
         sheetContent = {
@@ -66,7 +66,7 @@ fun BaseScreen(
                 bottomSheet()
             }
         },
-        sheetState = appState.bottomSheetState,
+        sheetState = controller.bottomSheetState,
         sheetBackgroundColor = MaterialTheme.colorScheme.surface,
         sheetShape = RoundedCornerShape(
             topStart = 10.dp,
@@ -78,8 +78,8 @@ fun BaseScreen(
             bottomBar = bottomBar,
             snackbarHost = {
                 SnackbarHost(
-                    hostState = appState.snackbarHostState,
-                    snackbar = { appState.snackbar.invoke(it) })
+                    hostState = controller.snackbarHostState,
+                    snackbar = { controller.snackbar.invoke(it) })
             },
             containerColor = backgroundColor,
             contentColor = MaterialTheme.colorScheme.onSurface,
@@ -88,7 +88,7 @@ fun BaseScreen(
             Column(
                 modifier = Modifier.padding(it)
             ) {
-                content(appState)
+                content(controller)
             }
         }
     }

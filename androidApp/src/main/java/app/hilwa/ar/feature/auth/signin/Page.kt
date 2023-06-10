@@ -27,12 +27,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import app.hilwa.ar.ApplicationState
+import app.hilwa.ar.UIController
 import app.hilwa.ar.R.string
 import app.hilwa.ar.base.BaseMainApp
 import app.hilwa.ar.base.BaseScreen
 import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.components.AnnotationTextItem
+import app.hilwa.ar.base.pageWrapper
+import app.hilwa.ar.base.UIWrapperListener
+import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.AppbarAuth
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
@@ -40,48 +42,34 @@ import app.hilwa.ar.components.FormInput
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.resetPassword.ResetPassword
 import app.hilwa.ar.feature.auth.signup.SignUp
+import app.hilwa.ar.rememberUIController
 
 object SignIn {
     const val routeName = "SignIn"
 }
 
-fun NavGraphBuilder.routeSignIn(
-    state: ApplicationState,
-) {
-    composable(SignIn.routeName) {
-        ScreenSignIn(appState = state)
-    }
-}
-
-
 @Composable
 internal fun ScreenSignIn(
-    appState: ApplicationState,
-) = UIWrapper<SignInViewModel>(appState = appState) {
-    val forgetPasswordText = listOf(
-        AnnotationTextItem.Text(stringResource(id = string.label_forgot_password)),
-        AnnotationTextItem.Button(stringResource(id = string.btn_reset_here))
+    state: SignInState,
+    invoker: UIWrapperListener<SignInState,SignInEvent>
+) = UIWrapper(invoker = invoker) {
+    val forgetPasswordTextType = listOf(
+        TextType.Text(stringResource(id = string.label_forgot_password)),
+        TextType.Button(stringResource(id = string.btn_reset_here))
     )
 
     val signUp = listOf(
-        AnnotationTextItem.Text(stringResource(id = string.label_dont_have_account)),
-        AnnotationTextItem.Button(stringResource(id = string.btn_create_new_account))
+        TextType.Text(stringResource(id = string.label_dont_have_account)),
+        TextType.Button(stringResource(id = string.btn_create_new_account))
     )
 
-    val uiState by uiState.collectAsState()
     DialogLoading(
-        show = uiState.isLoading,
+        show = state.isLoading,
         message = stringResource(string.text_message_loading_signin),
         title = stringResource(string.text_title_loading)
     )
     BaseScreen(
-        topAppBar = {
-            AppbarAuth(
-                onBackPressed = {
-                    backAndClose()
-                }
-            )
-        }
+        topAppBar = { AppbarAuth(onBackPressed = { backAndClose() }) }
     ) {
         Column(
             modifier = Modifier
@@ -93,9 +81,7 @@ internal fun ScreenSignIn(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        horizontal = 20.dp
-                    ),
+                    .padding(horizontal = 20.dp),
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
@@ -123,11 +109,9 @@ internal fun ScreenSignIn(
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     },
-                    initialValue = uiState.email,
+                    initialValue = state.email,
                     placeholder = stringResource(string.placeholder_input_email),
-                    onChange = {
-                        commit { copy(email = it) }
-                    },
+                    onChange = { commit { copy(email = it) } },
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next
                     )
@@ -141,7 +125,7 @@ internal fun ScreenSignIn(
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     },
-                    initialValue = uiState.password,
+                    initialValue = state.password,
                     placeholder = stringResource(string.placeholder_input_password),
                     onChange = {
                         commit { copy(password = it) }
@@ -152,14 +136,13 @@ internal fun ScreenSignIn(
                     ),
                     keyboardActions = KeyboardActions(
                         onSend = {
-                            hideKeyboard()
                             dispatch(SignInEvent.SignInWithEmail)
                         }
                     )
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 TextWithAction(
-                    labels = forgetPasswordText,
+                    labels = forgetPasswordTextType,
                     onTextClick = {
                         if (it == 1) {
                             navigateSingleTop(ResetPassword.routeName)
@@ -169,7 +152,6 @@ internal fun ScreenSignIn(
 
                 Spacer(modifier = Modifier.height(30.dp))
                 ButtonPrimary(text = stringResource(id = string.btn_signin)) {
-                    hideKeyboard()
                     dispatch(SignInEvent.SignInWithEmail)
                 }
 
@@ -205,7 +187,13 @@ internal fun ScreenSignIn(
 fun PreviewScreenSignIn() {
     BaseMainApp {
         ScreenSignIn(
-            it
+            state=SignInState(),
+            invoker = UIWrapperListener(
+                controller = rememberUIController(),
+                commit = {},
+                dispatcher = {},
+                state = SignInState()
+            )
         )
     }
 }
