@@ -8,9 +8,7 @@
 
 package app.hilwa.ar.data.domain.quiz
 
-import app.cash.sqldelight.Query
 import app.hilwa.ar.data.model.Quiz
-import app.hilwa.ar.data.utils.ResultState
 import app.hilwa.ar.data.utils.ResultStateData
 import app.hilwa.ar.sqldelight.Database
 import com.google.firebase.firestore.FirebaseFirestore
