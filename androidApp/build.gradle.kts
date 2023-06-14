@@ -183,7 +183,7 @@ kapt {
 sqldelight {
     databases {
         create("Database") {
-            packageName.set("${libs.versions.namespace.get()}.sqldelight")
+            packageName.set("${findProperty("APP_NAME_SPACE").toString()}.sqldelight")
         }
     }
 }

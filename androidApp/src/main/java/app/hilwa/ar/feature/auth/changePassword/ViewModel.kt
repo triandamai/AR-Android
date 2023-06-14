@@ -28,9 +28,11 @@ class ChangePasswordViewModel @Inject constructor(
 
         context.hideKeyboard()
         when {
-            newPassword != confirmPassword -> {}//showSnackbar(R.string.message_confirm_password_not_match)
-            newPassword.isEmpty() || confirmPassword.isEmpty() -> {}
-            // showSnackbar(R.string.message_change_password_field_empty)
+            newPassword != confirmPassword ->
+                snackbar.showSnackbar(R.string.message_confirm_password_not_match)
+
+            newPassword.isEmpty() || confirmPassword.isEmpty() ->
+                snackbar.showSnackbar(R.string.message_change_password_field_empty)
 
             else -> cb(newPassword)
         }
