@@ -75,11 +75,7 @@ internal fun ScreenSignUp(
             BottomSheetPrivacyPolicy(
                 onAccept = {
                     hideBottomSheet()
-                    commit {
-                        copy(
-                            agreeTnc = true
-                        )
-                    }
+                    commit { copy(agreeTnc = true) }
                 }
             )
         }

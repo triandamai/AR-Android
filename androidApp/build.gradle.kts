@@ -26,10 +26,10 @@ val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
-    namespace = libs.versions.namespace.get()
+    namespace = findProperty("APP_NAME_SPACE").toString()
     compileSdk = 33
     defaultConfig {
-        applicationId =libs.versions.application.id.get()
+        applicationId =findProperty("APP_ID").toString()
         minSdk = 24
         targetSdk = 33
         versionCode = 49
