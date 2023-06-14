@@ -36,8 +36,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.hilwa.ar.theme.MyApplicationTheme
 import app.hilwa.ar.R.drawable
+import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.extensions.Empty
 
 @Composable
@@ -66,7 +66,7 @@ fun ItemQuiz(
                 .clip(MaterialTheme.shapes.medium)
                 .clickable(
                     enabled = true,
-                    onClick=onClick
+                    onClick = onClick
                 )
                 .background(MaterialTheme.colorScheme.surfaceVariant)
                 .padding(
@@ -107,7 +107,7 @@ fun ItemQuiz(
 @Preview
 @Composable
 fun PreviewItemQuiz() {
-    MyApplicationTheme {
+    BaseMainApp {
         ItemQuiz(
             quizName = "Bagian-Bagian Otak Manusia"
         )

@@ -34,7 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R.drawable
-import app.hilwa.ar.theme.MyApplicationTheme
+import app.trian.core.ui.BaseMainApp
 
 @Composable
 fun ItemHome(
@@ -100,7 +100,7 @@ fun ItemHome(
 @Preview
 @Composable
 fun PreviewItemHome() {
-    MyApplicationTheme {
+    BaseMainApp {
         LazyColumn(
             modifier = Modifier.background(MaterialTheme.colorScheme.surface),
             content = {

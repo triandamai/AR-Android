@@ -26,7 +26,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.hilwa.ar.theme.MyApplicationTheme
+import app.trian.core.ui.BaseMainApp
 
 @Composable
 fun BottomSheetConfirmation(
@@ -98,7 +98,7 @@ fun BottomSheetConfirmation(
 @Preview
 @Composable
 fun PreviewBottomSheetConfirmation() {
-    MyApplicationTheme {
+    BaseMainApp {
         BottomSheetConfirmation(
             title = "Yakin hapus transaski ini?",
             message = "Data transaksi yang telah kamu isi akan hilang dari catatan transaksi kamu",
