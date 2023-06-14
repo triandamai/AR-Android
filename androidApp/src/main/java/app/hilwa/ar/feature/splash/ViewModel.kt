@@ -1,16 +1,19 @@
 package app.hilwa.ar.feature.splash
 
-import app.hilwa.ar.base.BaseViewModelData
+import android.content.Context
 import app.hilwa.ar.data.domain.user.CheckSessionUserUseCase
 import app.hilwa.ar.feature.auth.onboard.Onboard
 import app.hilwa.ar.feature.home.Home
+import app.trian.core.ui.viewModel.BaseViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
+    @ApplicationContext context: Context,
     private val checkSessionUserUseCase: CheckSessionUserUseCase,
-) : BaseViewModelData<SplashUiState,SplashUiDataState, SplashEvent>(SplashUiState(),SplashUiDataState()) {
+) : BaseViewModelData<SplashUiState, SplashUiDataState, SplashEvent>(context,SplashUiState(),SplashUiDataState()) {
     init {
         handleActions()
     }
@@ -18,10 +21,10 @@ class SplashViewModel @Inject constructor(
     private fun checkIfUserLoggedIn() = async {
         checkSessionUserUseCase().collect {
             if (it) {
-                navigateAndReplaceAll(Home.routeName)
+                navigation.navigateAndReplace(Home.routeName)
                 onCleared()
             } else {
-                navigateAndReplaceAll(Onboard.routeName)
+                navigation.navigateAndReplace(Onboard.routeName)
                 onCleared()
             }
         }

@@ -24,10 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R.string
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.BaseScreen
-import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.UIWrapperListener
+import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.AppbarAuth
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
@@ -36,7 +33,11 @@ import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.resetPassword.ResetPassword
 import app.hilwa.ar.feature.auth.signup.SignUp
-import app.hilwa.ar.rememberUIController
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.BaseScreen
+import app.trian.core.ui.UIListener
+import app.trian.core.ui.UIWrapper
+import app.trian.core.ui.rememberUIController
 
 object SignIn {
     const val routeName = "SignIn"
@@ -44,9 +45,8 @@ object SignIn {
 
 @Composable
 internal fun ScreenSignIn(
-    state: SignInState,
-    invoker: UIWrapperListener<SignInState,SignInEvent>
-) = UIWrapper(invoker = invoker) {
+    uiEvent: UIListener<SignInState,SignInEvent, AREventListener>
+) = UIWrapper(uiEvent) {
     val forgetPasswordTextType = listOf(
         TextType.Text(stringResource(id = string.label_forgot_password)),
         TextType.Button(stringResource(id = string.btn_reset_here))
@@ -63,7 +63,8 @@ internal fun ScreenSignIn(
         title = stringResource(string.text_title_loading)
     )
     BaseScreen(
-        topAppBar = { AppbarAuth(onBackPressed = { backAndClose() }) }
+        controller = controller,
+        topAppBar = { AppbarAuth(onBackPressed = { router.navigateBackAndClose() }) }
     ) {
         Column(
             modifier = Modifier
@@ -139,7 +140,7 @@ internal fun ScreenSignIn(
                     labels = forgetPasswordTextType,
                     onTextClick = {
                         if (it == 1) {
-                            navigateSingleTop(ResetPassword.routeName)
+                            router.navigateSingleTop(ResetPassword.routeName)
                         }
                     }
                 )
@@ -160,7 +161,7 @@ internal fun ScreenSignIn(
                             labels = signUp,
                             onTextClick = {
                                 if (it == 1) {
-                                    navigateSingleTop(SignUp.routeName)
+                                    router.navigateSingleTop(SignUp.routeName)
                                 }
                             }
                         )
@@ -181,9 +182,10 @@ internal fun ScreenSignIn(
 fun PreviewScreenSignIn() {
     BaseMainApp {
         ScreenSignIn(
-            state=SignInState(),
-            invoker = UIWrapperListener(
-                controller = rememberUIController(),
+            uiEvent = UIListener(
+                controller = rememberUIController(
+                    event = AREventListener()
+                ),
                 commit = {},
                 dispatcher = {},
                 state = SignInState()

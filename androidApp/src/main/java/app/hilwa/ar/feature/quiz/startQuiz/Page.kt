@@ -41,19 +41,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.hilwa.ar.ApplicationStateConstants
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.BaseScreen
-import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.UIWrapperListenerData
-import app.hilwa.ar.base.extensions.coloredShadow
-import app.hilwa.ar.base.extensions.sendEvent
+import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ButtonSecondary
 import app.hilwa.ar.components.HeaderStepWithProgress
 import app.hilwa.ar.components.ItemQuizOption
-import app.hilwa.ar.rememberUIController
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.BaseScreen
+import app.trian.core.ui.UIListenerData
+import app.trian.core.ui.UiWrapperData
+import app.trian.core.ui.extensions.coloredShadow
+import app.trian.core.ui.rememberUIController
 
 object StartQuiz {
     const val routeName = "Quiz"
@@ -61,12 +60,10 @@ object StartQuiz {
 
 @Composable
 internal fun ScreenStartQuiz(
-    state: StartQuizState = StartQuizState(),
-    data: StartQuizDataState = StartQuizDataState(),
-    invoker: UIWrapperListenerData<StartQuizState, StartQuizDataState, StartQuizEvent>
-) = UIWrapper(invoker = invoker) {
+    uiEvent: UIListenerData<StartQuizState, StartQuizDataState, StartQuizEvent, AREventListener>
+) = UiWrapperData(uiEvent) {
     LaunchedEffect(key1 = this, block = {
-        controller.event.addTimerListener { timeout, data ->
+        controller.event.addOnCountDownListener { timeout, data ->
             if (!timeout) {
                 commit { copy(timer = data[0]) }
             } else {
@@ -92,7 +89,7 @@ internal fun ScreenStartQuiz(
         key1 = this,
         block = {
             if (state.currentIndex == 0) {
-                controller.sendEvent(ApplicationStateConstants.START_TIMER)
+                //controller.sendEvent(ScreenToAppEvent().START_TIMER)
             }
         }
     )
@@ -172,7 +169,7 @@ internal fun ScreenStartQuiz(
                     hideBottomSheet()
                 },
                 onConfirm = {
-                    navigateUp()
+                    //navigateUp()
                 }
             )
         }
@@ -269,8 +266,10 @@ internal fun ScreenStartQuiz(
 fun PreviewScreenStartQuiz() {
     BaseMainApp {
         ScreenStartQuiz(
-            invoker = UIWrapperListenerData(
-                controller = rememberUIController(),
+            uiEvent = UIListenerData(
+                controller = rememberUIController(
+                    event = AREventListener()
+                ),
                 state = StartQuizState(),
                 data = StartQuizDataState()
             )

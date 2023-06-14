@@ -5,34 +5,33 @@ import android.os.CountDownTimer
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.EventListener
-import app.hilwa.ar.base.extensions.addOnEventListener
-import app.hilwa.ar.base.extensions.formatTimer
-import app.hilwa.ar.base.extensions.listenChanges
+import app.hilwa.ar.base.listener.AREventListener
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.UIController
+import app.trian.core.ui.extensions.formatTimer
+import app.trian.core.ui.rememberUIController
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private lateinit var eventListener: EventListener
-    private lateinit var appState: UIController
+    private lateinit var eventListener: AREventListener
+    private lateinit var uiController: UIController<AREventListener>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            eventListener = EventListener()
-            appState = rememberUIController(
+            eventListener = AREventListener()
+            uiController = rememberUIController(
                 event = eventListener
             )
             LaunchedEffect(
                 key1 = null,
                 block = {
-                    appState.listenChanges()
                     listen()
                 }
             )
-            BaseMainApp(appState = appState) {
+            BaseMainApp(uiController) {
                 AppNavigation(uiController = it)
             }
         }
@@ -54,7 +53,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun listen() {
-        appState.addOnEventListener {
+        uiController.event.addOnArAppEventListener{
             when (it) {
                 ApplicationStateConstants.CANCEL_TIMER -> countDown.cancel()
                 ApplicationStateConstants.EXIT_APP -> finish()

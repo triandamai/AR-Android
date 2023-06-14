@@ -11,6 +11,7 @@ package app.hilwa.ar.feature.quiz.startQuiz
 import android.os.Parcelable
 import app.hilwa.ar.data.model.QuizQuestion
 import app.hilwa.ar.data.utils.dummyQuiz
+import app.trian.core.ui.extensions.Empty
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
@@ -22,7 +23,7 @@ data class StartQuizState(
     val currentIndex: Int = 0,
     val hasAnswer: String? = null,
 
-    var timer: String = ""
+    var timer: String = String.Empty
 ) : Parcelable {
 }
 

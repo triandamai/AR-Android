@@ -1,18 +1,24 @@
 @file:Suppress("UnstableApiUsage")
+/*
+ * Copyright © 2023 trian.app.
+ *
+ * Unauthorized copying, publishing of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ */
 import com.android.build.api.dsl.ApkSigningConfig
 import java.util.Properties
 import java.io.FileInputStream
-
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.org.jetbrains.kotlin.kapt)
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.app.cash.sqldelight)
     alias(libs.plugins.io.gitlab.arthubosch.detekt)
     alias(libs.plugins.com.google.services)
     alias(libs.plugins.com.google.crashanalytics)
     id("kotlin-parcelize")
+    alias(libs.plugins.org.jetbrains.kotlin.kapt)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -87,6 +93,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core-ui"))
     coreLibraryDesugaring(libs.desugar.jdk.lib)
 
     implementation(libs.android.material)

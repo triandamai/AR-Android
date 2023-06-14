@@ -1,17 +1,20 @@
 package app.hilwa.ar.feature.auth.resetPassword
 
+import android.content.Context
 import android.util.Patterns
-import app.hilwa.ar.R
-import app.hilwa.ar.base.BaseViewModel
 import app.hilwa.ar.data.domain.user.ChangePasswordUseCase
 import app.hilwa.ar.data.utils.ResultState
+import app.trian.core.ui.extensions.hideKeyboard
+import app.trian.core.ui.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
+    @ApplicationContext context:Context,
     private val resetPasswordUseCase: ChangePasswordUseCase
-) : BaseViewModel<ResetPasswordState, ResetPasswordEvent>(ResetPasswordState()) {
+) : BaseViewModel<ResetPasswordState, ResetPasswordEvent>(context,ResetPasswordState()) {
     init {
         handleActions()
     }
@@ -20,12 +23,12 @@ class ResetPasswordViewModel @Inject constructor(
     private fun hideLoading() = commit { copy(isLoading = false) }
 
     private fun validateData(cb: suspend (String) -> Unit) = asyncWithState {
-        hideKeyboard()
+        context.hideKeyboard()
         when {
-            email.isEmpty() -> showSnackbar(R.string.alert_email_empty)
+            email.isEmpty() -> {}//showSnackbar(R.string.alert_email_empty)
             !Patterns.EMAIL_ADDRESS
                 .matcher(email)
-                .matches() -> showSnackbar(R.string.alert_validation_email)
+                .matches() -> {}//showSnackbar(R.string.alert_validation_email)
 
             else -> cb(email)
         }
@@ -36,12 +39,12 @@ class ResetPasswordViewModel @Inject constructor(
             ResultState.Loading -> showLoading()
             is ResultState.Error -> {
                 hideLoading()
-                showSnackbar(result.message)
+                //showSnackbar(result.message)
             }
             is ResultState.Result -> {
                 hideLoading()
-                showSnackbar(R.string.message_success_reset_password)
-                navigateUp()
+               // showSnackbar(R.string.message_success_reset_password)
+                navigation.navigateUp()
             }
         }
     }

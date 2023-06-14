@@ -8,10 +8,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.UiWrapperData
-import app.hilwa.ar.base.UIWrapperListenerData
-import app.hilwa.ar.rememberUIController
+import app.hilwa.ar.base.listener.AREventListener
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.UIListenerData
+import app.trian.core.ui.UiWrapperData
+import app.trian.core.ui.rememberUIController
 
 object Splash {
     const val routeName = "Splash"
@@ -19,8 +20,8 @@ object Splash {
 
 @Composable
 internal fun ScreenSplash(
-    invoker: UIWrapperListenerData<SplashUiState, SplashUiDataState, SplashEvent>,
-) = UiWrapperData(invoker = invoker) {
+    uiEvent: UIListenerData<SplashUiState, SplashUiDataState, SplashEvent, AREventListener>,
+) = UiWrapperData(uiEvent) {
     LaunchedEffect(key1 = this, block = {
         dispatch(SplashEvent.CheckSession)
     })
@@ -38,11 +39,13 @@ internal fun ScreenSplash(
 fun PreviewScreenSplash() {
     BaseMainApp {
         ScreenSplash(
-            invoker = UIWrapperListenerData(
-                controller = rememberUIController(),
-                state=SplashUiState(),
-                data=SplashUiDataState(),
-                dispatcher={}
+            uiEvent = UIListenerData(
+                controller = rememberUIController(
+                    event = AREventListener()
+                ),
+                state = SplashUiState(),
+                data = SplashUiDataState(),
+                dispatcher = {}
             )
         )
     }

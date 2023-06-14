@@ -15,15 +15,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.BaseScreen
-import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.UIWrapperListener
+import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.AppbarBasic
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
-import app.hilwa.ar.rememberUIController
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.BaseScreen
+import app.trian.core.ui.UIListener
+import app.trian.core.ui.UIWrapper
+import app.trian.core.ui.rememberUIController
 
 
 object ResetPassword {
@@ -31,9 +32,8 @@ object ResetPassword {
 }
 @Composable
 internal fun ScreenResetPassword(
-    state: ResetPasswordState= ResetPasswordState(),
-    invoker:UIWrapperListener<ResetPasswordState,ResetPasswordEvent>
-) = UIWrapper(invoker = invoker) {
+    uiEvent:UIListener<ResetPasswordState,ResetPasswordEvent, AREventListener>
+) = UIWrapper(uiEvent) {
 
     DialogLoading(
         show = state.isLoading,
@@ -46,7 +46,7 @@ internal fun ScreenResetPassword(
             AppbarBasic(
                 title = stringResource(id = R.string.title_appbar_reset_password),
                 onBackPressed = {
-                    navigateUp()
+                    router.navigateUp()
                 }
             )
         }
@@ -92,8 +92,10 @@ internal fun ScreenResetPassword(
 fun PreviewScreenResetPassword() {
     BaseMainApp {
         ScreenResetPassword(
-            invoker = UIWrapperListener(
-                controller = rememberUIController(),
+            uiEvent = UIListener(
+                controller = rememberUIController(
+                    event  = AREventListener()
+                ),
                 state = ResetPasswordState()
             )
         )

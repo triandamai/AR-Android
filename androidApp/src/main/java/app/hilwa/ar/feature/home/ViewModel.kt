@@ -9,13 +9,16 @@
 package app.hilwa.ar.feature.home
 
 
-import app.hilwa.ar.base.BaseViewModelData
+import android.content.Context
+import app.trian.core.ui.viewModel.BaseViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-) : BaseViewModelData<HomeState, HomeDataState, HomeEvent>(HomeState(), HomeDataState()) {
+    @ApplicationContext context:Context,
+) : BaseViewModelData<HomeState, HomeDataState, HomeEvent>(context,HomeState(), HomeDataState()) {
     init {
         handleActions()
     }

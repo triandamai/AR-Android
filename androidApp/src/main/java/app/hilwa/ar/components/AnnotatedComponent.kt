@@ -24,7 +24,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.hilwa.ar.base.BaseMainApp
+import app.hilwa.ar.base.listener.AREventListener
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.rememberUIController
 
 
 sealed class TextType(var text: String) {
@@ -181,7 +183,7 @@ fun TextWithAction(
 @Preview
 @Composable
 fun PreviewCheckboxInput() {
-    BaseMainApp {
+    BaseMainApp() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

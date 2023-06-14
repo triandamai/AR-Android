@@ -8,13 +8,17 @@
 
 package app.hilwa.ar.feature.quiz.detailQuiz
 
-import app.hilwa.ar.base.BaseViewModelData
+import android.content.Context
+import app.trian.core.ui.viewModel.BaseViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailQuizViewModel @Inject constructor(
+    @ApplicationContext context:Context,
 ) : BaseViewModelData<DetailQuizState, DetailQuizDataState, DetailQuizEvent>(
+    context,
     DetailQuizState(),
     DetailQuizDataState()
 ) {

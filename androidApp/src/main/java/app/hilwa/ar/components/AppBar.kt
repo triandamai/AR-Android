@@ -13,7 +13,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import app.hilwa.ar.base.BaseMainApp
+import app.hilwa.ar.base.listener.AREventListener
+import app.trian.core.ui.BaseMainApp
 
 /**
  * App bar home
