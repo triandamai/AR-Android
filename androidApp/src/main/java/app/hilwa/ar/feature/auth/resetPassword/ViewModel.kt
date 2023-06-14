@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Patterns
 import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.ResetPasswordUseCase
-import app.trian.core.ui.ResultState
 import app.trian.core.ui.extensions.hideKeyboard
 import app.trian.core.ui.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
