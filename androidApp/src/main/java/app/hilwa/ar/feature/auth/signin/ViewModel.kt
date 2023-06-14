@@ -3,8 +3,8 @@ package app.hilwa.ar.feature.auth.signin
 import android.content.Context
 import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.SignInWithEmailAndPasswordUseCase
-import app.hilwa.ar.data.utils.ResultState
 import app.hilwa.ar.feature.home.Home
+import app.trian.core.ui.ResultState
 import app.trian.core.ui.extensions.Empty
 import app.trian.core.ui.viewModel.BaseViewModel
 import com.google.firebase.auth.FirebaseUser
@@ -37,26 +37,21 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun handleResponse(result: ResultState<FirebaseUser>) {
-        when (result) {
-            ResultState.Loading -> showLoading()
-            is ResultState.Error -> {
-                hideLoading()
-                snackbar.showSnackbar(result.message)
-            }
-
-            is ResultState.Result -> {
-                hideLoading()
-                snackbar.showSnackbar(R.string.text_message_welcome_user, String.Empty)
-                navigation.navigateAndReplace(Home.routeName)
-            }
-        }
-    }
-
     override fun handleActions() = onEvent { event ->
         when (event) {
             SignInEvent.SignInWithEmail -> validateData { email, password ->
-                signInWithEmailUseCase(email, password).collect(::handleResponse)
+                signInWithEmailUseCase(email, password).onEach(
+                    success = {
+                        hideLoading()
+                        snackbar.showSnackbar(R.string.text_message_welcome_user, String.Empty)
+                        navigation.navigateAndReplace(Home.routeName)
+                    },
+                    error = {
+                        hideLoading()
+                        snackbar.showSnackbar(it)
+                    },
+                    loading = ::showLoading
+                )
             }
         }
     }

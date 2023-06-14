@@ -1,6 +1,6 @@
 package app.hilwa.ar.data.domain.user;
 
-import app.hilwa.ar.data.utils.ResultState
+import app.trian.core.ui.ResultState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
