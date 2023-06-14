@@ -18,14 +18,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.BaseScreen
-import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.UIWrapperListenerData
-import app.hilwa.ar.base.extensions.gridItems
+import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.ItemQuiz
-import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
-import app.hilwa.ar.rememberUIController
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.BaseScreen
+import app.trian.core.ui.UIListenerData
+import app.trian.core.ui.UiWrapperData
+import app.trian.core.ui.extensions.gridItems
+import app.trian.core.ui.rememberUIController
 
 object ListQuiz {
     const val routeName = "ListQuiz"
@@ -34,10 +34,8 @@ object ListQuiz {
 
 @Composable
 internal fun ScreenListQuiz(
-    state: ListQuizState = ListQuizState(),
-    data: ListQuizDataState = ListQuizDataState(),
-    invoker: UIWrapperListenerData<ListQuizState, ListQuizDataState, ListQuizEvent>
-) = UIWrapper(invoker = invoker) {
+    uiEvent: UIListenerData<ListQuizState, ListQuizDataState, ListQuizEvent, AREventListener>
+) = UiWrapperData(uiEvent) {
 
     BaseScreen(
         controller=controller,
@@ -68,7 +66,7 @@ internal fun ScreenListQuiz(
                         quizProgress = it.progress,
                         quizAmountQuestion = it.quizQuestionAmount,
                         onClick = {
-                            navigateSingleTop(DetailQuiz.routeName)
+                           // navigateSingleTop(DetailQuiz.routeName)
                         }
                     )
                 }
@@ -83,8 +81,10 @@ internal fun ScreenListQuiz(
 fun PreviewScreenListQuiz() {
     BaseMainApp {
         ScreenListQuiz(
-            invoker = UIWrapperListenerData(
-                controller = rememberUIController(),
+            uiEvent = UIListenerData(
+                controller = rememberUIController(
+                    event = AREventListener()
+                ),
                 state = ListQuizState(),
                 data = ListQuizDataState()
             )

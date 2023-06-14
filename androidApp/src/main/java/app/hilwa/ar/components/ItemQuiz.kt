@@ -38,7 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.theme.MyApplicationTheme
 import app.hilwa.ar.R.drawable
-import app.hilwa.ar.base.extensions.Empty
+import app.trian.core.ui.extensions.Empty
 
 @Composable
 fun ItemQuiz(

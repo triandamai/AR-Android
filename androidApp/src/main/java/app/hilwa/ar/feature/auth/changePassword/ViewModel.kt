@@ -1,16 +1,19 @@
 package app.hilwa.ar.feature.auth.changePassword
 
-import app.hilwa.ar.R
-import app.hilwa.ar.base.BaseViewModel
+import android.content.Context
 import app.hilwa.ar.data.domain.user.ChangePasswordUseCase
 import app.hilwa.ar.data.utils.ResultState
+import app.trian.core.ui.extensions.hideKeyboard
+import app.trian.core.ui.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
+    @ApplicationContext context:Context,
     private val changePasswordUseCase: ChangePasswordUseCase
-) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>(ChangePasswordState()) {
+) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>(context,ChangePasswordState()) {
     init {
         handleActions()
     }
@@ -23,11 +26,11 @@ class ChangePasswordViewModel @Inject constructor(
         cb: suspend (String) -> Unit
     ) = asyncWithState {
 
-        hideKeyboard()
+        context.hideKeyboard()
         when {
-            newPassword != confirmPassword -> showSnackbar(R.string.message_confirm_password_not_match)
-            newPassword.isEmpty() || confirmPassword.isEmpty() ->
-                showSnackbar(R.string.message_change_password_field_empty)
+            newPassword != confirmPassword -> {}//showSnackbar(R.string.message_confirm_password_not_match)
+            newPassword.isEmpty() || confirmPassword.isEmpty() ->{}
+               // showSnackbar(R.string.message_change_password_field_empty)
 
             else -> cb(newPassword)
         }
@@ -39,7 +42,7 @@ class ChangePasswordViewModel @Inject constructor(
             ResultState.Loading -> showLoading()
             is ResultState.Result -> {
                 hideLoading()
-                showSnackbar(R.string.text_message_success_change_password)
+                //showSnackbar(R.string.text_message_success_change_password)
             }
         }
     }

@@ -25,10 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.BaseScreen
-import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.UIWrapperListener
+import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.BottomSheetPrivacyPolicy
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ButtonSecondary
@@ -36,7 +33,11 @@ import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.signin.SignIn
 import app.hilwa.ar.feature.auth.signup.SignUp
-import app.hilwa.ar.rememberUIController
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.BaseScreen
+import app.trian.core.ui.UIListener
+import app.trian.core.ui.UIWrapper
+import app.trian.core.ui.rememberUIController
 
 object Onboard {
     const val routeName = "Onboard"
@@ -44,14 +45,15 @@ object Onboard {
 
 @Composable
 internal fun ScreenOnboard(
-    invoker:UIWrapperListener<OnboardState,OnboardEvent>
-) = UIWrapper(invoker = invoker ) {
+    uiEvent:UIListener<OnboardState,OnboardEvent, AREventListener>
+) = UIWrapper(uiEvent ) {
     val privacyPolicyText = listOf(
         TextType.Text(stringResource(id = R.string.text_license_agreement)),
         TextType.Button(stringResource(id = R.string.text_privacy_policy)),
     )
 
     BaseScreen(
+        controller = controller,
         bottomSheet = {
             BottomSheetPrivacyPolicy(
                 onAccept = {
@@ -139,7 +141,7 @@ internal fun ScreenOnboard(
                             ),
                         fullWidth = false
                     ) {
-                        navigateAndReplaceAll(SignIn.routeName)
+                        router.navigateAndReplace(SignIn.routeName)
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     ButtonSecondary(
@@ -150,7 +152,7 @@ internal fun ScreenOnboard(
                             ),
                         fullWidth = false
                     ) {
-                        navigateSingleTop(SignUp.routeName)
+                        router.navigateSingleTop(SignUp.routeName)
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -174,8 +176,10 @@ internal fun ScreenOnboard(
 fun PreviewScreenOnboard() {
     BaseMainApp {
         ScreenOnboard(
-            invoker = UIWrapperListener(
-                controller = rememberUIController(),
+            uiEvent = UIListener(
+                controller = rememberUIController(
+                    event = AREventListener()
+                ),
                 state = OnboardState()
             )
         )

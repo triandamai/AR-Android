@@ -14,15 +14,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.BaseScreen
-import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.UIWrapperListener
+import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.AppbarBasic
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
-import app.hilwa.ar.rememberUIController
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.BaseScreen
+import app.trian.core.ui.UIListener
+import app.trian.core.ui.UIWrapper
+import app.trian.core.ui.rememberUIController
 
 object ChangePassword {
     const val routeName = "ChangePassword"
@@ -30,9 +31,8 @@ object ChangePassword {
 
 @Composable
 internal fun ScreenChangePassword(
-    state: ChangePasswordState = ChangePasswordState(),
-    invoker: UIWrapperListener<ChangePasswordState, ChangePasswordEvent>
-) = UIWrapper(invoker = invoker) {
+    uiEvent: UIListener<ChangePasswordState, ChangePasswordEvent, AREventListener>
+) = UIWrapper(uiEvent) {
 
     DialogLoading(
         show = state.isLoading,
@@ -43,7 +43,7 @@ internal fun ScreenChangePassword(
         topAppBar = {
             AppbarBasic(
                 title = stringResource(id = R.string.title_appbar_change_password),
-                onBackPressed = { navigateUp() })
+                onBackPressed = { router.navigateUp() })
         }
     ) {
         Column(
@@ -102,10 +102,11 @@ internal fun ScreenChangePassword(
 fun PreviewScreenChangePassword() {
     BaseMainApp {
         ScreenChangePassword(
-            state = ChangePasswordState(),
-            invoker = UIWrapperListener(
+            uiEvent = UIListener(
                 state = ChangePasswordState(),
-                controller = rememberUIController()
+                controller = rememberUIController(
+                    event = AREventListener()
+                )
             )
         )
     }

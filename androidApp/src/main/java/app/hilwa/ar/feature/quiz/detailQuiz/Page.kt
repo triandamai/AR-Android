@@ -42,14 +42,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.BaseScreen
-import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.UIWrapperListenerData
+import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
-import app.hilwa.ar.feature.quiz.startQuiz.StartQuiz
-import app.hilwa.ar.rememberUIController
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.BaseScreen
+import app.trian.core.ui.UIListenerData
+import app.trian.core.ui.UiWrapperData
+import app.trian.core.ui.rememberUIController
 import kotlinx.coroutines.delay
 
 object DetailQuiz {
@@ -58,11 +58,8 @@ object DetailQuiz {
 
 @Composable
 internal fun ScreenDetailQuiz(
-    state: DetailQuizState = DetailQuizState(),
-    data: DetailQuizDataState = DetailQuizDataState(),
-
-    invoker: UIWrapperListenerData<DetailQuizState, DetailQuizDataState, DetailQuizEvent>
-) = UIWrapper(invoker = invoker) {
+    uiEvent: UIListenerData<DetailQuizState, DetailQuizDataState, DetailQuizEvent, AREventListener>
+) = UiWrapperData(uiEvent) {
 
     LaunchedEffect(key1 = this, block = {
         delay(1000)
@@ -86,7 +83,7 @@ internal fun ScreenDetailQuiz(
                 },
                 onConfirm = {
                     hideBottomSheet()
-                    navigateSingleTop(StartQuiz.routeName)
+                    //navigateSingleTop(StartQuiz.routeName)
                 }
             )
         }
@@ -97,7 +94,9 @@ internal fun ScreenDetailQuiz(
                 .background(MaterialTheme.colorScheme.surfaceVariant)
         ) {
             IconButton(
-                onClick = { navigateUp() },
+                onClick = {
+                   // navigateUp()
+                          },
                 modifier = Modifier.align(Alignment.TopEnd)
             ) {
                 Icon(
@@ -192,10 +191,10 @@ internal fun ScreenDetailQuiz(
 fun PreviewScreenDetailQuiz() {
     BaseMainApp {
         ScreenDetailQuiz(
-            state = DetailQuizState(),
-            data = DetailQuizDataState(),
-            invoker = UIWrapperListenerData(
-                controller = rememberUIController(),
+            uiEvent = UIListenerData(
+                controller = rememberUIController(
+                    event = AREventListener()
+                ),
                 state = DetailQuizState(),
                 data = DetailQuizDataState()
             )

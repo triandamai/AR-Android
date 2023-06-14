@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.ModalBottomSheetValue.Hidden
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,15 +33,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.BaseScreen
-import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.UIWrapperListenerData
+import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.DialogConfirmation
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.ItemHome
 import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
-import app.hilwa.ar.rememberUIController
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.BaseScreen
+import app.trian.core.ui.UIListenerData
+import app.trian.core.ui.UiWrapperData
+import app.trian.core.ui.extensions.hideKeyboard
+import app.trian.core.ui.rememberUIController
 
 object Home {
     const val routeName = "Home"
@@ -48,15 +51,19 @@ object Home {
 
 @Composable
 internal fun ScreenHome(
-    state: HomeState = HomeState(),
-    dataState: HomeDataState = HomeDataState(),
-    invoker: UIWrapperListenerData<HomeState, HomeDataState, HomeEvent>
-) = UIWrapper(invoker = invoker) {
+    uiEvent: UIListenerData<HomeState, HomeDataState, HomeEvent, AREventListener>
+) = UiWrapperData(uiEvent) {
 
     LaunchedEffect(key1 = this, block = {
         addOnBottomSheetStateChangeListener {
-            if (it == Hidden) {
-                hideKeyboard()
+            when (it) {
+                Hidden -> {
+                    controller.context.hideKeyboard()
+                    true
+                }
+
+                ModalBottomSheetValue.Expanded -> true
+                ModalBottomSheetValue.HalfExpanded -> true
             }
         }
     })
@@ -78,7 +85,7 @@ internal fun ScreenHome(
         }
     )
 
-    BaseScreen() {
+    BaseScreen {
         Box(
             modifier = Modifier
                 .padding(bottom = 8.dp)
@@ -122,13 +129,13 @@ internal fun ScreenHome(
                         )
                     }
                 }
-                items(dataState.menu) { data ->
+                items(data.menu) { data ->
                     ItemHome(
                         name = data.name,
                         description = data.description,
                         image = data.image,
                         onClick = {
-                            navigateSingleTop(ListQuiz.routeName)
+                            router.navigateSingleTop(ListQuiz.routeName)
                         }
                     )
                 }
@@ -145,8 +152,10 @@ internal fun ScreenHome(
 fun PreviewScreenHome() {
     BaseMainApp {
         ScreenHome(
-            invoker = UIWrapperListenerData(
-                controller = rememberUIController(),
+            uiEvent = UIListenerData(
+                controller = rememberUIController(
+                    event = AREventListener()
+                ),
                 state = HomeState(),
                 data = HomeDataState()
             )

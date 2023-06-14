@@ -18,10 +18,11 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs"){
-            from(files("libs.versions.toml"))
+            from(files("core-ui/libs.versions.toml"))
         }
     }
 
 }
 rootProject.name = "Hilwa"
 include(":androidApp")
+include(":core-ui")

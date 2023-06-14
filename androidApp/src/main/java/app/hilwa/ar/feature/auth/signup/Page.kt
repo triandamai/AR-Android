@@ -23,10 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R.string
-import app.hilwa.ar.base.BaseMainApp
-import app.hilwa.ar.base.BaseScreen
-import app.hilwa.ar.base.UIWrapper
-import app.hilwa.ar.base.UIWrapperListener
+import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.AppbarAuth
 import app.hilwa.ar.components.BottomSheetPrivacyPolicy
 import app.hilwa.ar.components.ButtonPrimary
@@ -36,18 +33,19 @@ import app.hilwa.ar.components.FormInput
 import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.signin.SignIn
-import app.hilwa.ar.rememberUIController
+import app.trian.core.ui.BaseMainApp
+import app.trian.core.ui.BaseScreen
+import app.trian.core.ui.UIListener
+import app.trian.core.ui.UIWrapper
+import app.trian.core.ui.rememberUIController
 
 object SignUp {
     const val routeName = "SignUp"
 }
 @Composable
 internal fun ScreenSignUp(
-    state: SignUpState = SignUpState(),
-    invoker: UIWrapperListener<SignUpState, SignUpEvent>,
-) = UIWrapper(
-    invoker = invoker
-) {
+    uiEvent: UIListener<SignUpState, SignUpEvent, AREventListener>,
+) = UIWrapper(uiEvent) {
     val privacyPolicy = listOf(
         TextType.Text(stringResource(id = string.text_license_agreement)),
         TextType.Button(stringResource(id = string.text_privacy_policy))
@@ -65,10 +63,11 @@ internal fun ScreenSignUp(
         title = stringResource(string.text_title_loading)
     )
     BaseScreen(
+        controller=controller,
         topAppBar = {
             AppbarAuth(
                 onBackPressed = {
-                    navigateUp()
+                    router.navigateUp()
                 }
             )
         },
@@ -105,7 +104,7 @@ internal fun ScreenSignUp(
                     labels = signInText,
                     onTextClick = {
                         if (it == 1) {
-                            navigateAndReplaceAll(SignIn.routeName)
+                            router.navigateAndReplace(SignIn.routeName)
                         }
                     }
                 )
@@ -234,10 +233,11 @@ internal fun ScreenSignUp(
 fun PreviewScreenSignUp() {
     BaseMainApp {
         ScreenSignUp(
-            state = SignUpState(),
-            invoker = UIWrapperListener(
+            uiEvent = UIListener(
                 state = SignUpState(),
-                controller = rememberUIController(),
+                controller = rememberUIController(
+                    event = AREventListener()
+                ),
                 commit = {},
                 dispatcher = {}
             )

@@ -11,6 +11,7 @@ package app.hilwa.ar.feature.quiz.listQuiz
 import android.os.Parcelable
 import app.hilwa.ar.data.model.Quiz
 import app.hilwa.ar.data.utils.dummyQuiz
+import app.trian.core.ui.extensions.Empty
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
@@ -18,7 +19,7 @@ import javax.annotation.concurrent.Immutable
 @Immutable
 @Parcelize
 data class ListQuizState(
-    val a: String = ""
+    val a: String = String.Empty
 ) :  Parcelable {
 }
 

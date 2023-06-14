@@ -4,9 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
-import app.hilwa.ar.base.UIWrapperListener
-import app.hilwa.ar.base.UIWrapperListenerData
-import app.hilwa.ar.base.pageWrapper
+import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.feature.auth.changePassword.ChangePassword
 import app.hilwa.ar.feature.auth.changePassword.ChangePasswordViewModel
 import app.hilwa.ar.feature.auth.changePassword.ScreenChangePassword
@@ -38,23 +36,27 @@ import app.hilwa.ar.feature.quiz.startQuiz.StartQuizViewModel
 import app.hilwa.ar.feature.splash.ScreenSplash
 import app.hilwa.ar.feature.splash.Splash
 import app.hilwa.ar.feature.splash.SplashViewModel
+import app.trian.core.ui.UIController
+import app.trian.core.ui.UIListener
+import app.trian.core.ui.UIListenerData
+import app.trian.core.ui.pageWrapper
 
 @Composable
 fun AppNavigation(
-    uiController: UIController
+    uiController: UIController<AREventListener>
 ) {
     NavHost(
         navController = uiController.router,
         startDestination = Splash.routeName
     ) {
-        pageWrapper<SplashViewModel>(
+        pageWrapper<SplashViewModel,AREventListener>(
             route = Splash.routeName,
             controller = uiController
         ) {
             val uiState by this.uiState.collectAsState()
             val data by this.uiDataState.collectAsState()
             ScreenSplash(
-                invoker = UIWrapperListenerData(
+                uiEvent = UIListenerData(
                     controller = uiController,
                     state = uiState,
                     data = data,
@@ -64,29 +66,28 @@ fun AppNavigation(
                 )
             )
         }
-        pageWrapper<SignInViewModel>(
+        pageWrapper<SignInViewModel,AREventListener>(
             route = SignIn.routeName,
             controller = uiController
         ) {
             val uiState by uiState.collectAsState()
             ScreenSignIn(
-                state = uiState,
-                invoker = UIWrapperListener(
+                uiEvent = UIListener(
                     controller = uiController,
                     state = uiState,
                     commit = this::commit,
+                    dispatcher = ::dispatch
                 )
             )
         }
 
-        pageWrapper<SignUpViewModel>(
+        pageWrapper<SignUpViewModel,AREventListener>(
             route = SignUp.routeName,
             controller = uiController
         ) {
             val uiState by uiState.collectAsState()
             ScreenSignUp(
-                state = uiState,
-                invoker = UIWrapperListener(
+                uiEvent = UIListener(
                     state = uiState,
                     controller = uiController,
                     commit = ::commit,
@@ -95,14 +96,13 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<ResetPasswordViewModel>(
+        pageWrapper<ResetPasswordViewModel,AREventListener>(
             route = ResetPassword.routeName,
             controller = uiController
         ) {
             val state by uiState.collectAsState()
             ScreenResetPassword(
-                state = state,
-                invoker = UIWrapperListener(
+                uiEvent = UIListener(
                     state = state,
                     controller = uiController,
                     commit = ::commit,
@@ -111,14 +111,13 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<ChangePasswordViewModel>(
+        pageWrapper<ChangePasswordViewModel,AREventListener>(
             route = ChangePassword.routeName,
             controller = uiController
         ) {
             val state by uiState.collectAsState()
             ScreenChangePassword(
-                state = state,
-                invoker = UIWrapperListener(
+                uiEvent = UIListener(
                     state = state,
                     controller = uiController,
                     commit = ::commit,
@@ -127,12 +126,12 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<OnboardViewModel>(
+        pageWrapper<OnboardViewModel,AREventListener>(
             route = Onboard.routeName,
             controller = uiController
         ) {
             ScreenOnboard(
-                invoker = UIWrapperListener(
+                uiEvent = UIListener(
                     state = OnboardState(),
                     controller = uiController,
                     commit = ::commit,
@@ -141,7 +140,7 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<HomeViewModel>(
+        pageWrapper<HomeViewModel,AREventListener>(
             route = Home.routeName,
             controller = uiController
         ) {
@@ -149,7 +148,7 @@ fun AppNavigation(
             val dataState by uiDataState.collectAsState()
 
             ScreenHome(
-                invoker = UIWrapperListenerData(
+                uiEvent = UIListenerData(
                     controller = uiController,
                     state = state,
                     data = dataState,
@@ -162,16 +161,14 @@ fun AppNavigation(
         }
 
         //quiz
-        pageWrapper<ListQuizViewModel>(
+        pageWrapper<ListQuizViewModel,AREventListener>(
             route = ListQuiz.routeName,
             controller = uiController
         ) {
             val state by uiState.collectAsState()
             val dataState by uiDataState.collectAsState()
             ScreenListQuiz(
-                state = state,
-                data = dataState,
-                invoker = UIWrapperListenerData(
+                uiEvent = UIListenerData(
                     controller = uiController,
                     state = state,
                     data = dataState,
@@ -182,16 +179,14 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<DetailQuizViewModel>(
+        pageWrapper<DetailQuizViewModel,AREventListener>(
             route = DetailQuiz.routeName,
             controller = uiController
         ) {
             val state by uiState.collectAsState()
             val dataState by uiDataState.collectAsState()
             ScreenDetailQuiz(
-                state = state,
-                data = dataState,
-                invoker = UIWrapperListenerData(
+                uiEvent = UIListenerData(
                     controller = uiController,
                     state = state,
                     data = dataState,
@@ -202,16 +197,14 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<StartQuizViewModel>(
+        pageWrapper<StartQuizViewModel,AREventListener>(
             route = StartQuiz.routeName,
             controller = uiController
         ) {
             val state by uiState.collectAsState()
             val dataState by uiDataState.collectAsState()
             ScreenStartQuiz(
-                state = state,
-                data = dataState,
-                invoker = UIWrapperListenerData(
+                uiEvent = UIListenerData(
                     controller = uiController,
                     state = state,
                     data = dataState,
