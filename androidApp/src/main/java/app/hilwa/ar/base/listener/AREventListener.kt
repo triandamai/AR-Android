@@ -13,7 +13,7 @@ import app.trian.core.ui.listener.BaseEventListener
 
 class AREventListener : BaseEventListener() {
     private var countDownTimerListener: CountDownTimerListener? = null
-    private var arEventListener: AppStateEventListener? = null
+    private var appEventListener: AppStateEventListener? = null
 
     fun addOnCountDownListener(listener: CountDownTimerListener) {
         countDownTimerListener = listener
@@ -24,11 +24,11 @@ class AREventListener : BaseEventListener() {
     }
 
     fun addOnArAppEventListener(listener: AppStateEventListener) {
-        arEventListener = listener
+        appEventListener = listener
     }
 
     fun sendEvent(event: ApplicationStateConstants) {
-        arEventListener?.onEvent(event)
+        appEventListener?.onEvent(event)
     }
 
 
