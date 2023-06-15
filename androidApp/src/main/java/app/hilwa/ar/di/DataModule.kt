@@ -13,6 +13,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import java.util.Locale
 
 @Module
 @InstallIn(
@@ -28,6 +29,7 @@ object DataModule {
         context,
         "tudu_trian_app.db"
     )
+
     @Provides
     fun provideDatabase(
         sqlDriver: SqlDriver
@@ -36,23 +38,29 @@ object DataModule {
     @Provides
     fun provideSharedPreferences(
         @ApplicationContext appContext: Context
-    ):SharedPreferences = appContext.getSharedPreferences(
+    ): SharedPreferences = appContext.getSharedPreferences(
         "tudu",
         Context.MODE_PRIVATE
     )
 
     @Provides
     fun provideSharedPrefEditor(
-        sp:SharedPreferences
-    ):SharedPreferences.Editor =  sp.edit()
+        sp: SharedPreferences
+    ): SharedPreferences.Editor = sp.edit()
 
     @Provides
-    fun provideFirebaseAuth():FirebaseAuth = FirebaseAuth.getInstance()
+    fun provideFirebaseAuth(
+        @ApplicationContext appContext: Context
+    ): FirebaseAuth {
+        val auth = FirebaseAuth.getInstance()
+        auth.setLanguageCode(appContext.resources.configuration.locales[0].language)
+        return auth
+    }
 
     @Provides
-    fun provideFirebaseFirestore():FirebaseFirestore = FirebaseFirestore.getInstance()
+    fun provideFirebaseFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
     @Provides
-    fun provideFirebaseStorage():FirebaseStorage = FirebaseStorage.getInstance()
+    fun provideFirebaseStorage(): FirebaseStorage = FirebaseStorage.getInstance()
 
 }
