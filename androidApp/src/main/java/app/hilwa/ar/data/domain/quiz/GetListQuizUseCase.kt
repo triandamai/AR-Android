@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class GetQuizUseCase @Inject constructor(
+class GetListQuizUseCase @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
     private val db: Database
 ) {
@@ -27,12 +27,12 @@ class GetQuizUseCase @Inject constructor(
         emit(ResultStateData.Loading)
         try {
             val quiz = firebaseFirestore
-                .collection("")
+                .collection("QUIZ")
                 .get()
                 .await()
                 .documents
                 .map { it.toObject(Quiz::class.java)!! }
-                .sortedByDescending { it.quizQuestionAmount }
+                .sortedByDescending { it.question.size }
 
             emit(ResultStateData.Result(quiz))
         } catch (e: Exception) {

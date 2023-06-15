@@ -49,7 +49,7 @@ fun AppNavigation(
         navController = uiController.router,
         startDestination = Splash.routeName
     ) {
-        pageWrapper<SplashViewModel,AREventListener>(
+        pageWrapper<SplashViewModel, AREventListener>(
             route = Splash.routeName,
             controller = uiController
         ) {
@@ -66,7 +66,7 @@ fun AppNavigation(
                 )
             )
         }
-        pageWrapper<SignInViewModel,AREventListener>(
+        pageWrapper<SignInViewModel, AREventListener>(
             route = SignIn.routeName,
             controller = uiController
         ) {
@@ -81,7 +81,7 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<SignUpViewModel,AREventListener>(
+        pageWrapper<SignUpViewModel, AREventListener>(
             route = SignUp.routeName,
             controller = uiController
         ) {
@@ -96,7 +96,7 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<ResetPasswordViewModel,AREventListener>(
+        pageWrapper<ResetPasswordViewModel, AREventListener>(
             route = ResetPassword.routeName,
             controller = uiController
         ) {
@@ -111,7 +111,7 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<ChangePasswordViewModel,AREventListener>(
+        pageWrapper<ChangePasswordViewModel, AREventListener>(
             route = ChangePassword.routeName,
             controller = uiController
         ) {
@@ -126,7 +126,7 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<OnboardViewModel,AREventListener>(
+        pageWrapper<OnboardViewModel, AREventListener>(
             route = Onboard.routeName,
             controller = uiController
         ) {
@@ -140,7 +140,7 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<HomeViewModel,AREventListener>(
+        pageWrapper<HomeViewModel, AREventListener>(
             route = Home.routeName,
             controller = uiController
         ) {
@@ -161,7 +161,7 @@ fun AppNavigation(
         }
 
         //quiz
-        pageWrapper<ListQuizViewModel,AREventListener>(
+        pageWrapper<ListQuizViewModel, AREventListener>(
             route = ListQuiz.routeName,
             controller = uiController
         ) {
@@ -179,8 +179,9 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<DetailQuizViewModel,AREventListener>(
-            route = DetailQuiz.routeName,
+        pageWrapper<DetailQuizViewModel, AREventListener>(
+            route = DetailQuiz.routeName(),
+            arguments = DetailQuiz.navArg,
             controller = uiController
         ) {
             val state by uiState.collectAsState()
@@ -197,7 +198,7 @@ fun AppNavigation(
             )
         }
 
-        pageWrapper<StartQuizViewModel,AREventListener>(
+        pageWrapper<StartQuizViewModel, AREventListener>(
             route = StartQuiz.routeName,
             controller = uiController
         ) {

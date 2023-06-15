@@ -25,7 +25,7 @@ data class DetailQuizState(
 @Immutable
 @Parcelize
 data class DetailQuizDataState(
-    val quiz: @RawValue Quiz = dummyQuiz[0]
+    val quiz: @RawValue Quiz = Quiz()
 ) :  Parcelable {
 }
 
