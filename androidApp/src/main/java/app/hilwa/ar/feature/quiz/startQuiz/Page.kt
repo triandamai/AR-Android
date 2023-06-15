@@ -25,6 +25,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -35,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -53,6 +57,8 @@ import app.trian.core.ui.UIListenerData
 import app.trian.core.ui.UiWrapperData
 import app.trian.core.ui.extensions.coloredShadow
 import app.trian.core.ui.rememberUIController
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 
 object StartQuiz {
     const val routeName = "Quiz"
@@ -71,8 +77,6 @@ internal fun ScreenStartQuiz(
             }
         }
     })
-
-
 
     fun onBackPressed() {
         if (state.currentIndex == 0) {
@@ -207,7 +211,11 @@ internal fun ScreenStartQuiz(
                             verticalArrangement = Arrangement.Top
                         ) {
                             Image(
-                                painter = painterResource(id = data.quiz[state.currentIndex].image),
+                                painter = rememberAsyncImagePainter(
+                                    model = ImageRequest.Builder(LocalContext.current)
+                                        .data(data.quiz[state.currentIndex].image)
+                                        .build()
+                                ),
                                 contentDescription = "",
                                 modifier = Modifier
                                     .fillMaxWidth()
