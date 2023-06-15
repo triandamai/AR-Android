@@ -10,7 +10,6 @@ package app.hilwa.ar.feature.quiz.detailQuiz
 
 import android.os.Parcelable
 import app.hilwa.ar.data.model.Quiz
-import app.hilwa.ar.data.utils.dummyQuiz
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
