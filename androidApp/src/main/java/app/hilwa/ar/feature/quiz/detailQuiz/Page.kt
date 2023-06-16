@@ -44,13 +44,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
+import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
 import app.trian.core.ui.UIListenerData
-import app.trian.core.ui.UiWrapperData
+import app.trian.core.ui.UIWrapper
 import app.trian.core.ui.rememberUIController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -71,10 +71,15 @@ object DetailQuiz {
 
 }
 
+@Navigation(
+    route = DetailQuiz.routeName,
+    arguments=[DetailQuiz.argKey],
+    viewModel = DetailQuizViewModel::class
+)
 @Composable
 internal fun ScreenDetailQuiz(
-    uiEvent: UIListenerData<DetailQuizState, DetailQuizDataState, DetailQuizEvent, AREventListener>
-) = UiWrapperData(uiEvent) {
+    uiEvent: UIListenerData<DetailQuizState, DetailQuizDataState, DetailQuizEvent>
+) = UIWrapper(uiEvent) {
 
     LaunchedEffect(key1 = this, block = {
         delay(1000)
@@ -212,9 +217,7 @@ fun PreviewScreenDetailQuiz() {
     BaseMainApp {
         ScreenDetailQuiz(
             uiEvent = UIListenerData(
-                controller = rememberUIController(
-                    event = AREventListener()
-                ),
+                controller = rememberUIController(),
                 state = DetailQuizState(),
                 data = DetailQuizDataState()
             )

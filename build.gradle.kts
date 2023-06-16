@@ -1,3 +1,4 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     //trick: for the same plugin versions in all sub-modules
     alias(libs.plugins.org.jetbrains.kotlin.serialization) apply false
@@ -9,10 +10,12 @@ plugins {
     alias(libs.plugins.com.android.library) apply false
     alias(libs.plugins.com.google.services) apply false
     alias(libs.plugins.com.google.crashanalytics) apply false
+    kotlin("jvm") version "1.8.0" apply false
 }
 buildscript {
     dependencies{
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.5")
+        classpath(kotlin("gradle-plugin", version = "1.8.0"))
     }
 }
 extensions.findByName("buildScan")?.withGroovyBuilder {

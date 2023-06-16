@@ -2,28 +2,30 @@ package app.hilwa.ar
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
-import androidx.core.view.WindowCompat
-import app.hilwa.ar.base.listener.AREventListener
+import androidx.navigation.compose.NavHost
+import app.hilwa.ar.feature.splash.Splash
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.UIController
 import app.trian.core.ui.extensions.formatTimer
+import app.trian.core.ui.listener.BaseEventListener
+import app.trian.core.ui.listener.EventListener
 import app.trian.core.ui.rememberUIController
+import app.trian.ksp.androidAppComponent
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private lateinit var eventListener: AREventListener
-    private lateinit var uiController: UIController<AREventListener>
+    private lateinit var eventListener: BaseEventListener
+    private lateinit var uiController: UIController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            eventListener = AREventListener()
+            eventListener = EventListener()
             uiController = rememberUIController(
                 event = eventListener
             )
@@ -34,7 +36,12 @@ class MainActivity : ComponentActivity() {
                 }
             )
             BaseMainApp(uiController) {
-                AppNavigation(uiController = it)
+                NavHost(
+                    navController = uiController.router,
+                    startDestination = Splash.routeName
+                ) {
+                    androidAppComponent(it)
+                }
             }
         }
     }
@@ -45,22 +52,23 @@ class MainActivity : ComponentActivity() {
         override fun onTick(millisUntilFinished: Long) {
 
             val formatString = millisUntilFinished.formatTimer()
-            eventListener.updateTimer(false, formatString)
+            eventListener.sendEventToScreen("updateTimer", "0", formatString)
         }
 
         override fun onFinish() {
-            eventListener.updateTimer(true)
+            eventListener.sendEventToScreen("updateTimer", "1", "")
+
         }
 
     }
 
     private fun listen() {
-        uiController.event.addOnArAppEventListener{
-            when (it) {
-                ApplicationStateConstants.CANCEL_TIMER -> countDown.cancel()
-                ApplicationStateConstants.EXIT_APP -> finish()
-                ApplicationStateConstants.FINISH_TIMER -> countDown.onFinish()
-                ApplicationStateConstants.START_TIMER -> countDown.start()
+        uiController.event.addOnAppEventListener { event, params ->
+            when (event) {
+                "CANCEL_TIMER" -> countDown.cancel()
+                "EXIT" -> finish()
+                "FINISH_TIMER" -> countDown.onFinish()
+                "START_TIMER" -> countDown.start()
             }
         }
     }

@@ -33,15 +33,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R
-import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.DialogConfirmation
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.ItemHome
 import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
+import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
 import app.trian.core.ui.UIListenerData
-import app.trian.core.ui.UiWrapperData
+import app.trian.core.ui.UIWrapper
 import app.trian.core.ui.extensions.hideKeyboard
 import app.trian.core.ui.rememberUIController
 
@@ -49,13 +49,17 @@ object Home {
     const val routeName = "Home"
 }
 
+@Navigation(
+    route = Home.routeName,
+    viewModel = HomeViewModel::class
+)
 @Composable
 internal fun ScreenHome(
-    uiEvent: UIListenerData<HomeState, HomeDataState, HomeEvent, AREventListener>
-) = UiWrapperData(uiEvent) {
+    uiEvent: UIListenerData<HomeState, HomeDataState, HomeEvent>
+) = UIWrapper(uiEvent) {
 
     LaunchedEffect(key1 = this, block = {
-        addOnBottomSheetStateChangeListener {
+        controller.event.addOnBottomSheetChangeListener() {
             when (it) {
                 Hidden -> {
                     controller.context.hideKeyboard()
@@ -153,9 +157,7 @@ fun PreviewScreenHome() {
     BaseMainApp {
         ScreenHome(
             uiEvent = UIListenerData(
-                controller = rememberUIController(
-                    event = AREventListener()
-                ),
+                controller = rememberUIController(),
                 state = HomeState(),
                 data = HomeDataState()
             )

@@ -32,8 +32,8 @@ class SignUpWithEmailAndPasswordUseCase @Inject constructor(
             val updateProfile = userProfileChangeRequest {
                 this.displayName = displayName
             }
-            authenticated.user?.updateProfile(updateProfile)
-        //    authenticated.user.sendEmailVerification().await()
+            authenticated.user!!.updateProfile(updateProfile)
+            authenticated.user!!.sendEmailVerification().await()
             emit(ResultState.Result(authenticated.user!!))
         } catch (e: Exception) {
             emit(ResultState.Error(e.message.orEmpty()))

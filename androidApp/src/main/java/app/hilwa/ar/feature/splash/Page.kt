@@ -8,20 +8,24 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import app.hilwa.ar.base.listener.AREventListener
+import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.UIListenerData
-import app.trian.core.ui.UiWrapperData
+import app.trian.core.ui.UIWrapper
 import app.trian.core.ui.rememberUIController
 
 object Splash {
     const val routeName = "Splash"
 }
 
+@Navigation(
+    route = Splash.routeName,
+    viewModel = SplashViewModel::class
+)
 @Composable
 internal fun ScreenSplash(
-    uiEvent: UIListenerData<SplashUiState, SplashUiDataState, SplashEvent, AREventListener>,
-) = UiWrapperData(uiEvent) {
+    uiEvent: UIListenerData<SplashUiState, SplashUiDataState, SplashEvent>,
+) = UIWrapper(uiEvent) {
     LaunchedEffect(key1 = this, block = {
         dispatch(SplashEvent.CheckSession)
     })
@@ -40,9 +44,7 @@ fun PreviewScreenSplash() {
     BaseMainApp {
         ScreenSplash(
             uiEvent = UIListenerData(
-                controller = rememberUIController(
-                    event = AREventListener()
-                ),
+                controller = rememberUIController(),
                 state = SplashUiState(),
                 data = SplashUiDataState(),
                 dispatcher = {}

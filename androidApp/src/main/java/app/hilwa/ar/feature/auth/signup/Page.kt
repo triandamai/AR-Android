@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R.string
-import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.AppbarAuth
 import app.hilwa.ar.components.BottomSheetPrivacyPolicy
 import app.hilwa.ar.components.ButtonPrimary
@@ -33,6 +32,7 @@ import app.hilwa.ar.components.FormInput
 import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.signin.SignIn
+import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
 import app.trian.core.ui.UIListener
@@ -42,9 +42,14 @@ import app.trian.core.ui.rememberUIController
 object SignUp {
     const val routeName = "SignUp"
 }
+
+@Navigation(
+    route = SignUp.routeName,
+    viewModel = SignUpViewModel::class
+)
 @Composable
 internal fun ScreenSignUp(
-    uiEvent: UIListener<SignUpState, SignUpEvent, AREventListener>,
+    uiEvent: UIListener<SignUpState, SignUpEvent>,
 ) = UIWrapper(uiEvent) {
     val privacyPolicy = listOf(
         TextType.Text(stringResource(id = string.text_license_agreement)),
@@ -63,7 +68,7 @@ internal fun ScreenSignUp(
         title = stringResource(string.text_title_loading)
     )
     BaseScreen(
-        controller=controller,
+        controller = controller,
         topAppBar = {
             AppbarAuth(
                 onBackPressed = {
@@ -229,9 +234,7 @@ fun PreviewScreenSignUp() {
         ScreenSignUp(
             uiEvent = UIListener(
                 state = SignUpState(),
-                controller = rememberUIController(
-                    event = AREventListener()
-                ),
+                controller = rememberUIController(),
                 commit = {},
                 dispatcher = {}
             )
