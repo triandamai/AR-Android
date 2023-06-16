@@ -6,7 +6,6 @@ import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.SignUpWithEmailAndPasswordUseCase
 import app.hilwa.ar.feature.auth.signin.SignIn
 import app.hilwa.ar.feature.auth.signup.SignUpEvent.SignUpWithEmail
-import app.trian.core.ui.extensions.hideKeyboard
 import app.trian.core.ui.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
