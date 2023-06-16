@@ -19,7 +19,6 @@ class SignInViewModel @Inject constructor(
         handleActions()
     }
 
-
     private fun showLoading() = commit { copy(isLoading = true) }
     private fun hideLoading() = commit { copy(isLoading = false) }
 

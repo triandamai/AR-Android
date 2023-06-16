@@ -67,7 +67,7 @@ internal fun ScreenStartQuiz(
     LaunchedEffect(key1 = this, block = {
         controller.event.addOnCountDownListener { timeout, data ->
             if (!timeout) {
-                commit { copy(timer = data[0]) }
+                commit{ copy(timer = data[0]) }
             } else {
                 showSnackbar("Time up!")
             }

@@ -26,13 +26,14 @@ class SignUpWithEmailAndPasswordUseCase @Inject constructor(
                 password
             ).await()
             if (authenticated.user == null) {
-                emit(ResultState.Error(""))
+                emit(ResultState.Error("Ggal mendaftarkan akun, silahkan coba lagi nanti"))
                 return@flow
             }
             val updateProfile = userProfileChangeRequest {
                 this.displayName = displayName
             }
             authenticated.user?.updateProfile(updateProfile)
+        //    authenticated.user.sendEmailVerification().await()
             emit(ResultState.Result(authenticated.user!!))
         } catch (e: Exception) {
             emit(ResultState.Error(e.message.orEmpty()))

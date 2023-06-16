@@ -64,7 +64,7 @@ internal fun ScreenListQuiz(
                         quizName = it.quizTitle,
                         quizImage = it.quizImage,
                         quizProgress = it.progress,
-                        quizAmountQuestion = it.quizQuestionAmount,
+                        quizAmountQuestion = it.question.size,
                         onClick = {
                            // navigateSingleTop(DetailQuiz.routeName)
                         }

@@ -39,14 +39,16 @@ import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R.drawable
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.extensions.Empty
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 
 @Composable
 fun ItemQuiz(
     quizName: String = String.Empty,
-    @DrawableRes quizImage: Int = drawable.ic_onboard,
+    quizImage: String = "http://via.placeholder.com/640x360",
     quizProgress: Int = 0,
-    quizAmountQuestion:Int=0,
-    onClick:()->Unit={}
+    quizAmountQuestion: Int = 0,
+    onClick: () -> Unit = {}
 ) {
     val ctx = LocalContext.current
     val currentWidth = ctx
@@ -76,7 +78,11 @@ fun ItemQuiz(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = quizImage),
+                painter = rememberAsyncImagePainter(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(quizImage)
+                        .build()
+                ),
                 contentDescription = "",
                 modifier = Modifier.size(
                     cardWidth / 2
