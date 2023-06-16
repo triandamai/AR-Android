@@ -186,7 +186,6 @@ internal fun ScreenSignUp(
                     ),
                     keyboardActions = KeyboardActions(
                         onSend = {
-                            hideKeyboard()
                             dispatch(SignUpEvent.SignUpWithEmail)
                         }
                     )
@@ -215,7 +214,6 @@ internal fun ScreenSignUp(
                 enabled = state.agreeTnc
 
             ) {
-                hideKeyboard()
                 dispatch(SignUpEvent.SignUpWithEmail)
             }
             Spacer(modifier = Modifier.height(16.dp))

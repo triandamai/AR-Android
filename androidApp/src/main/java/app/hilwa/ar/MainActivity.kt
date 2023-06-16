@@ -2,9 +2,11 @@ package app.hilwa.ar
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
+import androidx.core.view.WindowCompat
 import app.hilwa.ar.base.listener.AREventListener
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.UIController

@@ -15,17 +15,16 @@ import app.hilwa.ar.data.model.QuizQuestion
 val dummyQuiz: List<Quiz> = listOf(
     Quiz(
         id = "001",
-        quizImage = R.drawable.ic_quiz,
+        quizImage = "http://via.placeholder.com/640x360",
         quizTitle = "Mengenal bagian-bagian Otak Manusia",
         quizDescription = "Quiz yang mempelajari lebih lanjut apa saja bagian bagia pada otak manusia",
         quizDuration = "10 Menit",
-        quizQuestionAmount = 10,
-        progress=3,
+        progress = 3,
         question = listOf(
             QuizQuestion(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
-                image = R.drawable.ic_quiz,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 4",
                     "Otak 3",
@@ -36,7 +35,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
-                image = R.drawable.ic_start_ar,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 5",
                     "Otak 4",
@@ -47,7 +46,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
-                image = R.drawable.ic_about,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 1",
                     "Otak 6",
@@ -58,7 +57,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
-                image = R.drawable.ic_quiz,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 1",
                     "Otak 7",
@@ -69,7 +68,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
-                image = R.drawable.ic_start_ar,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 10",
                     "Otak 5",
@@ -80,7 +79,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
-                image = R.drawable.ic_about,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 3",
                     "Otak 8",
@@ -92,17 +91,16 @@ val dummyQuiz: List<Quiz> = listOf(
     ),
     Quiz(
         id = "001",
-        quizImage = R.drawable.ic_start_ar,
+        quizImage = "http://via.placeholder.com/640x360",
         quizTitle = "Bagian Otak Part I",
         quizDescription = "Quiz yang mempelajari lebih lanjut apa saja bagian bagia pada otak manusia",
         quizDuration = "10 Menit",
-        quizQuestionAmount = 10,
-        progress=1,
+        progress = 1,
         question = listOf(
             QuizQuestion(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
-                image = R.drawable.ic_quiz,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 4",
                     "Otak 3",
@@ -113,7 +111,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
-                image = R.drawable.ic_start_ar,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 5",
                     "Otak 4",
@@ -124,7 +122,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
-                image = R.drawable.ic_about,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 1",
                     "Otak 6",
@@ -135,7 +133,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
-                image = R.drawable.ic_quiz,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 1",
                     "Otak 7",
@@ -146,7 +144,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
-                image = R.drawable.ic_start_ar,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 10",
                     "Otak 5",
@@ -157,7 +155,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
-                image = R.drawable.ic_about,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 3",
                     "Otak 8",
@@ -169,17 +167,16 @@ val dummyQuiz: List<Quiz> = listOf(
     ),
     Quiz(
         id = "001",
-        quizImage = R.drawable.ic_onboard,
+        quizImage = "http://via.placeholder.com/640x360",
         quizTitle = "Bagian Otak Advanced",
         quizDescription = "Quiz yang mempelajari lebih lanjut apa saja bagian bagia pada otak manusia",
         quizDuration = "10 Menit",
-        quizQuestionAmount = 10,
-        progress=8,
+        progress = 8,
         question = listOf(
             QuizQuestion(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
-                image = R.drawable.ic_quiz,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 4",
                     "Otak 3",
@@ -190,7 +187,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
-                image = R.drawable.ic_start_ar,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 5",
                     "Otak 4",
@@ -201,7 +198,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
-                image = R.drawable.ic_about,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 1",
                     "Otak 6",
@@ -212,7 +209,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
-                image = R.drawable.ic_quiz,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 1",
                     "Otak 7",
@@ -223,7 +220,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
-                image = R.drawable.ic_start_ar,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 10",
                     "Otak 5",
@@ -234,7 +231,7 @@ val dummyQuiz: List<Quiz> = listOf(
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
-                image = R.drawable.ic_about,
+                image = "http://via.placeholder.com/640x360",
                 answer = listOf(
                     "Otak 3",
                     "Otak 8",

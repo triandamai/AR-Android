@@ -24,7 +24,7 @@ class SignUpViewModel @Inject constructor(
     private fun showLoading() = commit { copy(isLoading = true) }
     private fun hideLoading() = commit { copy(isLoading = false) }
     private fun validateData(cb: suspend (String, String, String) -> Unit) = asyncWithState {
-        context.hideKeyboard()
+        keyboard.onHideKeyboard()
         when {
             email.isEmpty()
                     || password.isEmpty()
@@ -38,6 +38,8 @@ class SignUpViewModel @Inject constructor(
                 .matcher(email)
                 .matches() -> snackbar.showSnackbar(R.string.alert_validation_email)
 
+            !agreeTnc ->
+                snackbar.showSnackbar(R.string.error_message_agree_tnc)
             else -> {
                 cb(displayName, email, password)
             }

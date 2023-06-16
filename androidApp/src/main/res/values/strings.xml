@@ -207,4 +207,5 @@
     <string name="system">Bawaan</string>
     <string name="title_home">Hi, Selamat datang!</string>
     <string name="subtitle_home">%1$s 👋</string>
+    <string name="error_message_agree_tnc">Mohon setujui dulu kebijakan privasi!</string>
 </resources>
