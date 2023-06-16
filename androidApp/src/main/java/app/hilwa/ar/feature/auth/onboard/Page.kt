@@ -25,7 +25,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R
-import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.BottomSheetPrivacyPolicy
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ButtonSecondary
@@ -33,6 +32,7 @@ import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.signin.SignIn
 import app.hilwa.ar.feature.auth.signup.SignUp
+import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
 import app.trian.core.ui.UIListener
@@ -43,9 +43,14 @@ object Onboard {
     const val routeName = "Onboard"
 }
 
+
+@Navigation(
+    route = Onboard.routeName,
+    viewModel = OnboardViewModel::class
+)
 @Composable
 internal fun ScreenOnboard(
-    uiEvent:UIListener<OnboardState,OnboardEvent, AREventListener>
+    uiEvent:UIListener<OnboardState,OnboardEvent>
 ) = UIWrapper(uiEvent ) {
     val privacyPolicyText = listOf(
         TextType.Text(stringResource(id = R.string.text_license_agreement)),
@@ -177,9 +182,7 @@ fun PreviewScreenOnboard() {
     BaseMainApp {
         ScreenOnboard(
             uiEvent = UIListener(
-                controller = rememberUIController(
-                    event = AREventListener()
-                ),
+                controller = rememberUIController(),
                 state = OnboardState()
             )
         )

@@ -28,7 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R.string
-import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.AppbarAuth
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
@@ -37,6 +36,7 @@ import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.resetPassword.ResetPassword
 import app.hilwa.ar.feature.auth.signup.SignUp
+import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
 import app.trian.core.ui.UIListener
@@ -47,9 +47,13 @@ object SignIn {
     const val routeName = "SignIn"
 }
 
+@Navigation(
+    route = SignIn.routeName,
+    viewModel = SignInViewModel::class
+)
 @Composable
 internal fun ScreenSignIn(
-    uiEvent: UIListener<SignInState,SignInEvent, AREventListener>
+    uiEvent: UIListener<SignInState,SignInEvent>
 ) = UIWrapper(uiEvent) {
     val forgetPasswordTextType = listOf(
         TextType.Text(stringResource(id = string.label_forgot_password)),
@@ -190,9 +194,7 @@ fun PreviewScreenSignIn() {
     BaseMainApp {
         ScreenSignIn(
             uiEvent = UIListener(
-                controller = rememberUIController(
-                    event = AREventListener()
-                ),
+                controller = rememberUIController(),
                 commit = {
                          state = it
                 },

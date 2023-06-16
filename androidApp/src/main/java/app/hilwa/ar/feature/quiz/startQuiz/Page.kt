@@ -41,16 +41,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ButtonSecondary
 import app.hilwa.ar.components.HeaderStepWithProgress
 import app.hilwa.ar.components.ItemQuizOption
+import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
 import app.trian.core.ui.UIListenerData
-import app.trian.core.ui.UiWrapperData
+import app.trian.core.ui.UIWrapper
 import app.trian.core.ui.extensions.coloredShadow
 import app.trian.core.ui.rememberUIController
 import coil.compose.rememberAsyncImagePainter
@@ -60,14 +60,19 @@ object StartQuiz {
     const val routeName = "Quiz"
 }
 
+@Navigation(
+    route = StartQuiz.routeName,
+    viewModel = StartQuizViewModel::class
+)
 @Composable
 internal fun ScreenStartQuiz(
-    uiEvent: UIListenerData<StartQuizState, StartQuizDataState, StartQuizEvent, AREventListener>
-) = UiWrapperData(uiEvent) {
+    uiEvent: UIListenerData<StartQuizState, StartQuizDataState, StartQuizEvent>
+) = UIWrapper(uiEvent) {
     LaunchedEffect(key1 = this, block = {
-        controller.event.addOnCountDownListener { timeout, data ->
-            if (!timeout) {
-                commit{ copy(timer = data[0]) }
+        controller.event.addOnScreenEventListener { event, data ->
+
+            if (event == "updateTimer" && data[0] == "0") {
+                commit { copy(timer = data[1]) }
             } else {
                 showSnackbar("Time up!")
             }
@@ -271,9 +276,7 @@ fun PreviewScreenStartQuiz() {
     BaseMainApp {
         ScreenStartQuiz(
             uiEvent = UIListenerData(
-                controller = rememberUIController(
-                    event = AREventListener()
-                ),
+                controller = rememberUIController(),
                 state = StartQuizState(),
                 data = StartQuizDataState()
             )

@@ -15,11 +15,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
-import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.AppbarBasic
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
+import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
 import app.trian.core.ui.UIListener
@@ -30,9 +30,14 @@ import app.trian.core.ui.rememberUIController
 object ResetPassword {
     const val routeName = "ResetPassword"
 }
+
+@Navigation(
+    route = ResetPassword.routeName,
+    viewModel = ResetPasswordViewModel::class
+)
 @Composable
 internal fun ScreenResetPassword(
-    uiEvent:UIListener<ResetPasswordState,ResetPasswordEvent, AREventListener>
+    uiEvent: UIListener<ResetPasswordState, ResetPasswordEvent>
 ) = UIWrapper(uiEvent) {
 
     DialogLoading(
@@ -93,9 +98,7 @@ fun PreviewScreenResetPassword() {
     BaseMainApp {
         ScreenResetPassword(
             uiEvent = UIListener(
-                controller = rememberUIController(
-                    event  = AREventListener()
-                ),
+                controller = rememberUIController(),
                 state = ResetPasswordState()
             )
         )

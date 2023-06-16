@@ -18,12 +18,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.ItemQuiz
+import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
 import app.trian.core.ui.UIListenerData
-import app.trian.core.ui.UiWrapperData
+import app.trian.core.ui.UIWrapper
 import app.trian.core.ui.extensions.gridItems
 import app.trian.core.ui.rememberUIController
 
@@ -32,10 +32,14 @@ object ListQuiz {
 }
 
 
+@Navigation(
+    route = ListQuiz.routeName,
+    viewModel = ListQuizViewModel::class
+)
 @Composable
 internal fun ScreenListQuiz(
-    uiEvent: UIListenerData<ListQuizState, ListQuizDataState, ListQuizEvent, AREventListener>
-) = UiWrapperData(uiEvent) {
+    uiEvent: UIListenerData<ListQuizState, ListQuizDataState, ListQuizEvent>
+) = UIWrapper(uiEvent) {
 
     BaseScreen(
         controller=controller,
@@ -82,9 +86,7 @@ fun PreviewScreenListQuiz() {
     BaseMainApp {
         ScreenListQuiz(
             uiEvent = UIListenerData(
-                controller = rememberUIController(
-                    event = AREventListener()
-                ),
+                controller = rememberUIController(),
                 state = ListQuizState(),
                 data = ListQuizDataState()
             )

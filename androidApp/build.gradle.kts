@@ -18,6 +18,7 @@ plugins {
     alias(libs.plugins.com.google.services)
     alias(libs.plugins.com.google.crashanalytics)
     id("kotlin-parcelize")
+    alias(libs.plugins.ksp)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
 }
 
@@ -94,6 +95,8 @@ android {
 
 dependencies {
     implementation(project(":core-ui"))
+    implementation(project(":core-annotation"))
+    ksp(project(":core-annotation"))
     coreLibraryDesugaring(libs.desugar.jdk.lib)
 
     implementation(libs.android.material)

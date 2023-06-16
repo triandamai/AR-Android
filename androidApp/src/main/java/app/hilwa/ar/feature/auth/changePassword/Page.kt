@@ -14,11 +14,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
-import app.hilwa.ar.base.listener.AREventListener
 import app.hilwa.ar.components.AppbarBasic
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
+import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
 import app.trian.core.ui.UIListener
@@ -29,9 +29,13 @@ object ChangePassword {
     const val routeName = "ChangePassword"
 }
 
+@Navigation(
+    route = ChangePassword.routeName,
+    viewModel = ChangePasswordViewModel::class
+)
 @Composable
 internal fun ScreenChangePassword(
-    uiEvent: UIListener<ChangePasswordState, ChangePasswordEvent, AREventListener>
+    uiEvent: UIListener<ChangePasswordState, ChangePasswordEvent>
 ) = UIWrapper(uiEvent) {
 
     DialogLoading(
@@ -104,9 +108,7 @@ fun PreviewScreenChangePassword() {
         ScreenChangePassword(
             uiEvent = UIListener(
                 state = ChangePasswordState(),
-                controller = rememberUIController(
-                    event = AREventListener()
-                )
+                controller = rememberUIController()
             )
         )
     }
