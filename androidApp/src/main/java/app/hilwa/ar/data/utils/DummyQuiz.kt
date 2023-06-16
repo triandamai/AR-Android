@@ -8,7 +8,6 @@
 
 package app.hilwa.ar.data.utils
 
-import app.hilwa.ar.R
 import app.hilwa.ar.data.model.Quiz
 import app.hilwa.ar.data.model.QuizQuestion
 
