@@ -26,7 +26,6 @@ import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
 import app.trian.core.ui.UIListenerData
 import app.trian.core.ui.UIWrapper
-import app.trian.core.ui.extensions.gridItems
 import app.trian.core.ui.rememberUIController
 
 object ListQuiz {
