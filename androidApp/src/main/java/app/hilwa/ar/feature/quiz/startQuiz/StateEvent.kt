@@ -16,14 +16,21 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
 
+
+enum class BottomSheetType {
+    TIMEOUT_CONFIRMATION,
+    CLOSE_CONFIRMATION
+}
+
+
 @Immutable
 @Parcelize
 data class StartQuizState(
     val visibleButton: Boolean = false,
     val currentIndex: Int = 0,
     val hasAnswer: String? = null,
-
-    var timer: String = String.Empty
+    val timer: String = String.Empty,
+    val bottomSheetType: BottomSheetType = BottomSheetType.TIMEOUT_CONFIRMATION
 ) : Parcelable {
 }
 
