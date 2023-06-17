@@ -34,6 +34,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -41,11 +42,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.hilwa.ar.components.BaseBottomSheet
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ButtonSecondary
 import app.hilwa.ar.components.HeaderStepWithProgress
 import app.hilwa.ar.components.ItemQuizOption
+import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
+import app.hilwa.ar.feature.quiz.startQuiz.component.BottomBarQuiz
+import app.trian.core.annotation.Argument
+import app.trian.core.annotation.DeepLink
+import app.trian.core.annotation.NavType
 import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
@@ -58,43 +65,56 @@ import coil.request.ImageRequest
 
 object StartQuiz {
     const val routeName = "Quiz"
+    const val argKey = "quizId"
 }
 
 @Navigation(
     route = StartQuiz.routeName,
     viewModel = StartQuizViewModel::class
 )
+@Argument(
+    name = StartQuiz.argKey,
+    navType = NavType.String
+)
 @Composable
 internal fun ScreenStartQuiz(
     uiEvent: UIListenerData<StartQuizState, StartQuizDataState, StartQuizEvent>
 ) = UIWrapper(uiEvent) {
+
     LaunchedEffect(key1 = this, block = {
         controller.event.addOnScreenEventListener { event, data ->
-
             if (event == "updateTimer" && data[0] == "0") {
                 commit { copy(timer = data[1]) }
             } else {
+                commit { copy(bottomSheetType = BottomSheetType.TIMEOUT_CONFIRMATION) }
+                showBottomSheet()
                 showSnackbar("Time up!")
+            }
+        }
+
+        controller.event.addOnBottomSheetChangeListener {
+
+
+            when (state.bottomSheetType) {
+                BottomSheetType.TIMEOUT_CONFIRMATION -> false
+                BottomSheetType.CLOSE_CONFIRMATION -> true
             }
         }
     })
 
     fun onBackPressed() {
-        if (state.currentIndex == 0) {
-            showBottomSheet()
-        } else {
-            dispatch(StartQuizEvent.Prev)
-        }
+        if (state.currentIndex == 0) showBottomSheet()
+        else dispatch(StartQuizEvent.Prev)
     }
     BackHandler {
         onBackPressed()
     }
 
     LaunchedEffect(
-        key1 = this,
+        key1 = state.currentIndex,
         block = {
             if (state.currentIndex == 0) {
-                //controller.sendEvent(ScreenToAppEvent().START_TIMER)
+                controller.event.sendEventToApp("START_TIMER")
             }
         }
     )
@@ -102,81 +122,68 @@ internal fun ScreenStartQuiz(
     BaseScreen(
         controller = controller,
         bottomBar = {
-            AnimatedVisibility(
-                visible = state.visibleButton,
-                enter = slideInVertically(
-                    initialOffsetY = {
-                        it / 2
-                    },
-                ),
-                exit = slideOutVertically(
-                    targetOffsetY = {
-                        it / 2
-                    },
-                )
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .coloredShadow(
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 20.dp,
-                                topEnd = 20.dp
-                            )
-                        )
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(
-                            top = 25.dp,
-                            bottom = 16.dp
-                        ),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    ButtonSecondary(
-                        text = "Kembali",
-                        modifier = Modifier
-                            .defaultMinSize(
-                                minWidth = 150.dp
-                            ),
-                        fullWidth = false,
-                        onClick = {
-                            dispatch(StartQuizEvent.Prev)
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    ButtonPrimary(
-                        text = "Lanjut",
-                        modifier = Modifier
-                            .defaultMinSize(
-                                minWidth = 150.dp
-                            ),
-                        fullWidth = false,
-                        enabled = state.hasAnswer != null,
-                        onClick = {
-                            dispatch(StartQuizEvent.Next)
-                        }
-                    )
+            BottomBarQuiz(
+                show = state.visibleButton,
+                isLastQuestion = ((data.quiz.size - 1) == state.currentIndex),
+                hasAnswer = state.hasAnswer,
+                onNext = {
+                    dispatch(StartQuizEvent.Next)
+                },
+                onPrev = {
+                    dispatch(StartQuizEvent.Prev)
+                }
 
+            )
+        },
+        bottomSheet = {
+            when (state.bottomSheetType) {
+                BottomSheetType.TIMEOUT_CONFIRMATION -> {
+                    BaseBottomSheet(
+                        textConfirmation = "Oke",
+                        showButtonConfirmation = true,
+                        showCloseButton = false,
+                        onDismiss = {
+                            hideBottomSheet()
+                        },
+                        onConfirm = {
+                            hideBottomSheet()
+                            router.navigateUp()
+                        }
+                    ) {
+                        Text(
+                            text = "Waktu mengerjakan quiz sudah habis?",
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Kamu tidak bisa melanjutkan quiz ini",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.DarkGray
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+
+                BottomSheetType.CLOSE_CONFIRMATION -> {
+                    BottomSheetConfirmation(
+                        title = "Yakin keluar dari quiz  ini?",
+                        message = "Data quiz yang telah kamu isi akan hilang loh",
+                        textConfirmation = "Keluar",
+                        textCancel = "Batal",
+                        onDismiss = {
+                            hideBottomSheet()
+                        },
+                        onConfirm = {
+                            hideBottomSheet()
+                            router.navigateUp()
+                        }
+                    )
                 }
             }
 
-        },
-        bottomSheet = {
-            BottomSheetConfirmation(
-                title = "Yakin keluar dari quiz  ini?",
-                message = "Data quiz yang telah kamu isi akan hilang loh",
-                textConfirmation = "Keluar",
-                textCancel = "Batal",
-                onDismiss = {
-                    hideBottomSheet()
-                },
-                onConfirm = {
-                    //navigateUp()
-                }
-            )
         }
     ) {
         Box(

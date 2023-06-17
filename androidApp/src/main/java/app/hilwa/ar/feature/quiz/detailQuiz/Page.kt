@@ -44,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
+import app.hilwa.ar.feature.quiz.startQuiz.StartQuiz
 import app.trian.core.annotation.Argument
 import app.trian.core.annotation.DeepLink
 import app.trian.core.annotation.NavType
@@ -104,7 +105,7 @@ internal fun ScreenDetailQuiz(
                 },
                 onConfirm = {
                     hideBottomSheet()
-                    //navigateSingleTop(StartQuiz.routeName)
+                    router.navigateSingleTop(StartQuiz.routeName, state.quizId)
                 }
             )
         }
@@ -116,7 +117,7 @@ internal fun ScreenDetailQuiz(
         ) {
             IconButton(
                 onClick = {
-                    // navigateUp()
+                    router.navigateUp()
                 },
                 modifier = Modifier.align(Alignment.TopEnd)
             ) {

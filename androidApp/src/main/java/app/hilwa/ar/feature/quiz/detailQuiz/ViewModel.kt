@@ -31,12 +31,15 @@ class DetailQuizViewModel @Inject constructor(
         getQuiz()
     }
 
-    private val quizId: String by lazy {
-        savedStateHandle.get<String>(DetailQuiz.routeName).orEmpty()
-    }
+    private fun quizId(): String = savedStateHandle.get<String>(DetailQuiz.argKey).orEmpty()
 
     private fun getQuiz() = async {
-        getDetailQuizUseCase(quizId)
+        commit {
+            copy(
+                quizId=quizId()
+            )
+        }
+        getDetailQuizUseCase(quizId())
             .onEach(
                 loading = {},
                 error = {},

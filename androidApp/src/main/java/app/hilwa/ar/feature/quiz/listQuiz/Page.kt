@@ -9,6 +9,7 @@
 package app.hilwa.ar.feature.quiz.listQuiz
 
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.components.ItemQuiz
+import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
 import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
@@ -63,14 +65,15 @@ internal fun ScreenListQuiz(
     ) {
         LazyColumn(
             content = {
-                gridItems(data.quiz, columnCount = 2) {
+                items(data.quiz) {
                     ItemQuiz(
                         quizName = it.quizTitle,
                         quizImage = it.quizImage,
                         quizProgress = it.progress,
                         quizAmountQuestion = it.question.size,
                         onClick = {
-                           // navigateSingleTop(DetailQuiz.routeName)
+
+                            router.navigateSingleTop(DetailQuiz.routeName,it.id)
                         }
                     )
                 }
