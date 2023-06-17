@@ -42,10 +42,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
+import app.trian.core.annotation.Argument
+import app.trian.core.annotation.DeepLink
+import app.trian.core.annotation.NavType
 import app.trian.core.annotation.Navigation
 import app.trian.core.ui.BaseMainApp
 import app.trian.core.ui.BaseScreen
@@ -62,19 +63,19 @@ object DetailQuiz {
     fun routeName() = routeName.plus("/")
         .plus(argKey)
 
-    val navArg = listOf(
-        navArgument(argKey) {
-            type = NavType.StringType
-        }
-    )
-
 
 }
 
 @Navigation(
     route = DetailQuiz.routeName,
-    arguments=[DetailQuiz.argKey],
     viewModel = DetailQuizViewModel::class
+)
+@Argument(
+    name = DetailQuiz.argKey,
+    navType = NavType.String
+)
+@DeepLink(
+    uri = "https://app.hilwa.ar/{quizId}"
 )
 @Composable
 internal fun ScreenDetailQuiz(
