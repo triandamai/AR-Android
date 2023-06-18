@@ -18,12 +18,12 @@ import app.hilwa.ar.components.AppbarBasic
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
-import app.trian.core.annotation.Navigation
-import app.trian.core.ui.BaseMainApp
-import app.trian.core.ui.BaseScreen
-import app.trian.core.ui.UIListener
-import app.trian.core.ui.UIWrapper
-import app.trian.core.ui.rememberUIController
+import app.trian.mvi.Navigation
+import app.trian.mvi.ui.BaseMainApp
+import app.trian.mvi.ui.BaseScreen
+import app.trian.mvi.ui.UIListener
+import app.trian.mvi.ui.UIWrapper
+import app.trian.mvi.ui.rememberUIController
 
 object ChangePassword {
     const val routeName = "ChangePassword"

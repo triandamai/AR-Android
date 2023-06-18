@@ -36,12 +36,12 @@ import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.resetPassword.ResetPassword
 import app.hilwa.ar.feature.auth.signup.SignUp
-import app.trian.core.annotation.Navigation
-import app.trian.core.ui.BaseMainApp
-import app.trian.core.ui.BaseScreen
-import app.trian.core.ui.UIListener
-import app.trian.core.ui.UIWrapper
-import app.trian.core.ui.rememberUIController
+import app.trian.mvi.Navigation
+import app.trian.mvi.ui.BaseMainApp
+import app.trian.mvi.ui.BaseScreen
+import app.trian.mvi.ui.UIListener
+import app.trian.mvi.ui.UIWrapper
+import app.trian.mvi.ui.rememberUIController
 
 object SignIn {
     const val routeName = "SignIn"
@@ -53,7 +53,7 @@ object SignIn {
 )
 @Composable
 internal fun ScreenSignIn(
-    uiEvent: UIListener<SignInState,SignInEvent>
+    uiEvent: UIListener<SignInState, SignInEvent>
 ) = UIWrapper(uiEvent) {
     val forgetPasswordTextType = listOf(
         TextType.Text(stringResource(id = string.label_forgot_password)),

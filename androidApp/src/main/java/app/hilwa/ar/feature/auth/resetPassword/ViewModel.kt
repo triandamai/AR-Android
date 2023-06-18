@@ -4,8 +4,7 @@ import android.content.Context
 import android.util.Patterns
 import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.ResetPasswordUseCase
-import app.trian.core.ui.extensions.hideKeyboard
-import app.trian.core.ui.viewModel.BaseViewModel
+import app.trian.mvi.ui.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -23,7 +22,7 @@ class ResetPasswordViewModel @Inject constructor(
     private fun hideLoading() = commit { copy(isLoading = false) }
 
     private fun validateData(cb: suspend (String) -> Unit) = asyncWithState {
-        context.hideKeyboard()
+        keyboard.onHideKeyboard()
         when {
             email.isEmpty() -> snackbar.showSnackbar(R.string.alert_email_empty)
             !Patterns.EMAIL_ADDRESS

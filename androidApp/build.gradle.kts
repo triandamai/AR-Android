@@ -94,9 +94,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core-ui"))
-    implementation(project(":core-annotation"))
-    ksp(project(":core-annotation"))
+    implementation("com.github.triandamai.core-ui:ui:0.2")
+    implementation("com.github.triandamai.core-ui:processor:0.2")
+    ksp("com.github.triandamai.core-ui:processor:0.2")
     coreLibraryDesugaring(libs.desugar.jdk.lib)
 
     implementation(libs.android.material)

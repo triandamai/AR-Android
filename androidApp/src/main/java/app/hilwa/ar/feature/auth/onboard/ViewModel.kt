@@ -1,7 +1,7 @@
 package app.hilwa.ar.feature.auth.onboard
 
 import android.content.Context
-import app.trian.core.ui.viewModel.BaseViewModel
+import app.trian.mvi.ui.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

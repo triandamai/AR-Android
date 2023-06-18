@@ -8,7 +8,7 @@
 
 package app.hilwa.ar.data.model
 
-import app.trian.core.ui.extensions.Empty
+import app.trian.mvi.ui.extensions.Empty
 
 data class QuizQuestion(
     val id: String = String.Empty,

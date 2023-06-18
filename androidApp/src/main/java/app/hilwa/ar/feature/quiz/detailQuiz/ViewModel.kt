@@ -11,7 +11,7 @@ package app.hilwa.ar.feature.quiz.detailQuiz
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import app.hilwa.ar.data.domain.quiz.GetDetailQuizUseCase
-import app.trian.core.ui.viewModel.BaseViewModelData
+import app.trian.mvi.ui.viewModel.BaseViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

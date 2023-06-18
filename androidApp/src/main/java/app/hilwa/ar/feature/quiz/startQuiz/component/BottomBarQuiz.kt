@@ -28,7 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ButtonSecondary
-import app.trian.core.ui.extensions.coloredShadow
+import app.trian.mvi.ui.extensions.coloredShadow
 
 @Composable
 fun BottomBarQuiz(

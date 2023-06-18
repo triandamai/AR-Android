@@ -4,8 +4,8 @@ import android.content.Context
 import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.SignInWithEmailAndPasswordUseCase
 import app.hilwa.ar.feature.home.Home
-import app.trian.core.ui.extensions.Empty
-import app.trian.core.ui.viewModel.BaseViewModel
+import app.trian.mvi.ui.extensions.Empty
+import app.trian.mvi.ui.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

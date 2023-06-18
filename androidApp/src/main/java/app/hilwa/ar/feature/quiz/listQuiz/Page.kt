@@ -21,12 +21,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.components.ItemQuiz
 import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
-import app.trian.core.annotation.Navigation
-import app.trian.core.ui.BaseMainApp
-import app.trian.core.ui.BaseScreen
-import app.trian.core.ui.UIListenerData
-import app.trian.core.ui.UIWrapper
-import app.trian.core.ui.rememberUIController
+import app.trian.mvi.Navigation
+import app.trian.mvi.ui.BaseMainApp
+import app.trian.mvi.ui.BaseScreen
+import app.trian.mvi.ui.UIListenerData
+import app.trian.mvi.ui.UIWrapper
+import app.trian.mvi.ui.rememberUIController
 
 object ListQuiz {
     const val routeName = "ListQuiz"

@@ -18,15 +18,10 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs"){
-            from(files("core-ui/libs.versions.toml"))
+            from(files("libs.versions.toml"))
         }
     }
 
 }
 rootProject.name = "Hilwa"
 include(":androidApp")
-include(":core-ui")
-include(":core-annotation")
-
-project(":core-ui").projectDir = File("core-ui/ui")
-project(":core-annotation").projectDir = File("core-ui/annotation")

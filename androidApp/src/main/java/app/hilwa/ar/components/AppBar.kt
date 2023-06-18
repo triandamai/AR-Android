@@ -13,7 +13,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import app.trian.core.ui.BaseMainApp
+import app.trian.mvi.ui.BaseMainApp
 
 /**
  * App bar home

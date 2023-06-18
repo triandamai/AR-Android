@@ -32,12 +32,12 @@ import app.hilwa.ar.components.TextType
 import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.signin.SignIn
 import app.hilwa.ar.feature.auth.signup.SignUp
-import app.trian.core.annotation.Navigation
-import app.trian.core.ui.BaseMainApp
-import app.trian.core.ui.BaseScreen
-import app.trian.core.ui.UIListener
-import app.trian.core.ui.UIWrapper
-import app.trian.core.ui.rememberUIController
+import app.trian.mvi.Navigation
+import app.trian.mvi.ui.BaseMainApp
+import app.trian.mvi.ui.BaseScreen
+import app.trian.mvi.ui.UIListener
+import app.trian.mvi.ui.UIWrapper
+import app.trian.mvi.ui.rememberUIController
 
 object Onboard {
     const val routeName = "Onboard"
@@ -50,7 +50,7 @@ object Onboard {
 )
 @Composable
 internal fun ScreenOnboard(
-    uiEvent:UIListener<OnboardState,OnboardEvent>
+    uiEvent: UIListener<OnboardState, OnboardEvent>
 ) = UIWrapper(uiEvent ) {
     val privacyPolicyText = listOf(
         TextType.Text(stringResource(id = R.string.text_license_agreement)),
