@@ -7,13 +7,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import app.hilwa.ar.feature.splash.Splash
-import app.trian.core.ui.BaseMainApp
-import app.trian.core.ui.UIController
-import app.trian.core.ui.extensions.formatTimer
-import app.trian.core.ui.listener.BaseEventListener
-import app.trian.core.ui.listener.EventListener
-import app.trian.core.ui.rememberUIController
 import app.trian.ksp.androidAppComponent
+import app.trian.mvi.ui.BaseMainApp
+import app.trian.mvi.ui.UIController
+import app.trian.mvi.ui.extensions.formatTimer
+import app.trian.mvi.ui.listener.BaseEventListener
+import app.trian.mvi.ui.listener.EventListener
+import app.trian.mvi.ui.rememberUIController
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 

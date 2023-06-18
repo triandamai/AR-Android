@@ -11,7 +11,7 @@ package app.hilwa.ar.feature.quiz.listQuiz
 import android.os.Parcelable
 import app.hilwa.ar.data.model.Quiz
 import app.hilwa.ar.data.utils.dummyQuiz
-import app.trian.core.ui.extensions.Empty
+import app.trian.mvi.ui.extensions.Empty
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable

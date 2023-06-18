@@ -34,7 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R.drawable
-import app.trian.core.ui.BaseMainApp
+import app.trian.mvi.ui.BaseMainApp
 
 @Composable
 fun ItemHome(

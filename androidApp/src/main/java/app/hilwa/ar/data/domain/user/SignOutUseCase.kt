@@ -2,7 +2,7 @@ package app.hilwa.ar.data.domain.user
 
 import android.content.SharedPreferences
 import app.hilwa.ar.sqldelight.Database
-import app.trian.core.ui.ResultState
+import app.trian.mvi.ui.ResultState
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

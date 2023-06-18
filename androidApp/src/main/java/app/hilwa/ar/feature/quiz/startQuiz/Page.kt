@@ -40,14 +40,15 @@ import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.HeaderStepWithProgress
 import app.hilwa.ar.components.ItemQuizOption
 import app.hilwa.ar.feature.quiz.startQuiz.component.BottomBarQuiz
-import app.trian.core.annotation.Argument
-import app.trian.core.annotation.NavType
-import app.trian.core.annotation.Navigation
-import app.trian.core.ui.BaseMainApp
-import app.trian.core.ui.BaseScreen
-import app.trian.core.ui.UIListenerData
-import app.trian.core.ui.UIWrapper
-import app.trian.core.ui.rememberUIController
+import app.trian.mvi.Argument
+import app.trian.mvi.NavType
+import app.trian.mvi.Navigation
+import app.trian.mvi.ui.BaseMainApp
+import app.trian.mvi.ui.BaseScreen
+import app.trian.mvi.ui.UIListenerData
+import app.trian.mvi.ui.UIWrapper
+import app.trian.mvi.ui.rememberUIController
+
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 

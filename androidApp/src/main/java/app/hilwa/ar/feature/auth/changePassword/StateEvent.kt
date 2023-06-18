@@ -2,7 +2,7 @@ package app.hilwa.ar.feature.auth.changePassword
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
-import app.trian.core.ui.extensions.Empty
+import app.trian.mvi.ui.extensions.Empty
 import kotlinx.parcelize.Parcelize
 
 @Immutable

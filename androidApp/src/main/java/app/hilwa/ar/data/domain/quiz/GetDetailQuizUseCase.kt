@@ -10,7 +10,7 @@ package app.hilwa.ar.data.domain.quiz
 
 import app.hilwa.ar.R
 import app.hilwa.ar.data.model.Quiz
-import app.trian.core.ui.ResultState
+import app.trian.mvi.ui.ResultState
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

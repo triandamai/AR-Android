@@ -10,10 +10,9 @@ package app.hilwa.ar.feature.quiz.listQuiz
 
 import android.content.Context
 import app.hilwa.ar.data.domain.quiz.GetListQuizUseCase
-import app.trian.core.ui.viewModel.BaseViewModelData
+import app.trian.mvi.ui.viewModel.BaseViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel

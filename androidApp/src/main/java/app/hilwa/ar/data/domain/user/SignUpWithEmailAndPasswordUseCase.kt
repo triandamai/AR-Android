@@ -1,6 +1,6 @@
 package app.hilwa.ar.data.domain.user
 
-import app.trian.core.ui.ResultState
+import app.trian.mvi.ui.ResultState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest

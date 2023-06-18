@@ -9,7 +9,7 @@
 package app.hilwa.ar.feature.quiz.startQuiz
 
 import android.content.Context
-import app.trian.core.ui.viewModel.BaseViewModelData
+import app.trian.mvi.ui.viewModel.BaseViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

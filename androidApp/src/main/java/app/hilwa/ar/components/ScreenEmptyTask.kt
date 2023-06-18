@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
-import app.trian.core.ui.BaseMainApp
+import app.trian.mvi.ui.BaseMainApp
 
 /**
  * Screen Empty state

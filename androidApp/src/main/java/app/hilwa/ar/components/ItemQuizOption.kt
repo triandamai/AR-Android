@@ -27,7 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.trian.core.ui.BaseMainApp
+import app.trian.mvi.ui.BaseMainApp
 
 @Composable
 fun ItemQuizOption(

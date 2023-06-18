@@ -3,8 +3,7 @@ package app.hilwa.ar.feature.auth.changePassword
 import android.content.Context
 import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.ChangePasswordUseCase
-import app.trian.core.ui.extensions.hideKeyboard
-import app.trian.core.ui.viewModel.BaseViewModel
+import app.trian.mvi.ui.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -26,7 +25,7 @@ class ChangePasswordViewModel @Inject constructor(
         cb: suspend (String) -> Unit
     ) = asyncWithState {
 
-        context.hideKeyboard()
+        keyboard.onHideKeyboard()
         when {
             newPassword != confirmPassword ->
                 snackbar.showSnackbar(R.string.message_confirm_password_not_match)
