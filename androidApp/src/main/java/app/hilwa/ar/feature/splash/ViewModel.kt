@@ -4,16 +4,18 @@ import android.content.Context
 import app.hilwa.ar.data.domain.user.CheckSessionUserUseCase
 import app.hilwa.ar.feature.auth.onboard.Onboard
 import app.hilwa.ar.feature.home.Home
-import app.trian.mvi.ui.viewModel.BaseViewModelData
+import app.trian.mvi.ui.viewModel.MviViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    @ApplicationContext context: Context,
     private val checkSessionUserUseCase: CheckSessionUserUseCase,
-) : BaseViewModelData<SplashUiState, SplashUiDataState, SplashEvent>(context,SplashUiState(),SplashUiDataState()) {
+) : MviViewModelData<SplashUiState, SplashUiDataState, SplashEvent>(
+    SplashUiState(),
+    SplashUiDataState()
+) {
     init {
         handleActions()
     }
@@ -21,10 +23,10 @@ class SplashViewModel @Inject constructor(
     private fun checkIfUserLoggedIn() = async {
         checkSessionUserUseCase().collect {
             if (it) {
-                navigation.navigateAndReplace(Home.routeName)
+                controller.navigator.navigateAndReplace(Home.routeName)
                 onCleared()
             } else {
-                navigation.navigateAndReplace(Onboard.routeName)
+                controller.navigator.navigateAndReplace(Onboard.routeName)
                 onCleared()
             }
         }
@@ -33,7 +35,7 @@ class SplashViewModel @Inject constructor(
 
 
     override fun handleActions() = onEvent {
-        when(it){
+        when (it) {
             SplashEvent.CheckSession -> checkIfUserLoggedIn()
         }
     }

@@ -12,6 +12,9 @@ import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import app.hilwa.ar.R.drawable
 import app.hilwa.ar.data.model.HomeMenu
+import app.hilwa.ar.data.model.Quiz
+import app.hilwa.ar.data.utils.dummyQuiz
+import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
@@ -33,21 +36,25 @@ data class HomeDataState constructor(
             name = "Coba AR",
             description = "Lihat macam-macam bagian otak dan ketahui apa " +
                     "saja kegunaan dari setiap bagian",
-            image = drawable.ic_start_ar
+            image = drawable.ic_start_ar,
+            route = ListQuiz.routeName
         ),
         HomeMenu(
             name = "Quiz",
             description = "Uji pemahaman kamu tentang bagian-bagian otak manusia" +
                     " yang sudah kamu pelajari sebelumnya",
-            image = drawable.ic_quiz
+            image = drawable.ic_quiz,
+            route = ListQuiz.routeName
         ),
         HomeMenu(
             name = "Tentang Aplikasi",
             description = "Ketahui lebih lanjut tentang creator aplikasi",
-            image = drawable.ic_about
+            image = drawable.ic_about,
+            route = ListQuiz.routeName
         )
-    )
-) :  Parcelable {
+    ),
+    val latestQuiz: @RawValue List<Quiz> = dummyQuiz.take(2)
+) : Parcelable {
 }
 
 

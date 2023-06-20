@@ -14,10 +14,10 @@ import app.hilwa.ar.data.model.QuizQuestion
 val dummyQuiz: List<Quiz> = listOf(
     Quiz(
         id = "001",
-        quizImage = "http://via.placeholder.com/640x360",
+        quizImage = "https://quiz-questions.uk/wp-content/uploads/2021/02/quiz-questions.png",
         quizTitle = "Mengenal bagian-bagian Otak Manusia",
         quizDescription = "Quiz yang mempelajari lebih lanjut apa saja bagian bagia pada otak manusia",
-        quizDuration = "10 Menit",
+        quizDuration = 10,
         progress = 3,
         question = listOf(
             QuizQuestion(
@@ -90,10 +90,10 @@ val dummyQuiz: List<Quiz> = listOf(
     ),
     Quiz(
         id = "001",
-        quizImage = "http://via.placeholder.com/640x360",
+        quizImage = "https://quiz-questions.uk/wp-content/uploads/2021/02/quiz-questions.png",
         quizTitle = "Bagian Otak Part I",
         quizDescription = "Quiz yang mempelajari lebih lanjut apa saja bagian bagia pada otak manusia",
-        quizDuration = "10 Menit",
+        quizDuration = 30,
         progress = 1,
         question = listOf(
             QuizQuestion(
@@ -166,10 +166,10 @@ val dummyQuiz: List<Quiz> = listOf(
     ),
     Quiz(
         id = "001",
-        quizImage = "http://via.placeholder.com/640x360",
+        quizImage = "https://quiz-questions.uk/wp-content/uploads/2021/02/quiz-questions.png",
         quizTitle = "Bagian Otak Advanced",
         quizDescription = "Quiz yang mempelajari lebih lanjut apa saja bagian bagia pada otak manusia",
-        quizDuration = "10 Menit",
+        quizDuration = 40,
         progress = 8,
         question = listOf(
             QuizQuestion(

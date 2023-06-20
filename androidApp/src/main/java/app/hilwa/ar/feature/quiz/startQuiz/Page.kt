@@ -45,10 +45,9 @@ import app.trian.mvi.NavType
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
-import app.trian.mvi.ui.UIListenerData
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.rememberUIController
-
+import app.trian.mvi.ui.internal.UIListenerData
+import app.trian.mvi.ui.internal.rememberUIController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 
@@ -71,19 +70,18 @@ internal fun ScreenStartQuiz(
 ) = UIWrapper(uiEvent) {
 
     LaunchedEffect(key1 = this, block = {
-        controller.event.addOnScreenEventListener { event, data ->
+        controller.eventListener.addOnScreenEventListener { event, data ->
             if (event == "updateTimer" && data[0] == "0") {
                 commit { copy(timer = data[1]) }
             } else {
                 commit { copy(bottomSheetType = BottomSheetType.TIMEOUT_CONFIRMATION) }
-                showBottomSheet()
-                showSnackbar("Time up!")
+                controller.bottomSheet.show()
+                controller.snackBar.show("Time up!")
             }
         }
 
-        controller.event.addOnBottomSheetChangeListener {
 
-
+        controller.eventListener.addOnBottomSheetChangeListener {
             when (state.bottomSheetType) {
                 BottomSheetType.TIMEOUT_CONFIRMATION -> false
                 BottomSheetType.CLOSE_CONFIRMATION -> true
@@ -92,7 +90,7 @@ internal fun ScreenStartQuiz(
     })
 
     fun onBackPressed() {
-        if (state.currentIndex == 0) showBottomSheet()
+        if (state.currentIndex == 0) controller.bottomSheet.show()
         else dispatch(StartQuizEvent.Prev)
     }
     BackHandler {
@@ -103,7 +101,7 @@ internal fun ScreenStartQuiz(
         key1 = state.currentIndex,
         block = {
             if (state.currentIndex == 0) {
-                controller.event.sendEventToApp("START_TIMER")
+                controller.eventListener.sendEventToApp("START_TIMER")
             }
         }
     )
@@ -132,11 +130,11 @@ internal fun ScreenStartQuiz(
                         showButtonConfirmation = true,
                         showCloseButton = false,
                         onDismiss = {
-                            hideBottomSheet()
+                            controller.bottomSheet.hide()
                         },
                         onConfirm = {
-                            hideBottomSheet()
-                            router.navigateUp()
+                            controller.bottomSheet.hide()
+                            navigator.navigateUp()
                         }
                     ) {
                         Text(
@@ -163,11 +161,11 @@ internal fun ScreenStartQuiz(
                         textConfirmation = "Keluar",
                         textCancel = "Batal",
                         onDismiss = {
-                            hideBottomSheet()
+                            controller.bottomSheet.hide()
                         },
                         onConfirm = {
-                            hideBottomSheet()
-                            router.navigateUp()
+                            controller.bottomSheet.hide()
+                            navigator.navigateUp()
                         }
                     )
                 }
@@ -257,7 +255,10 @@ internal fun ScreenStartQuiz(
                     total = data.quiz.size,
                     onBackPress = ::onBackPressed,
                     onClose = {
-                        showBottomSheet()
+                        commit {
+                            copy(bottomSheetType = BottomSheetType.CLOSE_CONFIRMATION)
+                        }
+                        controller.bottomSheet.show()
                     }
                 )
             }

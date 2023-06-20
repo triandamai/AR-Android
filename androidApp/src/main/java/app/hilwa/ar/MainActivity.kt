@@ -7,13 +7,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import app.hilwa.ar.feature.splash.Splash
-import app.trian.ksp.androidAppComponent
+import app.trian.mvi.androidAppComponent
 import app.trian.mvi.ui.BaseMainApp
-import app.trian.mvi.ui.UIController
 import app.trian.mvi.ui.extensions.formatTimer
-import app.trian.mvi.ui.listener.BaseEventListener
-import app.trian.mvi.ui.listener.EventListener
-import app.trian.mvi.ui.rememberUIController
+import app.trian.mvi.ui.internal.UIController
+import app.trian.mvi.ui.internal.listener.BaseEventListener
+import app.trian.mvi.ui.internal.listener.EventListener
+import app.trian.mvi.ui.internal.rememberUIController
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
             )
             BaseMainApp(uiController) {
                 NavHost(
-                    navController = uiController.router,
+                    navController = uiController.navigator.navHost,
                     startDestination = Splash.routeName
                 ) {
                     androidAppComponent(it)
@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun listen() {
-        uiController.event.addOnAppEventListener { event, params ->
+        uiController.eventListener.addOnAppEventListener { event, params ->
             when (event) {
                 "CANCEL_TIMER" -> countDown.cancel()
                 "EXIT" -> finish()

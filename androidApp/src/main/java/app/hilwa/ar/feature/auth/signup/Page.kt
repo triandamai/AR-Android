@@ -35,9 +35,9 @@ import app.hilwa.ar.feature.auth.signin.SignIn
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
-import app.trian.mvi.ui.UIListener
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.rememberUIController
+import app.trian.mvi.ui.internal.UIListener
+import app.trian.mvi.ui.internal.rememberUIController
 
 
 object SignUp {
@@ -73,14 +73,14 @@ internal fun ScreenSignUp(
         topAppBar = {
             AppbarAuth(
                 onBackPressed = {
-                    router.navigateUp()
+                    navigator.navigateUp()
                 }
             )
         },
         bottomSheet = {
             BottomSheetPrivacyPolicy(
                 onAccept = {
-                    hideBottomSheet()
+                    controller.bottomSheet.hide()
                     commit { copy(agreeTnc = true) }
                 }
             )
@@ -106,7 +106,7 @@ internal fun ScreenSignUp(
                     labels = signInText,
                     onTextClick = {
                         if (it == 1) {
-                            router.navigateAndReplace(SignIn.routeName)
+                            controller.navigator.navigateAndReplace(SignIn.routeName)
                         }
                     }
                 )
@@ -169,7 +169,7 @@ internal fun ScreenSignUp(
                     ),
                     keyboardActions = KeyboardActions(
                         onSend = {
-                            hideKeyboard()
+                            controller.keyboard.hide()
                             dispatch(SignUpEvent.SignUpWithEmail)
                         }
                     )
@@ -206,7 +206,7 @@ internal fun ScreenSignUp(
                     checked = state.agreeTnc,
                     onTextClick = {
                         if (it == 1) {
-                            showBottomSheet()
+                            controller.bottomSheet.show()
                         }
                     },
                     onCheckedChange = {
@@ -236,7 +236,6 @@ fun PreviewScreenSignUp() {
             uiEvent = UIListener(
                 state = SignUpState(),
                 controller = rememberUIController(),
-                commit = {},
                 dispatcher = {}
             )
         )

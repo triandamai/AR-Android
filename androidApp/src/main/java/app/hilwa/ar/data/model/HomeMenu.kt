@@ -9,8 +9,11 @@
 package app.hilwa.ar.data.model
 
 import app.hilwa.ar.R.drawable
+import app.trian.mvi.ui.extensions.Empty
+
 data class HomeMenu(
-    val name:String="",
-    val description:String="",
-    val image:Int= drawable.ic_about
+    val name: String = "",
+    val description: String = "",
+    val image: Int = drawable.ic_about,
+    val route: String = String.Empty
 )

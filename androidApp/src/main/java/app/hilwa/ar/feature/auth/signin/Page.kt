@@ -39,9 +39,9 @@ import app.hilwa.ar.feature.auth.signup.SignUp
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
-import app.trian.mvi.ui.UIListener
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.rememberUIController
+import app.trian.mvi.ui.internal.UIListener
+import app.trian.mvi.ui.internal.rememberUIController
 
 object SignIn {
     const val routeName = "SignIn"
@@ -72,7 +72,7 @@ internal fun ScreenSignIn(
     )
     BaseScreen(
         controller = controller,
-        topAppBar = { AppbarAuth(onBackPressed = { router.navigateBackAndClose() }) }
+        topAppBar = { AppbarAuth(onBackPressed = { navigator.navigateBackAndClose() }) }
     ) {
         Column(
             modifier = Modifier
@@ -148,7 +148,7 @@ internal fun ScreenSignIn(
                     labels = forgetPasswordTextType,
                     onTextClick = {
                         if (it == 1) {
-                            router.navigateSingleTop(ResetPassword.routeName)
+                            navigator.navigateSingleTop(ResetPassword.routeName)
                         }
                     }
                 )
@@ -169,7 +169,7 @@ internal fun ScreenSignIn(
                             labels = signUp,
                             onTextClick = {
                                 if (it == 1) {
-                                    router.navigateSingleTop(SignUp.routeName)
+                                    navigator.navigateSingleTop(SignUp.routeName)
                                 }
                             }
                         )
@@ -195,9 +195,6 @@ fun PreviewScreenSignIn() {
         ScreenSignIn(
             uiEvent = UIListener(
                 controller = rememberUIController(),
-                commit = {
-                         state = it
-                },
                 dispatcher = {},
                 state = SignInState()
             )

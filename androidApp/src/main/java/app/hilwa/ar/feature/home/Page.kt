@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,10 +38,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,14 +53,16 @@ import app.hilwa.ar.R
 import app.hilwa.ar.components.DialogConfirmation
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.ItemHome
+import app.hilwa.ar.feature.home.components.ItemFeature
+import app.hilwa.ar.feature.home.components.ItemLatestQuiz
+import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
 import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
-import app.trian.mvi.ui.UIListenerData
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.extensions.hideKeyboard
-import app.trian.mvi.ui.rememberUIController
+import app.trian.mvi.ui.internal.UIListenerData
+import app.trian.mvi.ui.internal.rememberUIController
 
 object Home {
     const val routeName = "Home"
@@ -71,15 +78,14 @@ internal fun ScreenHome(
 ) = UIWrapper(uiEvent) {
 
     LaunchedEffect(key1 = this, block = {
-        controller.event.addOnBottomSheetChangeListener() {
+        controller.eventListener.addOnBottomSheetChangeListener() {
             when (it) {
                 Hidden -> {
-                    controller.context.hideKeyboard()
+                    controller.keyboard.hide()
                     true
                 }
 
-                ModalBottomSheetValue.Expanded -> true
-                ModalBottomSheetValue.HalfExpanded -> true
+                else -> true
             }
         }
     })
@@ -120,13 +126,21 @@ internal fun ScreenHome(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
+                Column(
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.Start
                 ) {
-                    Icon(imageVector = Icons.Outlined.AmpStories, contentDescription = "")
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "125")
+                    Text(
+                        text = "Selamat datang",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                    Text(
+                        text = "Hilwa",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
                 }
                 Box(
                     modifier = Modifier
@@ -147,7 +161,6 @@ internal fun ScreenHome(
                 .padding(bottom = 8.dp)
                 .fillMaxSize()
         ) {
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -167,31 +180,97 @@ internal fun ScreenHome(
                             )
                     ) {
                         Text(
-                            text = stringResource(R.string.title_home),
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Normal
-                            ),
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            text = stringResource(R.string.subtitle_home, "Hilwa"),
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                fontSize = 26.sp,
-                                fontWeight = FontWeight.Normal,
-                                color = MaterialTheme.colorScheme.primary
-                            ),
-                            textAlign = TextAlign.Start
+                            text = buildAnnotatedString {
+                                append("Take a ")
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = Color.Black,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) {
+                                    append("test")
+                                }
+                                append(" and ")
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = Color.Black,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) {
+                                    append("get reward")
+                                }
+                            },
+                            style = MaterialTheme.typography.headlineSmall,
+                            modifier = Modifier.fillMaxWidth(fraction = 0.6f)
                         )
                     }
                 }
-                items(data.menu) { data ->
-                    ItemHome(
-                        name = data.name,
-                        description = data.description,
-                        image = data.image,
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
+                    LazyRow(
+                        content = {
+                            items(data.menu) {
+                                ItemFeature(
+                                    name = it.name,
+                                    image = it.image,
+                                    onClick = {
+                                        navigator.navigateSingleTop(it.route)
+                                    }
+                                )
+                            }
+                        }
+                    )
+                }
+                item {
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Top,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = 20.dp
+                            )
+                    ) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                text = buildAnnotatedString {
+                                    append("Quiz ")
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = Color.Black,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
+                                    ) {
+                                        append("Terbaru")
+                                    }
+                                },
+                                style = MaterialTheme.typography.headlineSmall,
+                                modifier = Modifier.fillMaxWidth(fraction = 0.6f)
+                            )
+                            Text(
+                                text = "Lihat semua",
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+                items(data.latestQuiz) {
+                    ItemLatestQuiz(
+                        quizName = it.quizTitle,
+                        quizTotalQuestion = "${it.question.size} Soal",
+                        quizDuration = "${it.quizDuration} Menit",
                         onClick = {
-                            router.navigateSingleTop(ListQuiz.routeName)
+                            navigator.navigate(
+                                DetailQuiz.routeName, it.id
+                            )
                         }
                     )
                 }

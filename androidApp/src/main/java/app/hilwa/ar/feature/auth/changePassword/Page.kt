@@ -21,9 +21,9 @@ import app.hilwa.ar.components.FormInput
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
-import app.trian.mvi.ui.UIListener
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.rememberUIController
+import app.trian.mvi.ui.internal.UIListener
+import app.trian.mvi.ui.internal.rememberUIController
 
 object ChangePassword {
     const val routeName = "ChangePassword"
@@ -47,7 +47,7 @@ internal fun ScreenChangePassword(
         topAppBar = {
             AppbarBasic(
                 title = stringResource(id = R.string.title_appbar_change_password),
-                onBackPressed = { router.navigateUp() })
+                onBackPressed = { navigator.navigateUp() })
         }
     ) {
         Column(
