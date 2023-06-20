@@ -8,19 +8,15 @@
 
 package app.hilwa.ar.feature.quiz.listQuiz
 
-import android.content.Context
 import app.hilwa.ar.data.domain.quiz.GetListQuizUseCase
-import app.trian.mvi.ui.viewModel.BaseViewModelData
+import app.trian.mvi.ui.viewModel.MviViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class ListQuizViewModel @Inject constructor(
-    @ApplicationContext context: Context,
     private val getListQuizUseCase: GetListQuizUseCase
-) : BaseViewModelData<ListQuizState, ListQuizDataState, ListQuizEvent>(
-    context,
+) : MviViewModelData<ListQuizState, ListQuizDataState, ListQuizEvent>(
     ListQuizState(),
     ListQuizDataState()
 ) {

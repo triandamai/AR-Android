@@ -8,17 +8,13 @@
 
 package app.hilwa.ar.feature.quiz.startQuiz
 
-import android.content.Context
-import app.trian.mvi.ui.viewModel.BaseViewModelData
+import app.trian.mvi.ui.viewModel.MviViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class StartQuizViewModel @Inject constructor(
-    @ApplicationContext context:Context
-) : BaseViewModelData<StartQuizState, StartQuizDataState, StartQuizEvent>(
-    context,
+) : MviViewModelData<StartQuizState, StartQuizDataState, StartQuizEvent>(
     StartQuizState(),
     StartQuizDataState()
 ) {

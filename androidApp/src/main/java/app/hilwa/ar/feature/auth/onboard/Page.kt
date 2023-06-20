@@ -35,9 +35,9 @@ import app.hilwa.ar.feature.auth.signup.SignUp
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
-import app.trian.mvi.ui.UIListener
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.rememberUIController
+import app.trian.mvi.ui.internal.UIListener
+import app.trian.mvi.ui.internal.rememberUIController
 
 object Onboard {
     const val routeName = "Onboard"
@@ -62,7 +62,7 @@ internal fun ScreenOnboard(
         bottomSheet = {
             BottomSheetPrivacyPolicy(
                 onAccept = {
-                    hideBottomSheet()
+                    controller.bottomSheet.hide()
                 }
             )
         }
@@ -146,7 +146,7 @@ internal fun ScreenOnboard(
                             ),
                         fullWidth = false
                     ) {
-                        router.navigateAndReplace(SignIn.routeName)
+                        navigator.navigateAndReplace(SignIn.routeName)
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     ButtonSecondary(
@@ -157,7 +157,7 @@ internal fun ScreenOnboard(
                             ),
                         fullWidth = false
                     ) {
-                        router.navigateSingleTop(SignUp.routeName)
+                        navigator.navigateSingleTop(SignUp.routeName)
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -165,7 +165,7 @@ internal fun ScreenOnboard(
                     labels = privacyPolicyText,
                     onTextClick = {
                         if (it == 1) {
-                            showBottomSheet()
+                            controller.bottomSheet.show()
                         }
                     }
                 )

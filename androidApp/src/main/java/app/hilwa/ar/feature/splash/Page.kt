@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
-import app.trian.mvi.ui.UIListenerData
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.rememberUIController
+import app.trian.mvi.ui.internal.UIListenerData
+import app.trian.mvi.ui.internal.rememberUIController
 
 object Splash {
     const val routeName = "Splash"

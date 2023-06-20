@@ -22,9 +22,9 @@ import app.hilwa.ar.components.FormInput
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
-import app.trian.mvi.ui.UIListener
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.rememberUIController
+import app.trian.mvi.ui.internal.UIListener
+import app.trian.mvi.ui.internal.rememberUIController
 
 
 object ResetPassword {
@@ -51,7 +51,7 @@ internal fun ScreenResetPassword(
             AppbarBasic(
                 title = stringResource(id = R.string.title_appbar_reset_password),
                 onBackPressed = {
-                    router.navigateUp()
+                    navigator.navigateUp()
                 }
             )
         }

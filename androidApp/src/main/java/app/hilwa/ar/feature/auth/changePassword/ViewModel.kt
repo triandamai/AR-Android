@@ -1,18 +1,15 @@
 package app.hilwa.ar.feature.auth.changePassword
 
-import android.content.Context
 import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.ChangePasswordUseCase
-import app.trian.mvi.ui.viewModel.BaseViewModel
+import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
-    @ApplicationContext context: Context,
     private val changePasswordUseCase: ChangePasswordUseCase
-) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>(context, ChangePasswordState()) {
+) : MviViewModel<ChangePasswordState, ChangePasswordEvent>(ChangePasswordState()) {
     init {
         handleActions()
     }
@@ -25,13 +22,13 @@ class ChangePasswordViewModel @Inject constructor(
         cb: suspend (String) -> Unit
     ) = asyncWithState {
 
-        keyboard.onHideKeyboard()
+        controller.keyboard.hide()
         when {
             newPassword != confirmPassword ->
-                snackbar.showSnackbar(R.string.message_confirm_password_not_match)
+                controller.snackBar.show(R.string.message_confirm_password_not_match)
 
             newPassword.isEmpty() || confirmPassword.isEmpty() ->
-                snackbar.showSnackbar(R.string.message_change_password_field_empty)
+                controller.snackBar.show(R.string.message_change_password_field_empty)
 
             else -> cb(newPassword)
         }
@@ -43,11 +40,11 @@ class ChangePasswordViewModel @Inject constructor(
                 changePasswordUseCase(newPassword).onEach(
                     success = {
                         hideLoading()
-                        snackbar.showSnackbar(R.string.text_message_success_change_password)
+                        controller.snackBar.show(R.string.text_message_success_change_password)
                     },
                     error = {
                         hideLoading()
-                        snackbar.showSnackbar(it)
+                        controller.snackBar.show(it)
                     },
                     loading = ::showLoading
                 )

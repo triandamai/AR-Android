@@ -15,7 +15,8 @@ data class Quiz(
     val quizImage: String= "http://via.placeholder.com/640x360",
     val quizTitle:String=String.Empty,
     val quizDescription:String=String.Empty,
-    val quizDuration:String=String.Empty,
+    val quizDuration:Long= 0L,
     val progress:Int=0,
+    val totalQuestion:Int= 0,
     val question:List<QuizQuestion> = listOf()
 )

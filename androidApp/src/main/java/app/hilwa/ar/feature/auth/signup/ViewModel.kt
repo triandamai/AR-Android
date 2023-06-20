@@ -1,21 +1,18 @@
 package app.hilwa.ar.feature.auth.signup
 
-import android.content.Context
 import android.util.Patterns
 import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.SignUpWithEmailAndPasswordUseCase
 import app.hilwa.ar.feature.auth.signin.SignIn
 import app.hilwa.ar.feature.auth.signup.SignUpEvent.SignUpWithEmail
-import app.trian.mvi.ui.viewModel.BaseViewModel
+import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    @ApplicationContext context: Context,
     private val signUpWithEmailUseCase: SignUpWithEmailAndPasswordUseCase
-) : BaseViewModel<SignUpState, SignUpEvent>(context, SignUpState()) {
+) : MviViewModel<SignUpState, SignUpEvent>(SignUpState()) {
     init {
         handleActions()
     }
@@ -23,22 +20,22 @@ class SignUpViewModel @Inject constructor(
     private fun showLoading() = commit { copy(isLoading = true) }
     private fun hideLoading() = commit { copy(isLoading = false) }
     private fun validateData(cb: suspend (String, String, String) -> Unit) = asyncWithState {
-        keyboard.onHideKeyboard()
+        controller.keyboard.hide()
         when {
             email.isEmpty()
                     || password.isEmpty()
                     || displayName.isEmpty() ->
-                snackbar.showSnackbar(R.string.message_password_or_email_cannot_empty)
+                controller.snackBar.show(R.string.message_password_or_email_cannot_empty)
 
             password != confirmPassword ->
-                snackbar.showSnackbar(R.string.message_confirm_password_not_match)
+                controller.snackBar.show(R.string.message_confirm_password_not_match)
 
             !Patterns.EMAIL_ADDRESS
                 .matcher(email)
-                .matches() -> snackbar.showSnackbar(R.string.alert_validation_email)
+                .matches() ->  controller.snackBar.show(R.string.alert_validation_email)
 
             !agreeTnc ->
-                snackbar.showSnackbar(R.string.error_message_agree_tnc)
+                controller.snackBar.show(R.string.error_message_agree_tnc)
             else -> {
                 cb(displayName, email, password)
             }
@@ -55,12 +52,12 @@ class SignUpViewModel @Inject constructor(
                 ).onEach(
                     success = {
                         hideLoading()
-                        snackbar.showSnackbar(R.string.text_message_success_register)
-                        navigation.navigateAndReplace(SignIn.routeName)
+                        controller.snackBar.show(R.string.text_message_success_register)
+                        controller.navigator.navigateAndReplace(SignIn.routeName)
                     },
                     error = {
                         hideLoading()
-                        snackbar.showSnackbar(it)
+                        controller.snackBar.show(it)
                     },
                     loading = {
                         showLoading()

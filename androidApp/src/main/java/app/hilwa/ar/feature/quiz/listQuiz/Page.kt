@@ -11,6 +11,7 @@ package app.hilwa.ar.feature.quiz.listQuiz
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -24,9 +25,9 @@ import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
-import app.trian.mvi.ui.UIListenerData
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.rememberUIController
+import app.trian.mvi.ui.internal.UIListenerData
+import app.trian.mvi.ui.internal.rememberUIController
 
 object ListQuiz {
     const val routeName = "ListQuiz"
@@ -43,7 +44,7 @@ internal fun ScreenListQuiz(
 ) = UIWrapper(uiEvent) {
 
     BaseScreen(
-        controller=controller,
+        controller = controller,
         topAppBar = {
             TopAppBar(
                 title = {
@@ -52,10 +53,14 @@ internal fun ScreenListQuiz(
                     )
                 },
                 navigationIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.ArrowBack,
-                        contentDescription = ""
-                    )
+                    IconButton(onClick = {
+                        navigator.navigateUp()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Outlined.ArrowBack,
+                            contentDescription = ""
+                        )
+                    }
                 },
                 backgroundColor = MaterialTheme.colorScheme.surface,
                 elevation = 0.dp
@@ -71,8 +76,7 @@ internal fun ScreenListQuiz(
                         quizProgress = it.progress,
                         quizAmountQuestion = it.question.size,
                         onClick = {
-
-                            router.navigateSingleTop(DetailQuiz.routeName,it.id)
+                            navigator.navigateSingleTop(DetailQuiz.routeName, it.id)
                         }
                     )
                 }

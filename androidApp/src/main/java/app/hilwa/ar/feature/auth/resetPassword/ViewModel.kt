@@ -1,19 +1,16 @@
 package app.hilwa.ar.feature.auth.resetPassword
 
-import android.content.Context
 import android.util.Patterns
 import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.ResetPasswordUseCase
-import app.trian.mvi.ui.viewModel.BaseViewModel
+import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
-    @ApplicationContext context:Context,
     private val resetPasswordUseCase: ResetPasswordUseCase
-) : BaseViewModel<ResetPasswordState, ResetPasswordEvent>(context,ResetPasswordState()) {
+) : MviViewModel<ResetPasswordState, ResetPasswordEvent>(ResetPasswordState()) {
     init {
         handleActions()
     }
@@ -22,12 +19,12 @@ class ResetPasswordViewModel @Inject constructor(
     private fun hideLoading() = commit { copy(isLoading = false) }
 
     private fun validateData(cb: suspend (String) -> Unit) = asyncWithState {
-        keyboard.onHideKeyboard()
+        controller.keyboard.hide()
         when {
-            email.isEmpty() -> snackbar.showSnackbar(R.string.alert_email_empty)
+            email.isEmpty() -> controller.snackBar.show(R.string.alert_email_empty)
             !Patterns.EMAIL_ADDRESS
                 .matcher(email)
-                .matches() -> snackbar.showSnackbar(R.string.alert_validation_email)
+                .matches() -> controller.snackBar.show(R.string.alert_validation_email)
 
             else -> cb(email)
         }
@@ -40,12 +37,12 @@ class ResetPasswordViewModel @Inject constructor(
                     .onEach(
                         success = {
                             hideLoading()
-                            snackbar.showSnackbar(R.string.message_success_reset_password)
-                            navigation.navigateUp()
+                            controller.snackBar.show(R.string.message_success_reset_password)
+                            controller.navigator.navigateUp()
                         },
                         error = {
                             hideLoading()
-                            snackbar.showSnackbar(it)
+                            controller.snackBar.show(it)
                         },
                         loading = ::showLoading
                     )
