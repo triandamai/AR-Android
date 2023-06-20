@@ -1,12 +1,10 @@
 package app.hilwa.ar.feature.splash
 
-import android.content.Context
 import app.hilwa.ar.data.domain.user.CheckSessionUserUseCase
 import app.hilwa.ar.feature.auth.onboard.Onboard
 import app.hilwa.ar.feature.home.Home
 import app.trian.mvi.ui.viewModel.MviViewModelData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
