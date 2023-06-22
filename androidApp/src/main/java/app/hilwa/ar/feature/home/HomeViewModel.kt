@@ -18,7 +18,7 @@ class HomeViewModel @Inject constructor(
 ) : MviViewModel<HomeState, HomeIntent, HomeAction>(HomeState()) {
 
     override fun onAction(action: HomeAction) {
-
+        //no empty
     }
 
 

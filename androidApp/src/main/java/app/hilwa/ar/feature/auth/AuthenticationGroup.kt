@@ -9,7 +9,6 @@
 package app.hilwa.ar.feature.auth
 
 import app.hilwa.ar.feature.auth.onboard.Onboard
-import app.hilwa.ar.feature.splash.Splash
 import app.trian.mvi.NavigationGroup
 
 object Authentication{
@@ -19,6 +18,4 @@ object Authentication{
     route = Authentication.routeName,
     startDestination = Onboard.routeName
 )
-interface AuthenticationGroup {
-
-}
+interface AuthenticationGroup

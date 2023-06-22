@@ -44,7 +44,7 @@ class DetailQuizViewModel @Inject constructor(
     }
 
     override fun onAction(action: DetailQuizAction) {
-
+        //no empty
     }
 
 }

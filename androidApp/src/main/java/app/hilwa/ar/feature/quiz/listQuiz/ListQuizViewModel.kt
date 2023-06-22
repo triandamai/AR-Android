@@ -43,7 +43,7 @@ class ListQuizViewModel @Inject constructor(
 
 
     override fun onAction(action: ListQuizAction) {
-
+        //no empty
     }
 
 }

@@ -19,5 +19,4 @@ object Quiz {
     route = Quiz.routeName,
     startDestination = ListQuiz.routeName
 )
-interface QuizGroup {
-}
+interface QuizGroup
