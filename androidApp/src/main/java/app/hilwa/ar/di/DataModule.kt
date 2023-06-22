@@ -2,9 +2,11 @@ package app.hilwa.ar.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import app.hilwa.ar.sqldelight.Database
+import app.hilwa.ar.table.question.Question
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -32,7 +34,21 @@ object DataModule {
     @Provides
     fun provideDatabase(
         sqlDriver: SqlDriver
-    ): Database = Database(sqlDriver)
+    ): Database = Database(
+        sqlDriver,
+        QuestionAdapter = Question.Adapter(
+            answerAdapter = object :ColumnAdapter<List<String>,String>{
+                override fun decode(databaseValue: String): List<String> {
+                    TODO("Not yet implemented")
+                }
+
+                override fun encode(value: List<String>): String {
+                    TODO("Not yet implemented")
+                }
+
+            }
+        )
+    )
 
     @Provides
     fun provideSharedPreferences(

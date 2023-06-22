@@ -94,15 +94,13 @@ android {
 }
 
 dependencies {
-    implementation("com.github.triandamai.core-ui:ui:0.4")
-    implementation("com.github.triandamai.core-ui:processor:0.4")
-    ksp("com.github.triandamai.core-ui:processor:0.4")
+    implementation("com.github.triandamai.core-ui:ui:0.9")
+    implementation("com.github.triandamai.core-ui:processor:0.9")
+    ksp("com.github.triandamai.core-ui:processor:0.9")
     coreLibraryDesugaring(libs.desugar.jdk.lib)
 
     implementation(libs.android.material)
     implementation(libs.compose.markdown)
-
-    implementation(libs.mp.android.chart)
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)

@@ -1,0 +1,47 @@
+import kotlin.collections.List;
+
+
+
+CREATE TABLE IF NOT EXISTS Question(
+    questionId TEXT NOT NULL PRIMARY KEY,
+    quizId TEXT NOT NULL,
+    questionImage TEXT NOT NULL,
+    question TEXT NOT NULL,
+    answer TEXT AS List<String> NOT NULL,
+    correctAnswer TEXT NOT NULL,
+    questionNumber  INTEGER NOT NULL
+);
+
+getQuestion:
+SELECT *
+FROM Question
+WHERE questionId=?;
+
+insertQuestion:
+INSERT INTO Question(
+    questionId,
+    quizId,
+    questionImage,
+    question,
+    answer,
+    correctAnswer,
+    questionNumber
+) VALUES (
+?,
+?,
+?,
+?,
+?,
+?,
+?);
+
+
+updateAnswerQuestion:
+UPDATE Question
+SET answer=?
+WHERE questionId=?;
+
+deleteQuestion:
+DELETE FROM Question
+WHERE questionId=?;
+
