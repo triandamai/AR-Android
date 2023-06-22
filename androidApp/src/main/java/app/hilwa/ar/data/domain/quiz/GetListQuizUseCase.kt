@@ -31,7 +31,11 @@ class GetListQuizUseCase @Inject constructor(
                 .get()
                 .await()
                 .documents
-                .map { it.toObject(Quiz::class.java)!! }
+                .map {
+                    it.toObject(Quiz::class.java)!!.copy(
+                        id = it.id
+                    )
+                }
                 .sortedByDescending { it.question.size }
 
             emit(ResultStateData.Result(quiz))

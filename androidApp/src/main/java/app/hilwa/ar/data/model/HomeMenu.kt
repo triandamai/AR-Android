@@ -10,7 +10,9 @@ package app.hilwa.ar.data.model
 
 import app.hilwa.ar.R.drawable
 import app.trian.mvi.ui.extensions.Empty
+import com.google.errorprone.annotations.Keep
 
+@Keep
 data class HomeMenu(
     val name: String = "",
     val description: String = "",

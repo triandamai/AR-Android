@@ -24,67 +24,67 @@ val dummyQuiz: List<Quiz> = listOf(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 4",
-                    "Otak 3",
-                    "Otak 2",
-                    "Otak 1"
-                )
+//                answer = listOf(
+//                    "Otak 4",
+//                    "Otak 3",
+//                    "Otak 2",
+//                    "Otak 1"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 5",
-                    "Otak 4",
-                    "Otak 3",
-                    "Otak 2"
-                )
+//                answer = listOf(
+//                    "Otak 5",
+//                    "Otak 4",
+//                    "Otak 3",
+//                    "Otak 2"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 1",
-                    "Otak 6",
-                    "Otak 3",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 1",
+//                    "Otak 6",
+//                    "Otak 3",
+//                    "Otak 4"
+//                )
             ),
             QuizQuestion(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 1",
-                    "Otak 7",
-                    "Otak 3",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 1",
+//                    "Otak 7",
+//                    "Otak 3",
+//                    "Otak 4"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 10",
-                    "Otak 5",
-                    "Otak 2",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 10",
+//                    "Otak 5",
+//                    "Otak 2",
+//                    "Otak 4"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 3",
-                    "Otak 8",
-                    "Otak 7",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 3",
+//                    "Otak 8",
+//                    "Otak 7",
+//                    "Otak 4"
+//                )
             )
         )
     ),
@@ -100,67 +100,67 @@ val dummyQuiz: List<Quiz> = listOf(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 4",
-                    "Otak 3",
-                    "Otak 2",
-                    "Otak 1"
-                )
+//                answer = listOf(
+//                    "Otak 4",
+//                    "Otak 3",
+//                    "Otak 2",
+//                    "Otak 1"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 5",
-                    "Otak 4",
-                    "Otak 3",
-                    "Otak 2"
-                )
+//                answer = listOf(
+//                    "Otak 5",
+//                    "Otak 4",
+//                    "Otak 3",
+//                    "Otak 2"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 1",
-                    "Otak 6",
-                    "Otak 3",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 1",
+//                    "Otak 6",
+//                    "Otak 3",
+//                    "Otak 4"
+//                )
             ),
             QuizQuestion(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 1",
-                    "Otak 7",
-                    "Otak 3",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 1",
+//                    "Otak 7",
+//                    "Otak 3",
+//                    "Otak 4"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 10",
-                    "Otak 5",
-                    "Otak 2",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 10",
+//                    "Otak 5",
+//                    "Otak 2",
+//                    "Otak 4"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 3",
-                    "Otak 8",
-                    "Otak 7",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 3",
+//                    "Otak 8",
+//                    "Otak 7",
+//                    "Otak 4"
+//                )
             )
         )
     ),
@@ -176,67 +176,67 @@ val dummyQuiz: List<Quiz> = listOf(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 4",
-                    "Otak 3",
-                    "Otak 2",
-                    "Otak 1"
-                )
+//                answer = listOf(
+//                    "Otak 4",
+//                    "Otak 3",
+//                    "Otak 2",
+//                    "Otak 1"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 5",
-                    "Otak 4",
-                    "Otak 3",
-                    "Otak 2"
-                )
+//                answer = listOf(
+//                    "Otak 5",
+//                    "Otak 4",
+//                    "Otak 3",
+//                    "Otak 2"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 1",
-                    "Otak 6",
-                    "Otak 3",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 1",
+//                    "Otak 6",
+//                    "Otak 3",
+//                    "Otak 4"
+//                )
             ),
             QuizQuestion(
                 id = "001",
                 question = "Apa nama bagian otak yang ada pada gambar tersebut?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 1",
-                    "Otak 7",
-                    "Otak 3",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 1",
+//                    "Otak 7",
+//                    "Otak 3",
+//                    "Otak 4"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah gambar diatas terlihat seperti otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 10",
-                    "Otak 5",
-                    "Otak 2",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 10",
+//                    "Otak 5",
+//                    "Otak 2",
+//                    "Otak 4"
+//                )
             ),
             QuizQuestion(
                 id = "002",
                 question = "Apakah anda memiliki otak?",
                 image = "http://via.placeholder.com/640x360",
-                answer = listOf(
-                    "Otak 3",
-                    "Otak 8",
-                    "Otak 7",
-                    "Otak 4"
-                )
+//                answer = listOf(
+//                    "Otak 3",
+//                    "Otak 8",
+//                    "Otak 7",
+//                    "Otak 4"
+//                )
             )
         )
     )
