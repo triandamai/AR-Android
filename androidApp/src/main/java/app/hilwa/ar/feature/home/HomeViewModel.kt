@@ -17,25 +17,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getLatestQuizUseCase:GetLatestQuizUseCase
+    private val getLatestQuizUseCase: GetLatestQuizUseCase
 ) : MviViewModel<HomeState, HomeIntent, HomeAction>(HomeState()) {
 
-    private fun getLatestQuiz()=async {
+    private fun getLatestQuiz() = async {
         getLatestQuizUseCase()
             .onEach(
-                loading = {},
-                error={_,_->},
+                loading = {
+                    commit { copy(isLoadingLatestQuiz = true) }
+                },
+                error = { _, _ -> commit { copy(isLoadingLatestQuiz = false) } },
                 success = {
-                    commit{copy(latestQuiz = it)}
+                    commit { copy(latestQuiz = it, isLoadingLatestQuiz = false) }
                 },
                 empty = {
-                    sendUiEvent(UIEvent.ShowToast("No latest quiz found"))
+                    commit { copy(isLoadingLatestQuiz = false) }
                 }
             )
     }
 
     override fun onAction(action: HomeAction) {
-        when(action){
+        when (action) {
             HomeAction.GetLatestData -> getLatestQuiz()
         }
     }

@@ -15,6 +15,7 @@ import app.hilwa.ar.data.model.HomeMenu
 import app.hilwa.ar.data.model.Quiz
 import app.hilwa.ar.feature.about.About
 import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
+import app.trian.mvi.ui.extensions.Empty
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
@@ -23,7 +24,8 @@ import kotlinx.parcelize.RawValue
 data class HomeState(
     val showDialogDeleteTask: Boolean = false,
     val showDropdownMoreOption: Boolean = false,
-    val isLoading: Boolean = false,
+    val isLoadingFeature: Boolean = true,
+    val isLoadingLatestQuiz: Boolean = true,
     val message: String = "Sync...",
 
     //data
@@ -33,7 +35,7 @@ data class HomeState(
             description = "Lihat macam-macam bagian otak dan ketahui apa " +
                     "saja kegunaan dari setiap bagian",
             image = drawable.ic_start_ar,
-            route = ListQuiz.routeName
+            route = String.Empty
         ),
         HomeMenu(
             name = "Quiz",
