@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,7 +47,6 @@ import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.feature.home.Home
-import app.hilwa.ar.feature.quiz.Quiz
 import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
 import app.trian.mvi.Argument
 import app.trian.mvi.Navigation
@@ -133,13 +133,13 @@ fun ResultQuizScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "Selamat!",
+                            text = stringResource(R.string.title_result_quiz),
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.SemiBold,
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = "Kamu sudah menyelesaikan quiz ini, berikut adalah hasil score dari quiz yang sudah kamu kerjakan.",
+                            text = stringResource(R.string.subtitle_result_quiz),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.Center
@@ -147,7 +147,7 @@ fun ResultQuizScreen(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = "Skor Kamu",
+                            text = stringResource(R.string.subtitle_result_quiz_score),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.Center
@@ -179,7 +179,7 @@ fun ResultQuizScreen(
                         )
 
                         Text(
-                            text = "Jawaban benar",
+                            text = stringResource(R.string.subtitle_result_quiz_amount_right_answer),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.Center

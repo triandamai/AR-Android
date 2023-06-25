@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.base.format
-import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.ItemQuiz
 import app.hilwa.ar.feature.quiz.Quiz
 import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
@@ -41,7 +40,6 @@ import app.trian.mvi.ui.internal.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
-import com.google.firebase.Timestamp
 
 object ListQuiz {
     const val routeName = "ListQuiz"

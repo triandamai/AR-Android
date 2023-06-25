@@ -8,7 +8,6 @@
 
 package app.hilwa.ar.feature.quiz.resultQuiz
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import app.hilwa.ar.data.domain.progress.GetProgressUseCase
 import app.trian.mvi.ui.viewModel.MviViewModel

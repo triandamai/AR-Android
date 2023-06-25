@@ -9,12 +9,9 @@
 package app.hilwa.ar.data.domain.quiz
 
 import app.hilwa.ar.data.model.Quiz
-import app.trian.mvi.ui.ResultState
 import app.trian.mvi.ui.ResultStateData
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
