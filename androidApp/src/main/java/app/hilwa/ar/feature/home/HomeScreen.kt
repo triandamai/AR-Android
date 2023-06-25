@@ -25,8 +25,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ModalBottomSheetValue.Hidden
-import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,7 +45,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
 import app.hilwa.ar.components.DialogConfirmation
-import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.feature.home.components.ItemFeature
 import app.hilwa.ar.feature.home.components.ItemLatestQuiz
 import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
@@ -54,10 +52,12 @@ import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
+import app.trian.mvi.ui.extensions.Empty
 import app.trian.mvi.ui.internal.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
+import kotlinx.coroutines.delay
 
 object Home {
     const val routeName = "Home"
@@ -73,25 +73,11 @@ internal fun HomeScreen(
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 
-    val modalBottomSheet =
-        rememberModalBottomSheetState(initialValue = Hidden, confirmValueChange = {
-            when (it) {
-                Hidden -> {
-                    controller.keyboard.hide()
-                    true
-                }
+    LaunchedEffect(key1 = Unit, block = {
+        delay(400)
+        commit { copy(isLoadingFeature = false) }
+    })
 
-                else -> true
-            }
-        })
-
-
-
-    DialogLoading(
-        show = state.isLoading,
-        title = "Please wait",
-        message = state.message
-    )
     DialogConfirmation(
         show = state.showDialogDeleteTask,
         message = stringResource(R.string.text_confirmation_delete, ""),
@@ -214,8 +200,13 @@ internal fun HomeScreen(
                                     name = it.name,
                                     image = it.image,
                                     onClick = {
-                                        navigator.navigateSingleTop(it.route)
-                                    }
+                                        if(it.route == String.Empty){
+                                            controller.toast.show("Coming soon")
+                                        }else {
+                                            navigator.navigateSingleTop(it.route)
+                                        }
+                                    },
+                                    visibility = !state.isLoadingFeature
                                 )
                             }
                         }
@@ -270,6 +261,19 @@ internal fun HomeScreen(
                         )
                     }
                 }
+                if (state.isLoadingLatestQuiz) {
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 20.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                }
                 items(state.latestQuiz) {
                     ItemLatestQuiz(
                         quizName = it.quizTitle,
@@ -282,6 +286,7 @@ internal fun HomeScreen(
                         }
                     )
                 }
+
 
             }
         }

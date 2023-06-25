@@ -13,6 +13,7 @@ import androidx.lifecycle.SavedStateHandle
 import app.hilwa.ar.data.domain.progress.GetProgressUseCase
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,15 +33,20 @@ class ResultQuizViewModel @Inject constructor(
     private fun getProgress() = async {
         getProgressUseCase(quizId())
             .onEach(
-                loading = {},
-                error = { _, _ -> },
+                loading = {
+                    commit { copy(isLoading = true) }
+                },
+                error = { _, _ -> commit { copy(isLoading = false) } },
                 success = {
-                    Log.e("HEHE",it.toString())
+                    async {
+                        delay(500)
+                        commit { copy(isLoading = false, scoreData = it) }
+                    }
                 }
             )
     }
 
     override fun onAction(action: ResultQuizAction) {
-        TODO("Not yet implemented")
+        //no empty
     }
 }

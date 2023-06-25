@@ -9,6 +9,9 @@
 package app.hilwa.ar.feature.home.components
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +43,7 @@ import app.trian.mvi.ui.theme.ApplicationTheme
 fun ItemFeature(
     name: String = "Math",
     description: String = "",
+    visibility: Boolean = false,
     @DrawableRes image: Int = R.drawable.ic_start_ar,
     onClick: () -> Unit = {}
 ) {
@@ -52,40 +56,46 @@ fun ItemFeature(
     val cardHeight = cardWidth + (currentWidth / 3)
 
     Box(modifier = Modifier.padding(start = 16.dp)) {
-        Column(
-            modifier = Modifier
-                .width(cardWidth)
-                .height(cardHeight)
-                .coloredShadow(
-                    color = MaterialTheme.colorScheme.primary,
-                    alpha = 0.1f
-                )
-                .clip(
-                    RoundedCornerShape(
-                        16.dp
-                    )
-                )
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(
-                    all = 16.dp
-                ),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.Start
+        AnimatedVisibility(
+            visible = visibility,
+            enter = slideInHorizontally { it / 2 },
+            exit = slideOutHorizontally { it / 2 }
         ) {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.SemiBold
-            )
-            Image(
-                painter = painterResource(id = image),
-                contentDescription = "",
-                modifier = Modifier.size(cardWidth - 20.dp)
-            )
-            Button(onClick = onClick) {
-                Text(text = "Coba")
-            }
+            Column(
+                modifier = Modifier
+                    .width(cardWidth)
+                    .height(cardHeight)
+                    .coloredShadow(
+                        color = MaterialTheme.colorScheme.primary,
+                        alpha = 0.1f
+                    )
+                    .clip(
+                        RoundedCornerShape(
+                            16.dp
+                        )
+                    )
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(
+                        all = 16.dp
+                    ),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Image(
+                    painter = painterResource(id = image),
+                    contentDescription = "",
+                    modifier = Modifier.size(cardWidth - 20.dp)
+                )
+                Button(onClick = onClick) {
+                    Text(text = "Coba")
+                }
 
+            }
         }
     }
 }

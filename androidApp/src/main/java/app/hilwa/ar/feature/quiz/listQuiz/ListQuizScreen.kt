@@ -8,6 +8,9 @@
 
 package app.hilwa.ar.feature.quiz.listQuiz
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
@@ -18,8 +21,11 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.components.DialogLoading
@@ -52,9 +58,6 @@ internal fun ScreenListQuiz(
 ) = UIWrapper(uiContract) {
     val modalBottomSheet =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-    DialogLoading(
-        show = state.isLoading
-    )
 
     BaseScreen(
         modalBottomSheetState = modalBottomSheet,
@@ -80,20 +83,30 @@ internal fun ScreenListQuiz(
             )
         }
     ) {
-        LazyColumn(
-            content = {
-                items(state.quiz) {
-                    ItemQuiz(
-                        quizName = it.quizTitle,
-                        quizImage = it.quizImage,
-                        quizProgress = it.progress,
-                        quizAmountQuestion = it.question.size,
-                        onClick = {
-                            navigator.navigateSingleTop(DetailQuiz.routeName, it.id)
-                        }
-                    )
-                }
-            })
+        if (state.isLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            LazyColumn(
+                content = {
+                    items(state.quiz) {
+                        ItemQuiz(
+                            quizName = it.quizTitle,
+                            quizImage = it.quizImage,
+                            quizProgress = it.progress,
+                            quizAmountQuestion = it.question.size,
+                            onClick = {
+                                navigator.navigateSingleTop(DetailQuiz.routeName, it.id)
+                            }
+                        )
+                    }
+                })
+        }
 
     }
 

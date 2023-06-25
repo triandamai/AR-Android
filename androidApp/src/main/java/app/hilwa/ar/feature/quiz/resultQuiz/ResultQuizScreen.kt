@@ -10,6 +10,8 @@ package app.hilwa.ar.feature.quiz.resultQuiz
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,19 +28,26 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
+import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.feature.home.Home
 import app.hilwa.ar.feature.quiz.Quiz
+import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
 import app.trian.mvi.Argument
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseScreen
@@ -75,11 +84,34 @@ fun ResultQuizScreen(
         navigator.navigateAndReplace(Home.routeName)
     }
 
+    val scoreColor = when {
+        state.scoreData.quizScore <= 30 -> Color.Red
+        state.scoreData.quizScore <= 40 -> Color.Yellow
+        state.scoreData.quizScore <= 70 -> Color.Blue
+        state.scoreData.quizScore <= 100 -> Color.Green
+        else -> Color.Red
+    }
+
     BaseScreen() {
         Box(modifier = Modifier.fillMaxSize()) {
-
+            //loading
+            if (state.isLoading) {
+                Column(
+                    modifier = Modifier
+                        .size(imageWidth)
+                        .align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
             //
-            AnimatedVisibility(visible = !state.isLoading) {
+            AnimatedVisibility(
+                visible = !state.isLoading,
+                enter = slideInVertically(initialOffsetY = { it / 2 }),
+                exit = slideOutVertically(targetOffsetY = { it / 2 })
+            ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -92,41 +124,78 @@ fun ResultQuizScreen(
                         contentDescription = "",
                         modifier = Modifier.size(imageWidth)
                     )
-                    Column {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = 20.dp
+                            ),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Text(
                             text = "Selamat!",
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Medium
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            textAlign = TextAlign.Center
                         )
                         Text(
                             text = "Kamu sudah menyelesaikan quiz ini, berikut adalah hasil score dari quiz yang sudah kamu kerjakan.",
                             style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Normal
+                            fontWeight = FontWeight.Normal,
+                            textAlign = TextAlign.Center
                         )
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
                             text = "Skor Kamu",
                             style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.Normal,
+                            textAlign = TextAlign.Center
                         )
                         Text(
-                            text = "20/100",
+                            text = buildAnnotatedString {
+                                withStyle(
+                                    style = MaterialTheme.typography.headlineSmall.toSpanStyle()
+                                        .copy(
+                                            color = scoreColor,
+                                            fontWeight = FontWeight.Medium
+                                        ),
+                                ) {
+                                    append(state.scoreData.quizScore.toString())
+                                }
+                                withStyle(
+                                    style = MaterialTheme.typography.headlineSmall.toSpanStyle()
+                                        .copy(
+                                            fontWeight = FontWeight.Medium
+                                        ),
+                                ) {
+                                    append("/")
+                                    append("100")
+                                }
+                            },
                             style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Normal
+                            fontWeight = FontWeight.Normal,
+                            textAlign = TextAlign.Center
                         )
 
                         Text(
-                            text = "Jawaban benenar",
+                            text = "Jawaban benar",
                             style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.Normal,
+                            textAlign = TextAlign.Center
                         )
                         Text(
-                            text = "20",
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Normal
+                            text = state.scoreData.amountRightAnswer.toString(),
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Center
                         )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        ButtonPrimary(text = "Kerjakan Quiz lagi") {
+                            navigator.navigateAndReplace(ListQuiz.routeName)
+                        }
                     }
+
                 }
             }
 
