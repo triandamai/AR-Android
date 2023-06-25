@@ -7,12 +7,24 @@ CREATE TABLE IF NOT EXISTS Question(
     quizId TEXT NOT NULL,
     questionImage TEXT NOT NULL,
     question TEXT NOT NULL,
-    answer TEXT AS List<String> NOT NULL,
-    correctAnswer TEXT NOT NULL,
-    questionNumber  INTEGER NOT NULL
+    questionOptions TEXT AS List<String> NOT NULL,
+    questionCorrectAnswer TEXT NOT NULL,
+    questionNumber  INTEGER NOT NULL,
+    createdAtSecond INTEGER NOT NULL,
+    createdAtNanoSecond INTEGER NOT NULL,
+    updatedAtSecond INTEGER NOT NULL,
+    updatedAtNanoSecond INTEGER NOT NULL
 );
 
-getQuestion:
+getExistQuiz:
+SELECT EXISTS(SELECT * FROM Question WHERE questionId=?);
+
+getQuestionByQuiz:
+SELECT *
+FROM Question
+WHERE quizId=?;
+
+getQuestionById:
 SELECT *
 FROM Question
 WHERE questionId=?;
@@ -23,9 +35,13 @@ INSERT INTO Question(
     quizId,
     questionImage,
     question,
-    answer,
-    correctAnswer,
-    questionNumber
+    questionOptions,
+    questionCorrectAnswer,
+    questionNumber,
+    createdAtSecond,
+    createdAtNanoSecond,
+    updatedAtSecond,
+    updatedAtNanoSecond
 ) VALUES (
 ?,
 ?,
@@ -33,12 +49,30 @@ INSERT INTO Question(
 ?,
 ?,
 ?,
-?);
+?,
+?,
+?,
+?,
+?
+);
 
+updateQuestion:
+UPDATE Question
+    SET quizId=?,
+    questionImage=?,
+    question=?,
+    questionOptions=?,
+    questionCorrectAnswer=?,
+    questionNumber=?,
+    createdAtSecond=?,
+    createdAtNanoSecond=?,
+    updatedAtSecond=?,
+    updatedAtNanoSecond=?
+WHERE questionId=?;
 
 updateAnswerQuestion:
 UPDATE Question
-SET answer=?
+SET questionOptions=?
 WHERE questionId=?;
 
 deleteQuestion:

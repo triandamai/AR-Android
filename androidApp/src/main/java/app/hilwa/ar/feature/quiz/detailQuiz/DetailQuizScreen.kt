@@ -23,8 +23,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -36,7 +38,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,11 +60,13 @@ import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
+import app.trian.mvi.ui.extensions.coloredShadow
 import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.listener.BaseEventListener
+import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import kotlinx.coroutines.delay
 
 object DetailQuiz {
     const val routeName = "DetailQuiz"
@@ -76,7 +79,7 @@ object DetailQuiz {
 
 @Navigation(
     route = DetailQuiz.routeName,
-    group=Quiz.routeName,
+    group = Quiz.routeName,
     viewModel = DetailQuizViewModel::class
 )
 @Argument(
@@ -88,7 +91,8 @@ object DetailQuiz {
 )
 @Composable
 internal fun DetailQuizScreen(
-    uiContract: UIContract<DetailQuizState, DetailQuizIntent, DetailQuizAction>
+    uiContract: UIContract<DetailQuizState, DetailQuizIntent, DetailQuizAction>,
+    event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 
     val modalBottomSheet = rememberModalBottomSheetState(
@@ -97,11 +101,6 @@ internal fun DetailQuizScreen(
             false
         }
     )
-
-    LaunchedEffect(key1 = this, block = {
-        delay(1000)
-        commit { copy(showContent = true) }
-    })
 
     val image = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
@@ -135,7 +134,7 @@ internal fun DetailQuizScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .background(MaterialTheme.colorScheme.surface)
         ) {
             IconButton(
                 onClick = {
@@ -148,6 +147,7 @@ internal fun DetailQuizScreen(
                     contentDescription = ""
                 )
             }
+
 
             Column(
                 modifier = Modifier
@@ -174,22 +174,26 @@ internal fun DetailQuizScreen(
                     .fillMaxWidth()
                     .fillMaxHeight(0.5f)
             ) {
+                if (state.isLoading) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                }
                 AnimatedVisibility(
-                    visible = true,//state.showContent,
-                    enter = slideInVertically(
-                        initialOffsetY = {
-                            it / 2
-                        },
-                    ),
-                    exit = slideOutVertically(
-                        targetOffsetY = {
-                            it / 2
-                        },
-                    )
+                    visible = !state.isLoading,
+                    enter = slideInVertically(initialOffsetY = { it / 2 }),
+                    exit = slideOutVertically(targetOffsetY = { it / 2 })
                 ) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
+                            .coloredShadow(Color.DarkGray)
                             .clip(
                                 RoundedCornerShape(
                                     topEnd = 16.dp,
@@ -214,7 +218,7 @@ internal fun DetailQuizScreen(
                                 text = state.quiz.quizTitle,
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Start,
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.SemiBold,
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis,
@@ -237,9 +241,15 @@ internal fun DetailQuizScreen(
                                     modifier = Modifier,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Icon(imageVector = Icons.Outlined.Feed, contentDescription = "")
+                                    Icon(
+                                        imageVector = Icons.Outlined.Feed,
+                                        contentDescription = ""
+                                    )
                                     Spacer(modifier = Modifier.width(10.dp))
-                                    Text(text = "${state.quiz.totalQuestion} Soal")
+                                    Text(
+                                        text = "${state.quiz.totalQuestion} Soal",
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
                                 }
                                 Box(
                                     modifier = Modifier
@@ -256,7 +266,10 @@ internal fun DetailQuizScreen(
                                         contentDescription = ""
                                     )
                                     Spacer(modifier = Modifier.width(10.dp))
-                                    Text(text = "${state.quiz.quizDuration} Menit")
+                                    Text(
+                                        text = "${state.quiz.quizDuration} Menit",
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
                                 }
                             }
                             Spacer(modifier = Modifier.height(16.dp))
@@ -293,6 +306,7 @@ internal fun DetailQuizScreen(
 
 
             }
+
         }
     }
 }
@@ -304,7 +318,9 @@ fun PreviewScreenDetailQuiz() {
         DetailQuizScreen(
             uiContract = UIContract(
                 controller = rememberUIController(),
-                state = DetailQuizState()
+                state = DetailQuizState(
+                    isLoading = false
+                )
             )
         )
     }

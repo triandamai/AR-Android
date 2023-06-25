@@ -25,6 +25,8 @@ import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
 import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.listener.BaseEventListener
+import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
 
 
@@ -39,7 +41,8 @@ object ResetPassword {
 )
 @Composable
 internal fun ResetPasswordScreen(
-    uiContract: UIContract<ResetPasswordState, ResetPasswordIntent, ResetPasswordAction>
+    uiContract: UIContract<ResetPasswordState, ResetPasswordIntent, ResetPasswordAction>,
+    event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 
     DialogLoading(

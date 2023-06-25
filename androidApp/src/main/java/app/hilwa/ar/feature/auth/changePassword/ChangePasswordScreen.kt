@@ -24,6 +24,8 @@ import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
 import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.listener.BaseEventListener
+import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
 
 object ChangePassword {
@@ -37,7 +39,8 @@ object ChangePassword {
 )
 @Composable
 internal fun ScreenChangePassword(
-    uiContract: UIContract<ChangePasswordState, ChangePasswordIntent, ChangePasswordAction>
+    uiContract: UIContract<ChangePasswordState, ChangePasswordIntent, ChangePasswordAction>,
+    event:BaseEventListener=EventListener()
 ) = UIWrapper(uiContract) {
 
     DialogLoading(

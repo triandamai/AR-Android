@@ -15,7 +15,7 @@ import com.google.firebase.Timestamp
 @Keep
 data class Quiz(
     val id: String = String.Empty,
-    val quizImage: String = "http://via.placeholder.com/640x360",
+    val quizImage: String = String.Empty,
     val quizTitle: String = String.Empty,
     val quizDescription: String = String.Empty,
     val quizDuration: Long = 0L,
