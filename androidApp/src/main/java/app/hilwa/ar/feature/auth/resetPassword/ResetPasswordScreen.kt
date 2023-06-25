@@ -36,7 +36,7 @@ object ResetPassword {
 
 @Navigation(
     route = ResetPassword.routeName,
-    group=Authentication.routeName,
+    group = Authentication.routeName,
     viewModel = ResetPasswordViewModel::class
 )
 @Composable
@@ -82,6 +82,7 @@ internal fun ResetPasswordScreen(
                 ),
                 keyboardActions = KeyboardActions(
                     onSend = {
+                        controller.keyboard.hide()
                         dispatch(ResetPasswordAction.Submit)
                     }
                 )
@@ -90,6 +91,7 @@ internal fun ResetPasswordScreen(
             ButtonPrimary(
                 text = stringResource(R.string.btn_reset_password)
             ) {
+                controller.keyboard.hide()
                 dispatch(ResetPasswordAction.Submit)
             }
         }

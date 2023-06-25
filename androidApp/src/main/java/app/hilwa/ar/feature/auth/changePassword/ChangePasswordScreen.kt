@@ -40,7 +40,7 @@ object ChangePassword {
 @Composable
 internal fun ScreenChangePassword(
     uiContract: UIContract<ChangePasswordState, ChangePasswordIntent, ChangePasswordAction>,
-    event:BaseEventListener=EventListener()
+    event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 
     DialogLoading(
@@ -91,6 +91,7 @@ internal fun ScreenChangePassword(
                 ),
                 keyboardActions = KeyboardActions(
                     onSend = {
+                        controller.keyboard.hide()
                         dispatch(ChangePasswordAction.Submit)
                     }
                 )
@@ -99,6 +100,7 @@ internal fun ScreenChangePassword(
             ButtonPrimary(
                 text = stringResource(R.string.btn_change_password)
             ) {
+                controller.keyboard.hide()
                 dispatch(ChangePasswordAction.Submit)
             }
         }

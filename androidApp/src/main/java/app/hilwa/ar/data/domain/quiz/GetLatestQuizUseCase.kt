@@ -23,7 +23,7 @@ import javax.inject.Inject
 class GetLatestQuizUseCase @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
-    suspend operator fun invoke(): Flow<ResultStateData<List<Quiz>>> = flow {
+    operator fun invoke(): Flow<ResultStateData<List<Quiz>>> = flow {
         emit(ResultStateData.Loading)
         try {
             val quiz = firestore.collection("QUIZ")

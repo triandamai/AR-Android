@@ -21,7 +21,7 @@ import javax.inject.Inject
 class GetProgressUseCase @Inject constructor(
     private val db: Database
 ) {
-    suspend operator fun invoke(quizId: String): Flow<ResultState<ProgressModel>> = flow {
+    operator fun invoke(quizId: String): Flow<ResultState<ProgressModel>> = flow {
         emit(ResultState.Loading)
         val result = db
             .progressQueries

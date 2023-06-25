@@ -274,7 +274,9 @@ internal fun StartQuizScreen(
                                         copy(
                                             visibleButton = true,
                                             hasAnswer = it.first,
-                                            currentQuestionNumber = state.questions[state.currentIndex].questionNumber.toInt()
+                                            currentQuestionNumber = state
+                                                .questions[state.currentIndex]
+                                                .questionNumber
                                         )
                                     }
                                 }

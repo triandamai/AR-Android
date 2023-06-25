@@ -29,6 +29,7 @@ data class HomeState(
     val message: String = "Sync...",
 
     //data
+    val fullName: String = String.Empty,
     val menu: @RawValue List<HomeMenu> = listOf(
         HomeMenu(
             name = "Coba AR",

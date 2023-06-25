@@ -73,7 +73,7 @@ internal fun HomeScreen(
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 
-    LaunchedEffect(key1 = Unit, block = {
+    LaunchedEffect(key1 = uiContract, block = {
         delay(400)
         commit { copy(isLoadingFeature = false) }
     })
@@ -120,7 +120,7 @@ internal fun HomeScreen(
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                     Text(
-                        text = "Hilwa",
+                        text = state.fullName.ifEmpty { "Tanpa Nama" },
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onPrimary
@@ -165,23 +165,23 @@ internal fun HomeScreen(
                     ) {
                         Text(
                             text = buildAnnotatedString {
-                                append("Take a ")
+                                append("Coba fitur ")
                                 withStyle(
                                     style = SpanStyle(
                                         color = Color.Black,
                                         fontWeight = FontWeight.SemiBold
                                     )
                                 ) {
-                                    append("test")
+                                    append("AR")
                                 }
-                                append(" and ")
+                                append("-nya dan kerjakan ")
                                 withStyle(
                                     style = SpanStyle(
                                         color = Color.Black,
                                         fontWeight = FontWeight.SemiBold
                                     )
                                 ) {
-                                    append("get reward")
+                                    append("Quiz")
                                 }
                             },
                             style = MaterialTheme.typography.headlineSmall,
@@ -200,9 +200,9 @@ internal fun HomeScreen(
                                     name = it.name,
                                     image = it.image,
                                     onClick = {
-                                        if(it.route == String.Empty){
+                                        if (it.route == String.Empty) {
                                             controller.toast.show("Coming soon")
-                                        }else {
+                                        } else {
                                             navigator.navigateSingleTop(it.route)
                                         }
                                     },
