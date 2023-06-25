@@ -52,6 +52,7 @@ fun ItemQuiz(
     quizImage: String = "http://via.placeholder.com/640x360",
     quizProgress: Int = 1,
     quizAmountQuestion: Int = 2,
+    createdAt: String = String.Empty,
     onClick: () -> Unit = {}
 ) {
     val ctx = LocalContext.current
@@ -124,14 +125,14 @@ fun ItemQuiz(
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
                             Text(
-                                text = "Anne marie",
+                                text = "Admin",
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.SemiBold,
                                 maxLines = 1,
                                 color = Color.White
                             )
                             Text(
-                                text = "20 Menit lalu",
+                                text = createdAt,
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.Normal,
                                 maxLines = 1,
@@ -177,7 +178,7 @@ fun ItemQuiz(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     LinearProgressIndicator(
-                        progress = if(quizProgress < 1) 1f else ((quizProgress.toFloat() / quizAmountQuestion) * 100) / 100,
+                        progress = if (quizProgress < 1) 1f else ((quizProgress.toFloat() / quizAmountQuestion) * 100) / 100,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(8.dp),

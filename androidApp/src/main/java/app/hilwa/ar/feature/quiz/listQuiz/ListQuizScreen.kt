@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.hilwa.ar.base.format
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.ItemQuiz
 import app.hilwa.ar.feature.quiz.Quiz
@@ -40,6 +41,7 @@ import app.trian.mvi.ui.internal.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
+import com.google.firebase.Timestamp
 
 object ListQuiz {
     const val routeName = "ListQuiz"
@@ -100,6 +102,7 @@ internal fun ScreenListQuiz(
                             quizImage = it.quizImage,
                             quizProgress = it.progress,
                             quizAmountQuestion = it.question.size,
+                            createdAt = it.createdAt.format(),
                             onClick = {
                                 navigator.navigateSingleTop(DetailQuiz.routeName, it.id)
                             }
