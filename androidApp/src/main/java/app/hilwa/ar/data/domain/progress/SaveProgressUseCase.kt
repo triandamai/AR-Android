@@ -27,7 +27,7 @@ class SaveProgressUseCase @Inject constructor(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
 ) {
-    suspend operator fun invoke(
+    operator fun invoke(
         quizId: String,
         response: List<Pair<Int, String>>
     ): Flow<ResultState<Boolean>> = flow {

@@ -8,26 +8,42 @@
 
 package app.hilwa.ar.feature.auth.resetPassword
 
+import android.content.Context
 import android.util.Patterns
+import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.ResetPasswordUseCase
+import app.trian.mvi.ui.UIEvent
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val resetPasswordUseCase: ResetPasswordUseCase
-) : MviViewModel<ResetPasswordState,ResetPasswordIntent, ResetPasswordAction>(ResetPasswordState()) {
+) : MviViewModel<ResetPasswordState, ResetPasswordIntent, ResetPasswordAction>(ResetPasswordState()) {
 
     private fun showLoading() = commit { copy(isLoading = true) }
     private fun hideLoading() = commit { copy(isLoading = false) }
 
     private fun validateData(cb: suspend (String) -> Unit) = asyncWithState {
         when {
-            email.isEmpty() -> {}//controller.snackBar.show(R.string.alert_email_empty)
+            email.isEmpty() ->
+                sendUiEvent(
+                    UIEvent.ShowToast(
+                        context.getString(R.string.alert_email_empty)
+                    )
+                )
+
             !Patterns.EMAIL_ADDRESS
                 .matcher(email)
-                .matches() -> {}//controller.snackBar.show(R.string.alert_validation_email)
+                .matches() ->
+                sendUiEvent(
+                    UIEvent.ShowToast(
+                        context.getString(R.string.alert_validation_email)
+                    )
+                )
 
             else -> cb(email)
         }
@@ -41,12 +57,20 @@ class ResetPasswordViewModel @Inject constructor(
                     .onEach(
                         success = {
                             hideLoading()
-                            //controller.snackBar.show(R.string.message_success_reset_password)
-                            //controller.navigator.navigateUp()
+                            sendUiEvent(
+                                UIEvent.ShowToast(
+                                    context.getString(R.string.message_success_reset_password)
+                                )
+                            )
+                            sendUiEvent(UIEvent.NavigateUp)
                         },
-                        error = {_,_->
+                        error = { message, string ->
                             hideLoading()
-                            // controller.snackBar.show(it)
+                            sendUiEvent(
+                                UIEvent.ShowToast(
+                                    message.ifEmpty { context.getString(string) }
+                                )
+                            )
                         },
                         loading = ::showLoading
                     )

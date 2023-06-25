@@ -148,6 +148,7 @@ internal fun ScreenSignIn(
                     ),
                     keyboardActions = KeyboardActions(
                         onSend = {
+                            controller.keyboard.hide()
                             dispatch(SignInAction.SignInWithEmail)
                         }
                     )
@@ -156,6 +157,7 @@ internal fun ScreenSignIn(
                 TextWithAction(
                     labels = forgetPasswordTextType,
                     onTextClick = {
+                        controller.keyboard.hide()
                         if (it == 1) {
                             navigator.navigateSingleTop(ResetPassword.routeName)
                         }
@@ -164,6 +166,7 @@ internal fun ScreenSignIn(
 
                 Spacer(modifier = Modifier.height(30.dp))
                 ButtonPrimary(text = stringResource(id = string.btn_signin)) {
+                    controller.keyboard.hide()
                     dispatch(SignInAction.SignInWithEmail)
                 }
 

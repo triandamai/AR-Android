@@ -10,14 +10,28 @@ package app.hilwa.ar.feature.home
 
 
 import app.hilwa.ar.data.domain.quiz.GetLatestQuizUseCase
+import app.hilwa.ar.data.domain.user.GetUserProfileUseCase
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getLatestQuizUseCase: GetLatestQuizUseCase
+    private val getLatestQuizUseCase: GetLatestQuizUseCase,
+    private val getUserProfileUseCase: GetUserProfileUseCase
 ) : MviViewModel<HomeState, HomeIntent, HomeAction>(HomeState()) {
+    init {
+        getCurrentUserProfile()
+    }
+
+    private fun getCurrentUserProfile() = async {
+        getUserProfileUseCase()
+            .onEach(
+                success = {
+                    commit { copy(fullName = it.displayName.orEmpty()) }
+                }
+            )
+    }
 
     private fun getLatestQuiz() = async {
         getLatestQuizUseCase()
@@ -25,7 +39,9 @@ class HomeViewModel @Inject constructor(
                 loading = {
                     commit { copy(isLoadingLatestQuiz = true) }
                 },
-                error = { _, _ -> commit { copy(isLoadingLatestQuiz = false) } },
+                error = { _, _ ->
+                    commit { copy(isLoadingLatestQuiz = false) }
+                },
                 success = {
                     commit { copy(latestQuiz = it, isLoadingLatestQuiz = false) }
                 },
@@ -37,7 +53,10 @@ class HomeViewModel @Inject constructor(
 
     override fun onAction(action: HomeAction) {
         when (action) {
-            HomeAction.GetLatestData -> getLatestQuiz()
+            HomeAction.GetLatestData -> {
+                getCurrentUserProfile()
+                getLatestQuiz()
+            }
         }
     }
 

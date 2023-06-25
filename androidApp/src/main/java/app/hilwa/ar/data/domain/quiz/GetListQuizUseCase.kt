@@ -23,7 +23,7 @@ class GetListQuizUseCase @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
     private val db: Database
 ) {
-    suspend operator fun invoke(): Flow<ResultStateData<List<Quiz>>> = flow {
+    operator fun invoke(): Flow<ResultStateData<List<Quiz>>> = flow {
         emit(ResultStateData.Loading)
         try {
             val quiz = firebaseFirestore

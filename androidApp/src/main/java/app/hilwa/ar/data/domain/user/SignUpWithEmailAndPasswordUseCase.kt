@@ -26,7 +26,7 @@ class SignUpWithEmailAndPasswordUseCase @Inject constructor(
                 password
             ).await()
             if (authenticated.user == null) {
-                emit(ResultState.Error("Ggal mendaftarkan akun, silahkan coba lagi nanti"))
+                emit(ResultState.Error("Gagal mendaftarkan akun, silahkan coba lagi nanti"))
                 return@flow
             }
             val updateProfile = userProfileChangeRequest {
@@ -34,6 +34,7 @@ class SignUpWithEmailAndPasswordUseCase @Inject constructor(
             }
             authenticated.user!!.updateProfile(updateProfile)
             authenticated.user!!.sendEmailVerification().await()
+            firebaseAuth.signOut()
             emit(ResultState.Result(authenticated.user!!))
         } catch (e: Exception) {
             emit(ResultState.Error(e.message.orEmpty()))
