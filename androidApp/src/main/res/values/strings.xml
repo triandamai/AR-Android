@@ -208,4 +208,10 @@
     <string name="title_home">Hi, Selamat datang!</string>
     <string name="subtitle_home">%1$s 👋</string>
     <string name="error_message_agree_tnc">Mohon setujui dulu kebijakan privasi!</string>
+    <string name="title_result_quiz">Selamat!</string>
+    <string name="subtitle_result_quiz">Kamu sudah menyelesaikan quiz ini, berikut adalah hasil score dari quiz yang sudah kamu kerjakan.</string>
+    <string name="subtitle_result_quiz_score">Skor Kamu</string>
+    <string name="subtitle_result_quiz_amount_right_answer">Jawaban benar</string>
+    <string name="body_about">Augmented Reality Sistem Saraf Otak dibuat dengan Kotlin dan Jetpack compose oleh Hilwah Mauludiah NIM 12001008 untuk memenuhi syarat tugas akhir Penulisan Ilmiah.</string>
+    <string name="sub_body_about">Semua assets dari model,ilustrasi didapatkan dari sumber penggunaan non komersial.</string>
 </resources>

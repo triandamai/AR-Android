@@ -10,7 +10,6 @@ package app.hilwa.ar.feature.home
 
 
 import app.hilwa.ar.data.domain.quiz.GetLatestQuizUseCase
-import app.trian.mvi.ui.UIEvent
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

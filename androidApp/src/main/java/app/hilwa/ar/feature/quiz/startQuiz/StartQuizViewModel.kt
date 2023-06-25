@@ -8,13 +8,11 @@
 
 package app.hilwa.ar.feature.quiz.startQuiz
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import app.hilwa.ar.data.domain.progress.SaveProgressUseCase
 import app.hilwa.ar.data.domain.quiz.GetListQuestionUseCase
 import app.hilwa.ar.feature.quiz.resultQuiz.ResultQuiz
 import app.trian.mvi.ui.UIEvent
-import app.trian.mvi.ui.extensions.findIndex
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

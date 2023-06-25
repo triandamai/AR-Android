@@ -127,13 +127,13 @@ fun AboutScreen(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Augmented Reality Sistem Saraf Otak dibuat dengan Kotlin dan Jetpack compose oleh Hilwah Mauludiah NIM 12001008 untuk memenuhi syarat tugas akhir Penulisan Ilmiah.",
+                        text = stringResource(R.string.body_about),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Normal
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Semua assets dari model,ilustrasi didapatkan dari sumber penggunaan non komersial.",
+                        text = stringResource(R.string.sub_body_about),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Normal
                     )
