@@ -18,7 +18,7 @@ import javax.annotation.concurrent.Immutable
 @Immutable
 @Parcelize
 data class ResultQuizState(
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
 
     //data
     val scoreData:@RawValue ProgressModel= ProgressModel()

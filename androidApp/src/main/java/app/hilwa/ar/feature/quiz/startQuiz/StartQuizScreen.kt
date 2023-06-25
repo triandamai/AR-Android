@@ -85,8 +85,8 @@ internal fun StartQuizScreen(
         confirmValueChange = {
             if (it == ModalBottomSheetValue.Hidden) {
                 when (state.bottomSheetType) {
-                    BottomSheetType.TIMEOUT_CONFIRMATION -> true
-                    BottomSheetType.CLOSE_CONFIRMATION -> false
+                    BottomSheetType.TIMEOUT_CONFIRMATION -> false
+                    BottomSheetType.CLOSE_CONFIRMATION -> true
                 }
             } else true
         }
@@ -151,11 +151,7 @@ internal fun StartQuizScreen(
                         textConfirmation = "Oke",
                         showButtonConfirmation = true,
                         showCloseButton = false,
-                        onDismiss = {
-                            launch {
-                                modalBottomSheet.hide()
-                            }
-                        },
+                        onDismiss = {},
                         onConfirm = {
                             launch {
                                 modalBottomSheet.hide()
@@ -187,6 +183,9 @@ internal fun StartQuizScreen(
                         textConfirmation = "Keluar",
                         textCancel = "Batal",
                         onDismiss = {
+                            launch {
+                                modalBottomSheet.hide()
+                            }
                         },
                         onConfirm = {
                             launch {
@@ -292,7 +291,7 @@ internal fun StartQuizScreen(
                 HeaderStepWithProgress(
                     progress = (state.currentIndex + 1),
                     total = state.questions.size,
-                    onBackPress = ::onBackPressed,
+                    onBackPress = { onBackPressed() },
                     onClose = {
                         launch {
                             if (state.bottomSheetType != BottomSheetType.CLOSE_CONFIRMATION) {
