@@ -6,34 +6,35 @@
  *
  */
 
-package app.hilwa.ar.feature.quiz.listQuiz
+package app.hilwa.ar.feature.quiz.historyQuiz
 
-import app.hilwa.ar.data.domain.quiz.GetListQuizUseCase
+import app.hilwa.ar.data.domain.progress.GetListProgressUseCase
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ListQuizViewModel @Inject constructor(
-    private val getListQuizUseCase: GetListQuizUseCase
-) : MviViewModel<ListQuizState, ListQuizIntent, ListQuizAction>(
-    ListQuizState()
+class HistoryViewModel @Inject constructor(
+    private val getListProgressUseCase: GetListProgressUseCase
+) : MviViewModel<HistoryState, HistoryIntent, HistoryAction>(
+    HistoryState()
 ) {
+
     init {
-        getListQuiz()
+        getHistory()
     }
 
-    private fun getListQuiz() = async {
-        getListQuizUseCase()
+    private fun getHistory() = async {
+        getListProgressUseCase()
             .onEach(
                 loading = {
                     commit { copy(isLoading = true, isEmpty = false) }
                 },
-                error = { _, _ ->
+                error = { message, _ ->
                     commit { copy(isLoading = false, isEmpty = true) }
                 },
                 success = {
-                    commit { copy(isLoading = false, isEmpty = false, quiz = it) }
+                    commit { copy(isLoading = false, isEmpty = false, histories = it) }
                 },
                 empty = {
                     commit { copy(isLoading = false, isEmpty = true) }
@@ -41,9 +42,9 @@ class ListQuizViewModel @Inject constructor(
             )
     }
 
-
-    override fun onAction(action: ListQuizAction) {
-        //no empty
+    override fun onAction(action: HistoryAction) {
+        when (action) {
+            HistoryAction.GetData -> getHistory()
+        }
     }
-
 }

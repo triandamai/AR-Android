@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -31,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -50,8 +48,6 @@ import coil.size.Scale
 fun ItemQuiz(
     quizName: String = String.Empty,
     quizImage: String = "http://via.placeholder.com/640x360",
-    quizProgress: Int = 1,
-    quizAmountQuestion: Int = 2,
     createdAt: String = String.Empty,
     onClick: () -> Unit = {}
 ) {
@@ -177,14 +173,6 @@ fun ItemQuiz(
                         overflow = TextOverflow.Ellipsis
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    LinearProgressIndicator(
-                        progress = if (quizProgress < 1) 1f
-                        else ((quizProgress.toFloat() / quizAmountQuestion) * 100) / 100,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(8.dp),
-                        strokeCap = StrokeCap.Round,
-                    )
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically

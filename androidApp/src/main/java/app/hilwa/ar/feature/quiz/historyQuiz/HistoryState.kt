@@ -6,9 +6,10 @@
  *
  */
 
-package app.hilwa.ar.feature.quiz.listQuiz
+package app.hilwa.ar.feature.quiz.historyQuiz
 
 import android.os.Parcelable
+import app.hilwa.ar.data.model.ProgressModel
 import app.hilwa.ar.data.model.Quiz
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
@@ -16,10 +17,10 @@ import javax.annotation.concurrent.Immutable
 
 @Immutable
 @Parcelize
-data class ListQuizState(
+data class HistoryState(
     val isLoading: Boolean = true,
     val isEmpty:Boolean=false,
-    val quiz: @RawValue List<Quiz> = listOf()
-) :  Parcelable {
-}
+    //data
+    val histories: @RawValue List<Pair<Quiz, ProgressModel>> = listOf()
 
+) : Parcelable

@@ -8,6 +8,7 @@
 
 package app.hilwa.ar.feature.home
 
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,11 +30,15 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -43,6 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import app.hilwa.ar.R
 import app.hilwa.ar.components.DialogConfirmation
 import app.hilwa.ar.feature.home.components.ItemFeature
@@ -57,7 +63,6 @@ import app.trian.mvi.ui.internal.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
-import kotlinx.coroutines.delay
 
 object Home {
     const val routeName = "Home"
@@ -73,9 +78,33 @@ internal fun HomeScreen(
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 
+    val view = LocalView.current
+    val currentWindow = (view.context as? Activity)?.window
+    val primary = MaterialTheme.colorScheme.primary.toArgb()
+    val surface = MaterialTheme.colorScheme.surface.toArgb()
+
+    fun changeStatusBar(isLeave: Boolean) {
+        (view.context as Activity).window.statusBarColor = if (isLeave) primary else surface
+        WindowCompat.getInsetsController(currentWindow!!, view).isAppearanceLightStatusBars =
+            !isLeave
+    }
+
+    if (!view.isInEditMode) {
+        /* getting the current window by tapping into the Activity */
+        SideEffect {
+            changeStatusBar(true)
+        }
+    }
+
+
+
     LaunchedEffect(key1 = uiContract, block = {
-        delay(400)
         commit { copy(isLoadingFeature = false) }
+    })
+    DisposableEffect(key1 = Unit, effect = {
+        onDispose {
+            changeStatusBar(false)
+        }
     })
 
     DialogConfirmation(
@@ -251,7 +280,7 @@ internal fun HomeScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
-                if (state.latestQuiz.isEmpty()) {
+                if (state.latestQuiz.isEmpty() && !state.isLoadingLatestQuiz) {
                     item {
                         Text(
                             text = "Yaah, belum ada quiz buat kamu nih",
@@ -277,7 +306,7 @@ internal fun HomeScreen(
                 items(state.latestQuiz) {
                     ItemLatestQuiz(
                         quizName = it.quizTitle,
-                        quizTotalQuestion = "${it.question.size} Soal",
+                        quizTotalQuestion = "${it.totalQuestion} Soal",
                         quizDuration = "${it.quizDuration} Menit",
                         onClick = {
                             navigator.navigate(

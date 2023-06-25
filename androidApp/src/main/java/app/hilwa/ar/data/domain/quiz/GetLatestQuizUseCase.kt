@@ -10,6 +10,7 @@ package app.hilwa.ar.data.domain.quiz
 
 import app.hilwa.ar.data.model.Quiz
 import app.trian.mvi.ui.ResultStateData
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
@@ -26,8 +27,9 @@ class GetLatestQuizUseCase @Inject constructor(
     operator fun invoke(): Flow<ResultStateData<List<Quiz>>> = flow {
         emit(ResultStateData.Loading)
         try {
+            val lastDay = LocalDateTime.now().minusDays(4)
             val quiz = firestore.collection("QUIZ")
-                .whereGreaterThanOrEqualTo("createdAt", LocalDateTime.now().minusDays(2))
+                .whereGreaterThanOrEqualTo("createdAt", Timestamp(lastDay.second.toLong(), lastDay.nano))
                 .orderBy("createdAt", Query.Direction.DESCENDING)
                 .limit(5)
                 .get().await().map { it.toObject(Quiz::class.java).copy(id = it.id) }
