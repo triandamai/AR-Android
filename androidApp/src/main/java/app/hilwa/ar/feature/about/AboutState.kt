@@ -6,19 +6,16 @@
  *
  */
 
-package app.hilwa.ar.feature.quiz.detailQuiz
+package app.hilwa.ar.feature.about
 
 import android.os.Parcelable
-import app.hilwa.ar.data.model.Quiz
+import app.trian.mvi.ui.extensions.Empty
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
 
 @Immutable
 @Parcelize
-data class DetailQuizState(
-    val quizId: String = "",
-    val quiz: @RawValue Quiz = Quiz(),
-    val isLoading: Boolean = false
+data class AboutState(
+    val a: String = String.Empty,
+    val showContent:Boolean=false
 ) : Parcelable
-

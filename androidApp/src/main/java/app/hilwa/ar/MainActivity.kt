@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
+import app.hilwa.ar.feature.quiz.startQuiz.StartQuiz
 import app.hilwa.ar.feature.splash.Splash
 import app.trian.mvi.androidAppComponent
 import app.trian.mvi.ui.BaseMainApp
@@ -14,6 +15,8 @@ import app.trian.mvi.ui.internal.UIController
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
+import app.trian.mvi.ui.theme.darkColors
+import app.trian.mvi.ui.theme.lightColors
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -35,12 +38,16 @@ class MainActivity : ComponentActivity() {
                     listen()
                 }
             )
-            BaseMainApp(uiController) {
+            BaseMainApp(
+                controller = uiController,
+                lightColor = lightColors,
+                darkColor = darkColors
+            ) {
                 NavHost(
                     navController = uiController.navigator.navHost,
                     startDestination = Splash.routeName
                 ) {
-                    androidAppComponent(it)
+                    androidAppComponent(it, eventListener)
                 }
             }
         }
@@ -50,20 +57,17 @@ class MainActivity : ComponentActivity() {
     private val durationInMillis = TimeUnit.SECONDS.toMillis(durationInSecond)
     private val countDown = object : CountDownTimer(durationInMillis, 1000) {
         override fun onTick(millisUntilFinished: Long) {
-
             val formatString = millisUntilFinished.formatTimer()
-            eventListener.sendEventToScreen("updateTimer", "0", formatString)
+            eventListener.sendEventToScreen("", formatString)
         }
 
         override fun onFinish() {
-            eventListener.sendEventToScreen("updateTimer", "1", "")
-
+            eventListener.sendEventToScreen(StartQuiz.Timeout)
         }
-
     }
 
     private fun listen() {
-        uiController.eventListener.addOnAppEventListener { event, params ->
+        eventListener.addOnAppEventListener { event, params ->
             when (event) {
                 "CANCEL_TIMER" -> countDown.cancel()
                 "EXIT" -> finish()

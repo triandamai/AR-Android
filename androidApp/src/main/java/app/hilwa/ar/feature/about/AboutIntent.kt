@@ -6,11 +6,8 @@
  *
  */
 
-package app.hilwa.ar.feature.home
+package app.hilwa.ar.feature.about
 
-import javax.annotation.concurrent.Immutable
+sealed interface AboutIntent{
 
-@Immutable
-sealed interface HomeAction {
-    object GetLatestData:HomeAction
 }

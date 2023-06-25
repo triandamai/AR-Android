@@ -1,0 +1,60 @@
+import kotlin.collections.List;
+
+CREATE TABLE IF NOT EXISTS Progress(
+    quizId TEXT NOT NULL PRIMARY KEY,
+    questionResponse TEXT AS List<String> NOT NULL,
+    quizScore INTEGER NOT NULL,
+    createdAtSecond INTEGER NOT NULL,
+    createdAtNanoSecond INTEGER NOT NULL,
+    updatedAtSecond INTEGER NOT NULL,
+    updatedAtNanoSecond INTEGER NOT NULL
+);
+
+getExist:
+SELECT EXISTS(SELECT * FROM Progress WHERE quizId=?);
+
+getProgressByQuiz:
+SELECT *
+FROM Progress
+WHERE quizId=?;
+
+
+insertProgress:
+INSERT INTO Progress(
+    quizId,
+    questionResponse,
+    quizScore,
+    createdAtSecond,
+    createdAtNanoSecond,
+    updatedAtSecond,
+    updatedAtNanoSecond
+) VALUES (
+?,
+?,
+?,
+?,
+?,
+?,
+?
+);
+
+updateProgress:
+UPDATE Progress
+    SET
+    quizScore=?,
+    questionResponse=?,
+    createdAtSecond=?,
+    createdAtNanoSecond=?,
+    updatedAtSecond=?,
+    updatedAtNanoSecond=?
+WHERE quizId=?;
+
+updateAnswerProgress:
+UPDATE Progress
+SET questionResponse=?
+WHERE quizId=?;
+
+deleteProgress:
+DELETE FROM Progress
+WHERE quizId=?;
+

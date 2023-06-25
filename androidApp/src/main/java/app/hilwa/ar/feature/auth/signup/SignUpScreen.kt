@@ -40,6 +40,8 @@ import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
 import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.listener.BaseEventListener
+import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
 
 
@@ -55,6 +57,7 @@ object SignUp {
 @Composable
 internal fun ScreenSignUp(
     uiContract: UIContract<SignUpState, SignUpIntent,SignUpAction>,
+    event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
     val modalBottomSheet = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val privacyPolicy = listOf(

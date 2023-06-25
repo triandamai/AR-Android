@@ -13,7 +13,7 @@ import androidx.compose.runtime.Immutable
 import app.hilwa.ar.R.drawable
 import app.hilwa.ar.data.model.HomeMenu
 import app.hilwa.ar.data.model.Quiz
-import app.hilwa.ar.data.utils.dummyQuiz
+import app.hilwa.ar.feature.about.About
 import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
@@ -46,9 +46,9 @@ data class HomeState(
             name = "Tentang Aplikasi",
             description = "Ketahui lebih lanjut tentang creator aplikasi",
             image = drawable.ic_about,
-            route = ListQuiz.routeName
+            route = About.routeName
         )
     ),
-    val latestQuiz: @RawValue List<Quiz> = dummyQuiz.take(2)
+    val latestQuiz: @RawValue List<Quiz> = listOf()
 ) : Parcelable
 

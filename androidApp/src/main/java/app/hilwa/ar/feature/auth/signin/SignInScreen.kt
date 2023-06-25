@@ -44,6 +44,8 @@ import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
 import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.listener.BaseEventListener
+import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
 
 object SignIn {
@@ -57,7 +59,8 @@ object SignIn {
 )
 @Composable
 internal fun ScreenSignIn(
-    uiContract: UIContract<SignInState, SignInIntent, SignInAction>
+    uiContract: UIContract<SignInState, SignInIntent, SignInAction>,
+    event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
     val modalBottomSheet =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)

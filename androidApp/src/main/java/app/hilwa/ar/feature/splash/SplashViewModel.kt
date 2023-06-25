@@ -14,6 +14,9 @@ class SplashViewModel @Inject constructor(
 ) : MviViewModel<SplashState, SplashIntent, SplashAction>(
     SplashState()
 ) {
+    init {
+        checkIfUserLoggedIn()
+    }
     private fun checkIfUserLoggedIn() = async {
         checkSessionUserUseCase().collect {
             if (it) {
@@ -28,9 +31,7 @@ class SplashViewModel @Inject constructor(
     }
 
     override fun onAction(action: SplashAction) {
-        when (action) {
-            SplashAction.CheckSession -> checkIfUserLoggedIn()
-        }
+       //no empty
     }
 
 }

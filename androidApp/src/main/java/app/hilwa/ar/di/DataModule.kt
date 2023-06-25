@@ -6,6 +6,7 @@ import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import app.hilwa.ar.sqldelight.Database
+import app.hilwa.ar.table.progress.Progress
 import app.hilwa.ar.table.question.Question
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,7 +29,7 @@ object DataModule {
     ): SqlDriver = AndroidSqliteDriver(
         Database.Schema,
         context,
-        "tudu_trian_app.db"
+        "quiz_hilwa_app.db"
     )
 
     @Provides
@@ -37,15 +38,30 @@ object DataModule {
     ): Database = Database(
         sqlDriver,
         QuestionAdapter = Question.Adapter(
-            answerAdapter = object :ColumnAdapter<List<String>,String>{
-                override fun decode(databaseValue: String): List<String> {
-                    TODO("Not yet implemented")
-                }
+            questionOptionsAdapter = object : ColumnAdapter<List<String>, String> {
+                override fun decode(databaseValue: String): List<String> =
+                    if (databaseValue.isEmpty()) {
+                        listOf()
+                    } else {
+                        databaseValue.split(",")
+                    }
 
-                override fun encode(value: List<String>): String {
-                    TODO("Not yet implemented")
-                }
+                override fun encode(value: List<String>): String =
+                    value.joinToString(separator = ",")
 
+            }
+        ),
+        ProgressAdapter = Progress.Adapter(
+            questionResponseAdapter = object : ColumnAdapter<List<String>, String> {
+                override fun decode(databaseValue: String): List<String> =
+                    if (databaseValue.isEmpty()) {
+                        listOf()
+                    } else {
+                        databaseValue.split(",")
+                    }
+
+                override fun encode(value: List<String>): String =
+                    value.joinToString(separator = ",")
             }
         )
     )

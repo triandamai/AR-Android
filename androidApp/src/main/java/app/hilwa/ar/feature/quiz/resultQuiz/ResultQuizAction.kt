@@ -6,11 +6,6 @@
  *
  */
 
-package app.hilwa.ar.feature.home
+package app.hilwa.ar.feature.quiz.resultQuiz
 
-import javax.annotation.concurrent.Immutable
-
-@Immutable
-sealed interface HomeAction {
-    object GetLatestData:HomeAction
-}
+sealed interface ResultQuizAction

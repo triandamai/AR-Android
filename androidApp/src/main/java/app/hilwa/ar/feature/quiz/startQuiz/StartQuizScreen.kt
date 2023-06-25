@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.components.BaseBottomSheet
 import app.hilwa.ar.components.BottomSheetConfirmation
+import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.HeaderStepWithProgress
 import app.hilwa.ar.components.ItemQuizOption
 import app.hilwa.ar.feature.quiz.Quiz
@@ -51,6 +52,8 @@ import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
 import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.listener.BaseEventListener
+import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -58,11 +61,13 @@ import coil.request.ImageRequest
 object StartQuiz {
     const val routeName = "Quiz"
     const val argKey = "quizId"
+
+    const val Timeout = "timeout"
 }
 
 @Navigation(
     route = StartQuiz.routeName,
-    group=Quiz.routeName,
+    group = Quiz.routeName,
     viewModel = StartQuizViewModel::class
 )
 @Argument(
@@ -71,36 +76,39 @@ object StartQuiz {
 )
 @Composable
 internal fun StartQuizScreen(
-    uiContract: UIContract<StartQuizState, StartQuizIntent, StartQuizAction>
+    uiContract: UIContract<StartQuizState, StartQuizIntent, StartQuizAction>,
+    event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 
     val modalBottomSheet = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         confirmValueChange = {
-            when (state.bottomSheetType) {
-                BottomSheetType.TIMEOUT_CONFIRMATION -> false
-                BottomSheetType.CLOSE_CONFIRMATION -> true
-            }
+            if (it == ModalBottomSheetValue.Hidden) {
+                when (state.bottomSheetType) {
+                    BottomSheetType.TIMEOUT_CONFIRMATION -> true
+                    BottomSheetType.CLOSE_CONFIRMATION -> false
+                }
+            } else true
         }
     )
 
-    LaunchedEffect(key1 = this, block = {
-        controller.eventListener.addOnScreenEventListener { event, data ->
-            if (event == "updateTimer" && data[0] == "0") {
-                commit { copy(timer = data[1]) }
-            } else {
-                commit { copy(bottomSheetType = BottomSheetType.TIMEOUT_CONFIRMATION) }
-                launch {
+    LaunchedEffect(key1 = event, block = {
+        event.addOnScreenEventListener { event, data ->
+            when (event) {
+                StartQuiz.Timeout -> launch {
+                    if (state.bottomSheetType != BottomSheetType.TIMEOUT_CONFIRMATION) {
+                        commit { copy(bottomSheetType = BottomSheetType.TIMEOUT_CONFIRMATION) }
+                    }
                     modalBottomSheet.show()
                 }
-               // controller.bottomSheet.show()
-               // controller.snackBar.show("Time up!")
+
+                else -> Unit
             }
         }
     })
 
     fun onBackPressed() {
-        if (state.currentIndex == 0) launch {  modalBottomSheet.show()}
+        if (state.currentIndex == 0) launch { modalBottomSheet.show() }
         else dispatch(StartQuizAction.Prev)
     }
     BackHandler {
@@ -108,20 +116,24 @@ internal fun StartQuizScreen(
     }
 
     LaunchedEffect(
-        key1 = state.currentIndex,
+        key1 = Unit,
         block = {
             if (state.currentIndex == 0) {
-                controller.eventListener.sendEventToApp("START_TIMER")
+                event.sendEventToApp("START_TIMER")
             }
         }
     )
 
+    DialogLoading(
+        show = state.isLoading
+    )
+
     BaseScreen(
-       modalBottomSheetState = modalBottomSheet,
+        modalBottomSheetState = modalBottomSheet,
         bottomBar = {
             BottomBarQuiz(
                 show = state.visibleButton,
-                isLastQuestion = ((state.quiz.size - 1) == state.currentIndex),
+                isLastQuestion = ((state.questions.size - 1) == state.currentIndex),
                 hasAnswer = state.hasAnswer,
                 onNext = {
                     dispatch(StartQuizAction.Next)
@@ -175,9 +187,6 @@ internal fun StartQuizScreen(
                         textConfirmation = "Keluar",
                         textCancel = "Batal",
                         onDismiss = {
-                            launch {
-                                modalBottomSheet.hide()
-                            }
                         },
                         onConfirm = {
                             launch {
@@ -194,6 +203,21 @@ internal fun StartQuizScreen(
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
+
+            Text(
+                text = state.timer,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter)
+                    .padding(
+                        top = 50.dp
+                    ),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+            )
             LazyColumn(
                 modifier = Modifier.padding(
                     horizontal = 16.dp
@@ -201,17 +225,6 @@ internal fun StartQuizScreen(
                 content = {
                     item {
                         Spacer(modifier = Modifier.height(50.dp))
-                    }
-                    item {
-                        Text(
-                            text = state.timer,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            maxLines = 3,
-                            overflow = TextOverflow.Ellipsis,
-                        )
                     }
                     item {
                         Column(
@@ -223,43 +236,51 @@ internal fun StartQuizScreen(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Top
                         ) {
-                            Image(
-                                painter = rememberAsyncImagePainter(
-                                    model = ImageRequest.Builder(LocalContext.current)
-                                        .data(state.quiz[state.currentIndex].image)
-                                        .build()
-                                ),
-                                contentDescription = "",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(250.dp),
-                                contentScale = ContentScale.Fit
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Text(
-                                text = state.quiz[state.currentIndex].question,
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.SemiBold,
-                                maxLines = 3,
-                                overflow = TextOverflow.Ellipsis,
-                            )
+                            if (state.questions.isNotEmpty()) {
+                                Image(
+                                    painter = rememberAsyncImagePainter(
+                                        model = ImageRequest.Builder(LocalContext.current)
+                                            .data(state.questions[state.currentIndex].questionImage)
+                                            .build()
+                                    ),
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .fillMaxWidth(
+                                            fraction = 0.6f
+                                        )
+                                        .height(250.dp),
+                                    contentScale = ContentScale.Fit
+                                )
+
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Text(
+                                    text = state.questions[state.currentIndex].question,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    textAlign = TextAlign.Center,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    maxLines = 3,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
                         }
                     }
-                    items(state.quiz[state.currentIndex].answer.toList()) {
-                        ItemQuizOption(
-                            selected = it.first == state.hasAnswer,
-                            answer = it.second,
-                            onClick = {
-                                commit {
-                                    copy(
-                                        visibleButton = true,
-                                        hasAnswer = it.first
-                                    )
+                    if (state.questions.isNotEmpty()) {
+                        items(state.questions[state.currentIndex].questionOptions.toList()) {
+                            ItemQuizOption(
+                                selected = it.first == state.hasAnswer,
+                                answer = it.second,
+                                onClick = {
+                                    commit {
+                                        copy(
+                                            visibleButton = true,
+                                            hasAnswer = it.first,
+                                            currentQuestionNumber = state.questions[state.currentIndex].questionNumber.toInt()
+                                        )
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 })
 
@@ -270,13 +291,13 @@ internal fun StartQuizScreen(
             ) {
                 HeaderStepWithProgress(
                     progress = (state.currentIndex + 1),
-                    total = state.quiz.size,
+                    total = state.questions.size,
                     onBackPress = ::onBackPressed,
                     onClose = {
-                        commit {
-                            copy(bottomSheetType = BottomSheetType.CLOSE_CONFIRMATION)
-                        }
                         launch {
+                            if (state.bottomSheetType != BottomSheetType.CLOSE_CONFIRMATION) {
+                                commit { copy(bottomSheetType = BottomSheetType.CLOSE_CONFIRMATION) }
+                            }
                             modalBottomSheet.show()
                         }
                     }

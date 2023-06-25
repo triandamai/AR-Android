@@ -9,5 +9,5 @@
 package app.hilwa.ar.feature.splash
 
 sealed interface SplashAction{
-    object CheckSession:SplashAction
+
 }

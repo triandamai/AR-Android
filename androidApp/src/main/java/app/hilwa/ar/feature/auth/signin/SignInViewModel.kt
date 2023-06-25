@@ -1,14 +1,21 @@
 package app.hilwa.ar.feature.auth.signin
 
+import android.content.Context
+import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.SignInWithEmailAndPasswordUseCase
+import app.hilwa.ar.feature.home.Home
+import app.trian.mvi.ui.UIEvent
+import app.trian.mvi.ui.extensions.Empty
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val signInWithEmailUseCase: SignInWithEmailAndPasswordUseCase,
-) : MviViewModel<SignInState,SignInIntent, SignInAction>(SignInState()) {
+) : MviViewModel<SignInState, SignInIntent, SignInAction>(SignInState()) {
 
     private fun showLoading() = commit { copy(isLoading = true) }
     private fun hideLoading() = commit { copy(isLoading = false) }
@@ -16,10 +23,14 @@ class SignInViewModel @Inject constructor(
     private fun validateData(
         cb: suspend (String, String) -> Unit
     ) = asyncWithState {
-      //  controller.keyboard.hide()
         when {
-            email.isEmpty() || password.isEmpty() ->{}
-               // controller.snackBar.show(R.string.message_password_or_email_cannot_empty)
+            email.isEmpty() || password.isEmpty() -> sendUiEvent(
+                UIEvent.ShowToast(
+                    context.getString(
+                        R.string.message_password_or_email_cannot_empty
+                    )
+                )
+            )
 
             else -> cb(email, password)
         }
@@ -32,12 +43,19 @@ class SignInViewModel @Inject constructor(
                 signInWithEmailUseCase(email, password).onEach(
                     success = {
                         hideLoading()
-                     //   controller.snackBar.show(R.string.text_message_welcome_user, String.Empty)
-                       // controller.navigator.navigateAndReplace(Home.routeName)
+                        sendUiEvent(
+                            UIEvent.ShowToast(
+                                context.getString(
+                                    R.string.text_message_welcome_user,
+                                    String.Empty
+                                )
+                            )
+                        )
+                        sendUiEvent(UIEvent.NavigateAndReplace(Home.routeName))
                     },
-                    error = {_,_->
+                    error = { _, stringId ->
                         hideLoading()
-                     //   controller.snackBar.show(it)
+                        sendUiEvent(UIEvent.ShowToast(context.getString(stringId)))
                     },
                     loading = ::showLoading
                 )

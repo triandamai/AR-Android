@@ -31,6 +31,8 @@ import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
 import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.listener.BaseEventListener
+import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
 
 object ListQuiz {
@@ -45,7 +47,8 @@ object ListQuiz {
 )
 @Composable
 internal fun ScreenListQuiz(
-    uiContract: UIContract<ListQuizState, ListQuizIntent, ListQuizAction>
+    uiContract: UIContract<ListQuizState, ListQuizIntent, ListQuizAction>,
+    event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
     val modalBottomSheet =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)

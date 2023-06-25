@@ -28,18 +28,12 @@ class DetailQuizViewModel @Inject constructor(
     private fun quizId(): String = savedStateHandle.get<String>(DetailQuiz.argKey).orEmpty()
 
     private fun getQuiz() = async {
-        commit {
-            copy(
-                quizId=quizId()
-            )
-        }
+        commit { copy(quizId = quizId()) }
         getDetailQuizUseCase(quizId())
             .onEach(
-                loading = {},
-                error = {_,_->},
-                success = {
-                    commit { copy(quiz = it.first) }
-                }
+                loading = { commit { copy(isLoading = true) } },
+                error = { _, _ -> commit { copy(isLoading = false) } },
+                success = { commit { copy(quiz = it.first, isLoading = false) } }
             )
     }
 

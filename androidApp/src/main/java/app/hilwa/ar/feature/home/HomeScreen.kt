@@ -30,6 +30,7 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -53,6 +55,8 @@ import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
 import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.listener.BaseEventListener
+import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
 
 object Home {
@@ -65,7 +69,8 @@ object Home {
 )
 @Composable
 internal fun HomeScreen(
-    uiContract: UIContract<HomeState, HomeIntent, HomeAction>
+    uiContract: UIContract<HomeState, HomeIntent, HomeAction>,
+    event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 
     val modalBottomSheet =
@@ -97,6 +102,9 @@ internal fun HomeScreen(
         }
     )
 
+    LaunchedEffect(key1 = Unit, block = {
+        dispatch(HomeAction.GetLatestData)
+    })
     BaseScreen(
         topAppBar = {
             Row(
@@ -252,6 +260,16 @@ internal fun HomeScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
+                if (state.latestQuiz.isEmpty()) {
+                    item {
+                        Text(
+                            text = "Yaah, belum ada quiz buat kamu nih",
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
                 items(state.latestQuiz) {
                     ItemLatestQuiz(
                         quizName = it.quizTitle,
@@ -264,6 +282,7 @@ internal fun HomeScreen(
                         }
                     )
                 }
+
             }
         }
     }

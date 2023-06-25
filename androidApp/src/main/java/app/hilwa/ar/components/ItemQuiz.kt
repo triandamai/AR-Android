@@ -177,7 +177,7 @@ fun ItemQuiz(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     LinearProgressIndicator(
-                        progress = ((quizProgress.toFloat() / quizAmountQuestion) * 100) / 100,
+                        progress = if(quizProgress < 1) 1f else ((quizProgress.toFloat() / quizAmountQuestion) * 100) / 100,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(8.dp),
