@@ -9,6 +9,7 @@
 package app.hilwa.ar.feature.home
 
 import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -51,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import app.hilwa.ar.R
 import app.hilwa.ar.components.DialogConfirmation
+import app.hilwa.ar.feature.arView.ArView
 import app.hilwa.ar.feature.home.components.ItemFeature
 import app.hilwa.ar.feature.home.components.ItemLatestQuiz
 import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
@@ -79,6 +82,7 @@ internal fun HomeScreen(
 ) = UIWrapper(uiContract) {
 
     val view = LocalView.current
+    val ctx = LocalContext.current
     val currentWindow = (view.context as? Activity)?.window
     val primary = MaterialTheme.colorScheme.primary.toArgb()
     val surface = MaterialTheme.colorScheme.surface.toArgb()
@@ -230,6 +234,7 @@ internal fun HomeScreen(
                                     image = it.image,
                                     onClick = {
                                         if (it.route == String.Empty) {
+                                            navigator.navigate(ArView.routeName)
                                             controller.toast.show("Coming soon")
                                         } else {
                                             navigator.navigateSingleTop(it.route)

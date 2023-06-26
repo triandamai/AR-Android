@@ -1,5 +1,6 @@
 package app.hilwa.ar.feature.auth.signin
 
+import android.annotation.SuppressLint
 import android.content.Context
 import app.hilwa.ar.R
 import app.hilwa.ar.data.domain.user.SignInWithEmailAndPasswordUseCase
@@ -11,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -31,7 +33,6 @@ class SignInViewModel @Inject constructor(
                     )
                 )
             )
-
             else -> cb(email, password)
         }
     }

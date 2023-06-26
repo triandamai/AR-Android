@@ -93,11 +93,7 @@ class SignUpViewModel @Inject constructor(
                         hideLoading()
                         sendUiEvent(
                             UIEvent.ShowToast(
-                                message.ifEmpty {
-                                    context.getString(
-                                        string
-                                    )
-                                }
+                                message.ifEmpty { context.getString(string) }
                             )
                         )
                     },

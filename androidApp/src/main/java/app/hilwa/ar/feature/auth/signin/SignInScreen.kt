@@ -62,6 +62,7 @@ internal fun ScreenSignIn(
     uiContract: UIContract<SignInState, SignInIntent, SignInAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
+
     val modalBottomSheet =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val forgetPasswordTextType = listOf(
@@ -208,7 +209,10 @@ fun PreviewScreenSignIn() {
             uiContract = UIContract(
                 controller = rememberUIController(),
                 dispatcher = {},
-                state = SignInState()
+                mutation = {
+                    state = it
+                },
+                state = state
             )
         )
     }

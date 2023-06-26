@@ -249,7 +249,10 @@ fun PreviewScreenSignUp() {
             uiContract = UIContract(
                 state = SignUpState(),
                 controller = rememberUIController(),
-                dispatcher = {}
+                dispatcher = {},
+                mutation = {
+
+                }
             )
         )
     }

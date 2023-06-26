@@ -96,7 +96,10 @@ android {
 dependencies {
     implementation("com.github.triandamai.core-ui:ui:0.10")
     implementation("com.github.triandamai.core-ui:processor:0.10")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     ksp("com.github.triandamai.core-ui:processor:0.10")
+    implementation("io.github.sceneview:arsceneview:0.9.10")
     coreLibraryDesugaring(libs.desugar.jdk.lib)
 
     implementation(libs.android.material)

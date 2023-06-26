@@ -22,9 +22,7 @@ class StartQuizViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getListQuestionUseCase: GetListQuestionUseCase,
     private val saveProgressUseCase: SaveProgressUseCase
-) : MviViewModel<StartQuizState, StartQuizIntent, StartQuizAction>(
-    StartQuizState(),
-) {
+) : MviViewModel<StartQuizState, StartQuizIntent, StartQuizAction>(StartQuizState()) {
 
     private fun quizId(): String = savedStateHandle.get<String>(StartQuiz.argKey).orEmpty()
 
@@ -69,23 +67,25 @@ class StartQuizViewModel @Inject constructor(
         //cannot go next because there's no answer
         if (hasAnswer.isNullOrEmpty()) return@asyncWithState
 
-        val res = Pair(currentQuestionNumber, hasAnswer)
+        val userResponse = Pair(currentQuestionNumber, hasAnswer)
 
         //we set the answer when there's no existing answer
         val value = if (response.isEmpty()) {
-            response.plus(res)
+            response.plus(userResponse)
         } else {
             response.toMutableList().apply {
 
                 val index = try {
                     response.withIndex()
-                        .first { value -> value.value.first == res.first }
+                        .first { value -> value.value.first == userResponse.first }
                         .index
-                } catch (e: Exception) {(-1)}
+                } catch (e: Exception) {
+                    (-1)
+                }
                 if (index != -1) {
-                    this[index] = res
+                    this[index] = userResponse
                 } else {
-                    add(res)
+                    add(userResponse)
                 }
             }
         }

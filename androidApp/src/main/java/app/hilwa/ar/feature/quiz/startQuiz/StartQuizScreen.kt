@@ -101,7 +101,6 @@ internal fun StartQuizScreen(
                     }
                     modalBottomSheet.show()
                 }
-
                 else -> Unit
             }
         }
@@ -125,7 +124,9 @@ internal fun StartQuizScreen(
     )
 
     DialogLoading(
-        show = state.isLoading
+        show = state.isLoading,
+        title = "Menyimpan...",
+        message = "Mohon tunggu beberapa saat"
     )
 
     BaseScreen(

@@ -7,7 +7,7 @@
 
     <string name="btn_hide">Sembunyikan</string>
     <string name="nav_item_home">Beranda</string>
-    <string name="nav_item_drawer" >item drawer</string>
+    <string name="nav_item_drawer">item drawer</string>
     <string name="nav_item_calendar">Kalender</string>
     <string name="nav_item_profile">Profil</string>
     <string name="blank_validation">%1$s tidak boleh kosong!</string>
