@@ -11,8 +11,7 @@ package app.hilwa.ar.feature.quiz.startQuiz
 import androidx.lifecycle.SavedStateHandle
 import app.hilwa.ar.data.domain.progress.SaveProgressUseCase
 import app.hilwa.ar.data.domain.quiz.GetListQuestionUseCase
-import app.hilwa.ar.feature.quiz.resultQuiz.ResultQuiz
-import app.trian.mvi.ui.UIEvent
+import app.hilwa.ar.feature.quiz.startQuiz.component.ScreenType
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -51,13 +50,18 @@ class StartQuizViewModel @Inject constructor(
         getListQuestionUseCase(quizId())
             .onEach(
                 loading = {
-                    commit { copy(isLoading = true) }
+                    commit { copy(screenType = ScreenType.LOADING) }
                 },
                 error = { _, _ ->
-                    commit { copy(isLoading = false) }
+                    commit { copy(screenType = ScreenType.LOADING) }
                 },
                 success = {
-                    commit { copy(questions = it, isLoading = false) }
+                    commit {
+                        copy(
+                            questions = it,
+                            screenType = if (it.isEmpty()) ScreenType.EMPTY else ScreenType.QUIZ
+                        )
+                    }
                 }
             )
 
@@ -104,14 +108,32 @@ class StartQuizViewModel @Inject constructor(
         saveProgressUseCase(quizId = quizId(), response = response)
             .onEach(
                 loading = {
-                    commit { copy(isLoading = true) }
+                    commit {
+                        copy(
+                            visibleButton = false,
+                            hasAnswer = null,
+                            screenType = ScreenType.LOADING
+                        )
+                    }
                 },
                 error = { _, _ ->
-                    commit { copy(isLoading = false) }
+                    commit {
+                        copy(
+                            visibleButton = true,
+                            hasAnswer = null,
+                            screenType = ScreenType.LOADING
+                        )
+                    }
                 },
                 success = {
-                    commit { copy(isLoading = false) }
-                    sendUiEvent(UIEvent.NavigateAndReplace(ResultQuiz.routeName, quizId()))
+                    commit {
+                        copy(
+                            hasAnswer = null,
+                            screenType = ScreenType.RESULT,
+                            scoreData = it,
+                            showResult = true
+                        )
+                    }
                 }
             )
     }

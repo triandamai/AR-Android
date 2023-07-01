@@ -6,6 +6,6 @@
  *
  */
 
-package app.hilwa.ar.feature.arView
+package app.hilwa.ar.feature.augmentedReality.arView
 
 sealed interface ArViewIntent

@@ -9,7 +9,6 @@
 package app.hilwa.ar.feature.home
 
 import android.app.Activity
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -53,7 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import app.hilwa.ar.R
 import app.hilwa.ar.components.DialogConfirmation
-import app.hilwa.ar.feature.arView.ArView
+import app.hilwa.ar.feature.augmentedReality.arView.ArView
 import app.hilwa.ar.feature.home.components.ItemFeature
 import app.hilwa.ar.feature.home.components.ItemLatestQuiz
 import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz

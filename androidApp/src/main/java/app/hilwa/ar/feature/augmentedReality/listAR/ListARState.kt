@@ -6,19 +6,14 @@
  *
  */
 
-package app.hilwa.ar.feature.quiz.resultQuiz
+package app.hilwa.ar.feature.augmentedReality.listAR
 
 import android.os.Parcelable
-import app.hilwa.ar.data.model.ProgressModel
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
 
 @Immutable
 @Parcelize
-data class ResultQuizState(
-    val isLoading: Boolean = true,
-
-    //data
-    val scoreData:@RawValue ProgressModel= ProgressModel()
+data class ListARState(
+    val isLoading:Boolean=true
 ) : Parcelable

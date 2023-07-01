@@ -55,7 +55,6 @@ object ListQuiz {
 
 @Navigation(
     route = ListQuiz.routeName,
-    group = Quiz.routeName,
     viewModel = ListQuizViewModel::class
 )
 @Composable

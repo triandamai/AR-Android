@@ -6,7 +6,7 @@
  *
  */
 
-package app.hilwa.ar.feature.arView
+package app.hilwa.ar.feature.augmentedReality.arView
 
 import android.os.Parcelable
 import app.trian.mvi.ui.extensions.Empty

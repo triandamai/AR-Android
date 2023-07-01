@@ -79,7 +79,6 @@ object DetailQuiz {
 
 @Navigation(
     route = DetailQuiz.routeName,
-    group = Quiz.routeName,
     viewModel = DetailQuizViewModel::class
 )
 @Argument(

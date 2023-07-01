@@ -117,7 +117,7 @@ fun HistoryQuizScreen(
                         items(state.histories) {
                             ItemHistoryQuiz(
                                 quizName = it.first.quizTitle,
-                                quizAmountRightAnswer = "${it.first.quizDuration} Jawaban Benar",
+                                quizAmountRightAnswer = "${it.second.amountRightAnswer} Benar/${it.second.amountQuestion} Soal",
                                 score = it.second.quizScore
                             )
                         }

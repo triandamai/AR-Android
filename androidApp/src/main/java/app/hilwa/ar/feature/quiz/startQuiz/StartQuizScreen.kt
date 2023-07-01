@@ -19,8 +19,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
@@ -42,9 +44,13 @@ import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.HeaderStepWithProgress
 import app.hilwa.ar.components.ItemQuizOption
+import app.hilwa.ar.feature.home.Home
 import app.hilwa.ar.feature.quiz.Quiz
 import app.hilwa.ar.feature.quiz.startQuiz.component.BottomBarQuiz
 import app.hilwa.ar.feature.quiz.startQuiz.component.BottomSheetType
+import app.hilwa.ar.feature.quiz.startQuiz.component.ScreenQuiz
+import app.hilwa.ar.feature.quiz.startQuiz.component.ScreenQuizResult
+import app.hilwa.ar.feature.quiz.startQuiz.component.ScreenType
 import app.trian.mvi.Argument
 import app.trian.mvi.NavType
 import app.trian.mvi.Navigation
@@ -67,7 +73,6 @@ object StartQuiz {
 
 @Navigation(
     route = StartQuiz.routeName,
-    group = Quiz.routeName,
     viewModel = StartQuizViewModel::class
 )
 @Argument(
@@ -101,14 +106,22 @@ internal fun StartQuizScreen(
                     }
                     modalBottomSheet.show()
                 }
+
                 else -> Unit
             }
         }
     })
 
     fun onBackPressed() {
-        if (state.currentIndex == 0) launch { modalBottomSheet.show() }
-        else dispatch(StartQuizAction.Prev)
+        when (state.screenType) {
+            ScreenType.QUIZ -> if (state.currentIndex == 0) {
+                launch { modalBottomSheet.show() }
+            } else dispatch(StartQuizAction.Prev)
+
+            ScreenType.RESULT, ScreenType.EMPTY -> navigator.navigateUp()
+            ScreenType.LOADING -> Unit
+        }
+
     }
     BackHandler {
         onBackPressed()
@@ -121,12 +134,6 @@ internal fun StartQuizScreen(
                 event.sendEventToApp("START_TIMER")
             }
         }
-    )
-
-    DialogLoading(
-        show = state.isLoading,
-        title = "Menyimpan...",
-        message = "Mohon tunggu beberapa saat"
     )
 
     BaseScreen(
@@ -197,104 +204,39 @@ internal fun StartQuizScreen(
                     )
                 }
             }
-
         }
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-
-            Text(
-                text = state.timer,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.TopCenter)
-                    .padding(
-                        top = 50.dp
-                    ),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.SemiBold,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-            )
-            LazyColumn(
-                modifier = Modifier.padding(
-                    horizontal = 16.dp
-                ),
-                content = {
-                    item {
-                        Spacer(modifier = Modifier.height(50.dp))
-                    }
-                    item {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .defaultMinSize(
-                                    minHeight = 100.dp
-                                ),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Top
-                        ) {
-                            if (state.questions.isNotEmpty()) {
-                                Image(
-                                    painter = rememberAsyncImagePainter(
-                                        model = ImageRequest.Builder(LocalContext.current)
-                                            .data(state.questions[state.currentIndex].questionImage)
-                                            .build()
-                                    ),
-                                    contentDescription = "",
-                                    modifier = Modifier
-                                        .fillMaxWidth(
-                                            fraction = 0.6f
-                                        )
-                                        .height(250.dp),
-                                    contentScale = ContentScale.Fit
-                                )
-
-                                Spacer(modifier = Modifier.height(16.dp))
-                                Text(
-                                    text = state.questions[state.currentIndex].question,
-                                    modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                    maxLines = 3,
-                                    overflow = TextOverflow.Ellipsis,
-                                )
-                            }
-                        }
-                    }
-                    if (state.questions.isNotEmpty()) {
-                        items(state.questions[state.currentIndex].questionOptions.toList()) {
-                            ItemQuizOption(
-                                selected = it.first == state.hasAnswer,
-                                answer = it.second,
-                                onClick = {
-                                    commit {
-                                        copy(
-                                            visibleButton = true,
-                                            hasAnswer = it.first,
-                                            currentQuestionNumber = state
-                                                .questions[state.currentIndex]
-                                                .questionNumber
-                                        )
-                                    }
-                                }
-                            )
-                        }
-                    }
-                })
-
-            Column(
-                modifier = Modifier.align(
-                    Alignment.TopCenter
-                )
+        when (state.screenType) {
+            ScreenType.EMPTY -> Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                HeaderStepWithProgress(
-                    progress = (state.currentIndex + 1),
-                    total = state.questions.size,
-                    onBackPress = { onBackPressed() },
+
+                Text(
+                    text = "Gagal memuat soal... :-(",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = 50.dp
+                        ),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+
+            ScreenType.QUIZ -> if (state.questions.isNotEmpty()) {
+                ScreenQuiz(
+                    quizQuestion = state.questions[state.currentIndex],
+                    questionAmount = state.questions.size,
+                    response = state.hasAnswer,
+                    currentIndex = state.currentIndex,
+                    onBackPressed = {
+                        onBackPressed()
+                    },
                     onClose = {
                         launch {
                             if (state.bottomSheetType != BottomSheetType.CLOSE_CONFIRMATION) {
@@ -302,10 +244,43 @@ internal fun StartQuizScreen(
                             }
                             modalBottomSheet.show()
                         }
+                    },
+                    onSubmitResponse = {
+                        commit {
+                            copy(
+                                visibleButton = true,
+                                hasAnswer = it,
+                                currentQuestionNumber = state
+                                    .questions[state.currentIndex]
+                                    .questionNumber
+                            )
+                        }
                     }
                 )
             }
+
+            ScreenType.RESULT -> ScreenQuizResult(
+                show = state.showResult,
+                state = state.scoreData,
+                onNavigateAndReplace = {
+                    navigator.navigateAndReplace(it)
+                },
+                onClose = {
+                    onBackPressed()
+                }
+            )
+
+            ScreenType.LOADING -> Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(40.dp)
+                )
+            }
         }
+
     }
 
 }

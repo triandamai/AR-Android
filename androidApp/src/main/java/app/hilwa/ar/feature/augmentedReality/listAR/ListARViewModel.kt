@@ -6,17 +6,17 @@
  *
  */
 
-package app.hilwa.ar.feature.arView
+package app.hilwa.ar.feature.augmentedReality.listAR
 
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ArViewViewModel @Inject constructor():MviViewModel<ArViewState,ArViewIntent,ArViewAction>(
-    ArViewState()
+class ListARViewModel @Inject constructor():MviViewModel<ListARState,ListARIntent,ListARAction>(
+    ListARState()
 ) {
-    override fun onAction(action: ArViewAction) {
-        //no emptty
+    override fun onAction(action: ListARAction) {
+        //
     }
 }

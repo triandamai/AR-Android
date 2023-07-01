@@ -30,7 +30,7 @@ class SaveProgressUseCase @Inject constructor(
     operator fun invoke(
         quizId: String,
         response: List<Pair<Int, String>>
-    ): Flow<ResultState<Boolean>> = flow {
+    ): Flow<ResultState<ProgressModel>> = flow {
         emit(ResultState.Loading)
 
         try {
@@ -66,9 +66,9 @@ class SaveProgressUseCase @Inject constructor(
             }
             val progress = ProgressModel(
                 quizId = quizId,
-                quizScore = finalScore,
+                quizScore = score,
                 questionResponse = map,
-                amountRightAnswer = score,
+                amountRightAnswer = finalScore,
                 amountQuestion = question.size,
                 createdAt = timeStamp,
                 updateAt = timeStamp
@@ -112,7 +112,7 @@ class SaveProgressUseCase @Inject constructor(
                     )
                 }
             }
-            emit(ResultState.Result(true))
+            emit(ResultState.Result(progress))
         } catch (e: Exception) {
             emit(ResultState.Error(e.message.orEmpty()))
         }

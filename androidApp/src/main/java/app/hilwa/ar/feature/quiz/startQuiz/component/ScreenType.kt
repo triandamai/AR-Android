@@ -6,6 +6,11 @@
  *
  */
 
-package app.hilwa.ar.feature.arView
+package app.hilwa.ar.feature.quiz.startQuiz.component
 
-sealed interface ArViewAction
+enum class ScreenType {
+    LOADING,
+    EMPTY,
+    QUIZ,
+    RESULT
+}

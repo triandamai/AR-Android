@@ -6,6 +6,6 @@
  *
  */
 
-package app.hilwa.ar.feature.quiz.resultQuiz
+package app.hilwa.ar.feature.augmentedReality.listAR
 
-sealed interface ResultQuizAction
+sealed interface ListARIntent

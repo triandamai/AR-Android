@@ -9,8 +9,10 @@
 package app.hilwa.ar.feature.quiz.startQuiz
 
 import android.os.Parcelable
+import app.hilwa.ar.data.model.ProgressModel
 import app.hilwa.ar.data.model.QuizQuestion
 import app.hilwa.ar.feature.quiz.startQuiz.component.BottomSheetType
+import app.hilwa.ar.feature.quiz.startQuiz.component.ScreenType
 import app.trian.mvi.ui.extensions.Empty
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
@@ -27,8 +29,13 @@ data class StartQuizState(
     val hasAnswer: String? = null,
     val timer: String = String.Empty,
     val bottomSheetType: BottomSheetType = BottomSheetType.CLOSE_CONFIRMATION,
-    val isLoading: Boolean = false,
     val response: List<Pair<Int, String>> = listOf(),
+
+    val screenType:ScreenType=ScreenType.LOADING,
+    val showResult:Boolean=false,
     //data
-    val questions: @RawValue List<QuizQuestion> = listOf()
+    val questions: @RawValue List<QuizQuestion> = listOf(),
+
+    //data
+    val scoreData:@RawValue ProgressModel = ProgressModel()
 ) : Parcelable
