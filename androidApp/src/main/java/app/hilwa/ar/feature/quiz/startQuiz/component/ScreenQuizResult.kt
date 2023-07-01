@@ -27,7 +27,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -47,7 +46,6 @@ import app.hilwa.ar.R
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.data.model.ProgressModel
 import app.hilwa.ar.feature.home.Home
-import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
 import app.trian.mvi.ui.theme.ApplicationTheme
 
 @Composable

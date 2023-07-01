@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import app.hilwa.ar.base.format
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ItemQuiz
-import app.hilwa.ar.feature.quiz.Quiz
 import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
 import app.hilwa.ar.feature.quiz.historyQuiz.HistoryQuiz
 import app.trian.mvi.Navigation
