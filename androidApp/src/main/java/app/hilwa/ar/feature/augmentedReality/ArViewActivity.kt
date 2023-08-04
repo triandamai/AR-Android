@@ -79,7 +79,7 @@ import io.github.sceneview.math.Scale as SceneViewScale
 
 @AndroidEntryPoint
 class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
-    val TAG = "ArViewActivity"
+    val tag = "ArViewActivity"
 
     lateinit var sceneView: ArSceneView
     lateinit var loading: LinearLayout
@@ -161,7 +161,7 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                         Toast.LENGTH_LONG
                                     )
                                         .show()
-                                    Log.e(TAG, it.message.orEmpty())
+                                    Log.e(tag, it.message.orEmpty())
                                 }
                             ).apply {
                                 loadModel(

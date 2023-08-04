@@ -18,7 +18,6 @@ import app.hilwa.ar.components.AppbarBasic
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
-import app.hilwa.ar.feature.auth.Authentication
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.BaseScreen

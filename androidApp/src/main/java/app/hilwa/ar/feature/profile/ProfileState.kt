@@ -9,11 +9,18 @@
 package app.hilwa.ar.feature.profile
 
 import android.os.Parcelable
+import app.trian.mvi.ui.extensions.Empty
 import kotlinx.parcelize.Parcelize
 import javax.annotation.concurrent.Immutable
 
 @Immutable
 @Parcelize
 data class ProfileState(
-    val a:String=""
+    val email:String=String.Empty,
+    val displayName:String = String.Empty,
+
+    val inputEmail:String=String.Empty,
+    val inputDisplayName:String=String.Empty,
+
+    val isEdit:Boolean = false
 ) : Parcelable

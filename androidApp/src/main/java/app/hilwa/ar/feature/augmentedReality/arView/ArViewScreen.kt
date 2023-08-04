@@ -8,23 +8,15 @@
 
 package app.hilwa.ar.feature.augmentedReality.arView
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
 import app.trian.mvi.ui.internal.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
 import app.trian.mvi.ui.theme.ApplicationTheme
-//import io.github.sceneview.ar.ARScene
-//import io.github.sceneview.ar.node.ArModelNode
-//import io.github.sceneview.math.Position
 
 object ArView {
     const val routeName = "ArView"

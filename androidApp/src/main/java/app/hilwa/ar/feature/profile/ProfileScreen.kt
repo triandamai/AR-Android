@@ -15,13 +15,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.ListItem
@@ -41,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
+import app.hilwa.ar.components.FormInput
 import app.hilwa.ar.feature.auth.changePassword.ChangePassword
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.UIWrapper
@@ -129,16 +128,30 @@ fun ProfileScreen(
                                 )
                                 .align(Alignment.TopStart)
                         ) {
-                            Text(
-                                text = "Trian",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                            Text(
-                                text = "trian@gmail.com",
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
+                            if (state.isEdit) {
+                                FormInput(
+                                    initialValue = state.inputDisplayName,
+                                    placeholder = "Masukkan nama lengkap",
+                                    onChange = {
+                                        commit {
+                                            copy(
+                                                inputDisplayName = it
+                                            )
+                                        }
+                                    }
+                                )
+                            } else {
+                                Text(
+                                    text = state.displayName,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = state.email,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
                         }
 
                         Row(

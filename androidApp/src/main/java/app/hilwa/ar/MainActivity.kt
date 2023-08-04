@@ -15,7 +15,6 @@ import app.trian.mvi.ui.internal.UIController
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
-import app.trian.mvi.ui.theme.darkColors
 import app.trian.mvi.ui.theme.lightColors
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
