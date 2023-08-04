@@ -27,18 +27,28 @@ class ArViewViewModel @Inject constructor(
         MutableStateFlow(ResultStateData.Loading)
     val items get() = _items.asStateFlow()
 
-    private val _loading: MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val loading get() = _loading.asStateFlow()
+
+    private val _showDialog: MutableStateFlow<Boolean> =
+        MutableStateFlow(false)
+    val showDialog get() = _showDialog.asStateFlow()
+
+    private val _showContent: MutableStateFlow<Boolean> =
+        MutableStateFlow(false)
+    val showContent get() = _showContent.asStateFlow()
 
     init {
         getListInformation()
     }
 
+    fun showDialog(loading:Boolean){
+        _showDialog.tryEmit(loading)
+    }
+    fun showContent(loading:Boolean){
+        _showContent.tryEmit(loading)
+    }
     private fun getListInformation() = viewModelScope.launch {
-        _loading.tryEmit(true)
         getArDataUseCase("wy82dCzeBhFStp1S59wA")
             .collect {
-                _loading.tryEmit(false)
                 _items.tryEmit(it)
             }
     }

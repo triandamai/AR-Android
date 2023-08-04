@@ -8,7 +8,7 @@
 
 package app.hilwa.ar.feature.augmentedReality
 
-import android.graphics.Color as ViewColor
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -29,8 +29,6 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,6 +42,7 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,6 +53,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -67,18 +67,15 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.google.ar.core.TrackingState
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.sceneview.Scene
 import io.github.sceneview.ar.ArSceneView
 import io.github.sceneview.ar.node.AugmentedImageNode
 import io.github.sceneview.math.Position
 import io.github.sceneview.math.Rotation
-import io.github.sceneview.math.Scale as SceneViewScale
 import io.github.sceneview.node.ModelNode
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import io.github.sceneview.math.Scale as SceneViewScale
 
 @AndroidEntryPoint
 class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
@@ -87,6 +84,10 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
     lateinit var sceneView: ArSceneView
     lateinit var loading: LinearLayout
     lateinit var composeView: ComposeView
+    lateinit var augmentedImageNode: AugmentedImageNode
+
+    val urlImage = "models/brain.jpeg"
+    val urlGlb = "models/full.glb"
 
     private val viewModel: ArViewViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,6 +104,7 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
             viewModel.items.collect {
                 loading.visibility = View.GONE
                 composeView.visibility = View.VISIBLE
+
                 when (it) {
                     ResultStateData.Empty -> {
 
@@ -115,53 +117,62 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
 
                     is ResultStateData.Result -> {
                         setupInformationData(
-                            visible = true,
                             item = it.data,
                         )
                         try {
-                            val bitmap = runBlocking(context = Dispatchers.IO) {
-                                //it.data.image
-                                Picasso.Builder(this@ArViewActivity).build().load(it.data.glb)
-                                    .get()
-                            }
-                            sceneView.addChild(
-                                AugmentedImageNode(
-                                    imageName = it.data.type,
-                                    bitmap = bitmap,
-                                    onUpdate = { augImageNode, augImage ->
-                                        Toast.makeText(
-                                            this@ArViewActivity,
-                                            "Detected ${augImage.name}",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                        when (augImage.trackingState) {
-                                            TrackingState.TRACKING -> {
-                                                loadModel(
-                                                    augImageNode,
-                                                    it.data.name,
-                                                    it.data.glb,
-                                                    it.data.scale
-                                                )
-                                            }
+//                            val bitmap = runBlocking(context = Dispatchers.IO) {
+//                                //it.data.image
+//                                Picasso.Builder(this@ArViewActivity).build().load(it.data.image)
+//                                    .get()
+//                            }
 
-                                            TrackingState.PAUSED -> Unit
-                                            TrackingState.STOPPED -> Unit
+                            val bitmap = this@ArViewActivity.assets.open(urlImage)
+                                .use(BitmapFactory::decodeStream)
+                            augmentedImageNode = AugmentedImageNode(
+                                imageName = it.data.type,
+                                bitmap = bitmap,
+                                onUpdate = { augImageNode, augImage ->
+                                    Toast.makeText(
+                                        this@ArViewActivity,
+                                        "Detected ${augImage.name}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    when (augImage.trackingState) {
+                                        TrackingState.TRACKING -> {
+                                            viewModel.showContent(true)
+//                                            loadModel(
+//                                                augImageNode,
+//                                                it.data.name,
+//                                                urlGlb,
+//                                                it.data.scale
+//                                            )
                                         }
 
-
-                                    },
-                                    onError = {
-                                        Toast.makeText(
-                                            this@ArViewActivity,
-                                            it.message.orEmpty(),
-                                            Toast.LENGTH_LONG
-                                        )
-                                            .show()
-                                        Log.e(TAG, it.message.orEmpty())
+                                        TrackingState.PAUSED -> Unit
+                                        TrackingState.STOPPED -> Unit
                                     }
-                                ).apply {
-                                    loadModel(this, it.data.name, it.data.glb, it.data.scale)
+
+
+                                },
+                                onError = {
+                                    Toast.makeText(
+                                        this@ArViewActivity,
+                                        it.message.orEmpty(),
+                                        Toast.LENGTH_LONG
+                                    )
+                                        .show()
+                                    Log.e(TAG, it.message.orEmpty())
                                 }
+                            ).apply {
+                                loadModel(
+                                    this,
+                                    it.data.name,
+                                    urlGlb,
+                                    it.data.scale
+                                )
+                            }
+                            sceneView.addChild(
+                                augmentedImageNode
                             )
                         } catch (e: Exception) {
                             //show error
@@ -234,22 +245,25 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
 
     @OptIn(ExperimentalLayoutApi::class)
     private fun setupInformationData(
-        visible: Boolean = false,
         item: ItemAR
     ) {
         composeView.setContent {
-            var showDialog by remember {
-                mutableStateOf(false)
-            }
+            val showDialog by viewModel.showDialog.collectAsState(false)
+            val showContent by viewModel.showContent.collectAsState(false)
+
             val ctx = LocalContext.current
             val size = ctx.getScreenWidth() / 2
 
+            var truncate by remember {
+                mutableStateOf(true)
+            }
             var partName by remember {
                 mutableStateOf("")
             }
             var partDescription by remember {
                 mutableStateOf("")
             }
+
             val chipRounded = RoundedCornerShape(10.dp)
             val image = rememberAsyncImagePainter(
                 model = ImageRequest
@@ -331,7 +345,8 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                         }
                         IconButton(
                             onClick = {
-                                showDialog = false
+                                viewModel.showDialog(false)
+                                sceneView.addChild(augmentedImageNode)
                             },
                             modifier = Modifier.align(Alignment.TopEnd)
                         ) {
@@ -346,7 +361,7 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                 }
             }
             ApplicationTheme {
-                AnimatedVisibility(visible = visible) {
+                AnimatedVisibility(visible = showContent) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -387,7 +402,19 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                 Text(
                                     text = item.description,
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurface
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    maxLines = if (truncate) 1 else Int.MAX_VALUE,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    text = if (truncate) "Selengkapnya" else "Ciutkan",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.clickable {
+                                        truncate = !truncate
+                                    }
                                 )
                                 Spacer(modifier = Modifier.height(10.dp))
                                 Text(
@@ -397,35 +424,42 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 FlowRow {
-                                    item.part.forEach { part ->
-                                        Row(
-                                            modifier = Modifier
-                                                .clip(chipRounded)
-                                                .border(
-                                                    width = 1.dp,
-                                                    shape = chipRounded,
+                                    item.parts.forEach { part ->
+                                        Box(
+                                            modifier = Modifier.padding(
+                                                horizontal = 6.dp
+                                            )
+                                        ) {
+                                            Row(
+                                                modifier = Modifier
+                                                    .clip(chipRounded)
+                                                    .border(
+                                                        width = 1.dp,
+                                                        shape = chipRounded,
+                                                        color = MaterialTheme.colorScheme.onSurface
+                                                    )
+                                                    .padding(
+                                                        horizontal = 10.dp,
+                                                        vertical = 6.dp
+                                                    )
+                                                    .clickable(
+                                                        enabled = true,
+                                                        onClick = {
+                                                            viewModel.showDialog(true)
+                                                            sceneView.removeChild(augmentedImageNode)
+                                                            partName = part["name"] as String
+                                                            partDescription =
+                                                                part["description"] as String
+
+                                                        }
+                                                    )
+
+                                            ) {
+                                                Text(
+                                                    text = part["name"] as String,
                                                     color = MaterialTheme.colorScheme.onSurface
                                                 )
-                                                .padding(
-                                                    horizontal = 10.dp,
-                                                    vertical = 6.dp
-                                                )
-                                                .clickable(
-                                                    enabled = true,
-                                                    onClick = {
-                                                        showDialog = true
-                                                        partName = part.value["name"] as String
-                                                        partDescription =
-                                                            part.value["description"] as String
-
-                                                    }
-                                                )
-
-                                        ) {
-                                            Text(
-                                                text = part.value["name"] as String,
-                                                color = MaterialTheme.colorScheme.onSurface
-                                            )
+                                            }
                                         }
                                     }
                                 }

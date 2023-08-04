@@ -19,5 +19,5 @@ data class ItemAR(
     val glb: String = String.Empty,
     val type: String = String.Empty,
     val scale: Float = 1f,
-    val part: Map<String, Map<String, Any>> = mapOf()
+    val parts: List<Map<String, Any>> = listOf()
 )
