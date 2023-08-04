@@ -132,11 +132,11 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                 imageName = it.data.type,
                                 bitmap = bitmap,
                                 onUpdate = { augImageNode, augImage ->
-                                    Toast.makeText(
-                                        this@ArViewActivity,
-                                        "Detected ${augImage.name}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
+//                                    Toast.makeText(
+//                                        this@ArViewActivity,
+//                                        "Detected ${augImage.name}",
+//                                        Toast.LENGTH_LONG
+//                                    ).show()
                                     when (augImage.trackingState) {
                                         TrackingState.TRACKING -> {
                                             viewModel.showContent(true)
@@ -161,7 +161,6 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                         Toast.LENGTH_LONG
                                     )
                                         .show()
-                                    Log.e(tag, it.message.orEmpty())
                                 }
                             ).apply {
                                 loadModel(
