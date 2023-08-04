@@ -58,7 +58,7 @@ object ListQuiz {
 )
 @Composable
 internal fun ScreenListQuiz(
-    uiContract: UIContract<ListQuizState, ListQuizIntent, ListQuizAction>,
+    uiContract: UIContract<ListQuizState, ListQuizEffect, ListQuizAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
     val modalBottomSheet =
@@ -70,7 +70,8 @@ internal fun ScreenListQuiz(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Daftar Quiz"
+                        text = "Daftar Quiz",
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 },
                 navigationIcon = {
@@ -79,7 +80,8 @@ internal fun ScreenListQuiz(
                     }) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = ""
+                            contentDescription = "",
+                            tint=MaterialTheme.colorScheme.onSurface
                         )
                     }
                 },
@@ -87,7 +89,11 @@ internal fun ScreenListQuiz(
                     IconButton(onClick = {
                         navigator.navigateSingleTop(HistoryQuiz.routeName)
                     }) {
-                        Icon(imageVector = Icons.Outlined.Leaderboard, contentDescription = "")
+                        Icon(
+                            imageVector = Icons.Outlined.Leaderboard,
+                            contentDescription = "",
+                            tint=MaterialTheme.colorScheme.onSurface
+                        )
                     }
                 },
                 backgroundColor = MaterialTheme.colorScheme.surface,

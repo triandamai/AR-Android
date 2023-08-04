@@ -21,7 +21,7 @@ class StartQuizViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getListQuestionUseCase: GetListQuestionUseCase,
     private val saveProgressUseCase: SaveProgressUseCase
-) : MviViewModel<StartQuizState, StartQuizIntent, StartQuizAction>(StartQuizState()) {
+) : MviViewModel<StartQuizState, StartQuizEffect, StartQuizAction>(StartQuizState()) {
 
     private fun quizId(): String = savedStateHandle.get<String>(StartQuiz.argKey).orEmpty()
 

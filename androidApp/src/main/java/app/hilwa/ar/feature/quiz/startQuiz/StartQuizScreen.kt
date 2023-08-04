@@ -26,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -67,7 +66,7 @@ object StartQuiz {
 )
 @Composable
 internal fun StartQuizScreen(
-    uiContract: UIContract<StartQuizState, StartQuizIntent, StartQuizAction>,
+    uiContract: UIContract<StartQuizState, StartQuizEffect, StartQuizAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 
@@ -87,9 +86,7 @@ internal fun StartQuizScreen(
         event.addOnScreenEventListener { event, data ->
             when (event) {
                 StartQuiz.Timeout -> launch {
-                    if (state.bottomSheetType != BottomSheetType.TIMEOUT_CONFIRMATION) {
-                        commit { copy(bottomSheetType = BottomSheetType.TIMEOUT_CONFIRMATION) }
-                    }
+                    commit { copy(bottomSheetType = BottomSheetType.TIMEOUT_CONFIRMATION) }
                     modalBottomSheet.show()
                 }
 
@@ -164,7 +161,7 @@ internal fun StartQuizScreen(
                             text = "Kamu tidak bisa melanjutkan quiz ini",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Normal,
-                            color = Color.DarkGray
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                     }
@@ -211,6 +208,7 @@ internal fun StartQuizScreen(
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
+                    color=MaterialTheme.colorScheme.onSurface
                 )
             }
 

@@ -53,7 +53,7 @@ fun ItemQuizOption(
             )
             .border(
                 width = 1.dp,
-                color = Color.DarkGray,
+                color = MaterialTheme.colorScheme.primary,
                 shape = MaterialTheme.shapes.medium
             ),
         verticalAlignment = Alignment.CenterVertically,
@@ -63,8 +63,8 @@ fun ItemQuizOption(
             selected = selected,
             onClick = { /*TODO*/ },
             colors = RadioButtonDefaults.colors(
-                selectedColor = MaterialTheme.colorScheme.surface,
-                unselectedColor = Color.DarkGray
+                selectedColor = MaterialTheme.colorScheme.onPrimary,
+                unselectedColor = MaterialTheme.colorScheme.onSurface
             )
         )
         Text(
@@ -72,7 +72,7 @@ fun ItemQuizOption(
             style = MaterialTheme.typography.bodyMedium,
             color =
             if (selected) MaterialTheme.colorScheme.onPrimary
-            else Color.DarkGray
+            else MaterialTheme.colorScheme.primary
         )
     }
 }

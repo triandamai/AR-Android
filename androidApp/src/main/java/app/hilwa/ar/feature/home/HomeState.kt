@@ -27,6 +27,7 @@ data class HomeState(
     val isLoadingFeature: Boolean = true,
     val isLoadingLatestQuiz: Boolean = true,
     val message: String = "Sync...",
+    val profilePicture: String = String.Empty,
 
     //data
     val fullName: String = String.Empty,

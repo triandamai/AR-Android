@@ -38,7 +38,7 @@ fun HeaderStepWithProgress(
     total: Int = 5,
     backgroundColor: Color = MaterialTheme.colorScheme.onSurface,
     color: Color = MaterialTheme.colorScheme.primary,
-    iconColor: Color = Color.DarkGray,
+    iconColor: Color = MaterialTheme.colorScheme.onSurface,
     onBackPress: () -> Unit = {},
     onClose: () -> Unit = {}
 ) {

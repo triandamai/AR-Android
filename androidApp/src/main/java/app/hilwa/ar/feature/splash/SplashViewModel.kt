@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val checkSessionUserUseCase: CheckSessionUserUseCase,
-) : MviViewModel<SplashState, SplashIntent, SplashAction>(
+) : MviViewModel<SplashState, SplashEffect, SplashAction>(
     SplashState()
 ) {
     init {

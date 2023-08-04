@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Hilwa</string>
+    <string name="app_name">Brain_AR</string>
     <string name="btn_edit">Ubah</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_confirm">Oke</string>

@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ListQuizViewModel @Inject constructor(
     private val getListQuizUseCase: GetListQuizUseCase
-) : MviViewModel<ListQuizState, ListQuizIntent, ListQuizAction>(
+) : MviViewModel<ListQuizState, ListQuizEffect, ListQuizAction>(
     ListQuizState()
 ) {
     init {

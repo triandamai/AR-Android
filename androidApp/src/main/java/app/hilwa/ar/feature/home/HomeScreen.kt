@@ -9,8 +9,10 @@
 package app.hilwa.ar.feature.home
 
 import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,9 +54,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import app.hilwa.ar.R
 import app.hilwa.ar.components.DialogConfirmation
-import app.hilwa.ar.feature.augmentedReality.arView.ArView
+import app.hilwa.ar.feature.augmentedReality.ArViewActivity
 import app.hilwa.ar.feature.home.components.ItemFeature
 import app.hilwa.ar.feature.home.components.ItemLatestQuiz
+import app.hilwa.ar.feature.profile.Profile
 import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.BaseMainApp
@@ -65,6 +68,8 @@ import app.trian.mvi.ui.internal.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 
 object Home {
     const val routeName = "Home"
@@ -85,6 +90,7 @@ internal fun HomeScreen(
     val currentWindow = (view.context as? Activity)?.window
     val primary = MaterialTheme.colorScheme.primary.toArgb()
     val surface = MaterialTheme.colorScheme.surface.toArgb()
+    val profileCorner = RoundedCornerShape(10.dp)
 
     fun changeStatusBar(isLeave: Boolean) {
         (view.context as Activity).window.statusBarColor = if (isLeave) primary else surface
@@ -161,10 +167,22 @@ internal fun HomeScreen(
                 Box(
                     modifier = Modifier
                         .size(40.dp)
-                        .clip(CircleShape)
+                        .clip(profileCorner)
+                        .clickable(
+                            enabled = true,
+                            onClick = {
+                                controller.navigator.navigate(Profile.routeName)
+                            }
+                        )
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.dummy_avatar_female),
+                        painter = rememberAsyncImagePainter(
+                            model = ImageRequest.Builder(ctx)
+                                .data(state.profilePicture)
+                                .placeholder(R.drawable.dummy_avatar_female)
+                                .error(R.drawable.dummy_avatar_female)
+                                .build()
+                        ),
                         contentDescription = ""
                     )
                 }
@@ -200,7 +218,7 @@ internal fun HomeScreen(
                                 append("Coba fitur ")
                                 withStyle(
                                     style = SpanStyle(
-                                        color = Color.Black,
+                                        color = MaterialTheme.colorScheme.primary,
                                         fontWeight = FontWeight.SemiBold
                                     )
                                 ) {
@@ -209,7 +227,7 @@ internal fun HomeScreen(
                                 append("-nya dan kerjakan ")
                                 withStyle(
                                     style = SpanStyle(
-                                        color = Color.Black,
+                                        color = MaterialTheme.colorScheme.primary,
                                         fontWeight = FontWeight.SemiBold
                                     )
                                 ) {
@@ -233,8 +251,11 @@ internal fun HomeScreen(
                                     image = it.image,
                                     onClick = {
                                         if (it.route == String.Empty) {
-                                            navigator.navigate(ArView.routeName)
-                                            controller.toast.show("Coming soon")
+                                            Intent(ctx, ArViewActivity::class.java).apply {
+                                                ctx.startActivity(this)
+                                            }
+                                            //navigator.navigate(ArView.routeName)
+                                            // controller.toast.show("Coming soon")
                                         } else {
                                             navigator.navigateSingleTop(it.route)
                                         }
@@ -266,7 +287,7 @@ internal fun HomeScreen(
                                     append("Quiz ")
                                     withStyle(
                                         style = SpanStyle(
-                                            color = Color.Black,
+                                            color = MaterialTheme.colorScheme.primary,
                                             fontWeight = FontWeight.SemiBold
                                         )
                                     ) {

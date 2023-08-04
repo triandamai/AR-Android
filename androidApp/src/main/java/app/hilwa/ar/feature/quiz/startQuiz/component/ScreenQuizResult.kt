@@ -99,13 +99,15 @@ fun ScreenQuizResult(
                         text = stringResource(R.string.title_result_quiz),
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = stringResource(R.string.subtitle_result_quiz),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color=MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -113,7 +115,8 @@ fun ScreenQuizResult(
                         text = stringResource(R.string.subtitle_result_quiz_score),
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color=MaterialTheme.colorScheme.onSurface
                     )
                     Text(
                         text = buildAnnotatedString {
@@ -145,7 +148,8 @@ fun ScreenQuizResult(
                         text = stringResource(R.string.subtitle_result_quiz_amount_right_answer),
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Normal,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color=MaterialTheme.colorScheme.onSurface
                     )
                     Text(
                         text = buildAnnotatedString {

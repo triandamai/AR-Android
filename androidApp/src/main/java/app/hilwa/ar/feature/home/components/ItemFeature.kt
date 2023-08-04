@@ -66,7 +66,7 @@ fun ItemFeature(
                     .width(cardWidth)
                     .height(cardHeight)
                     .coloredShadow(
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         alpha = 0.1f
                     )
                     .clip(

@@ -142,7 +142,8 @@ internal fun DetailQuizScreen(
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Close,
-                    contentDescription = ""
+                    contentDescription = "",
+                    tint=MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -220,6 +221,7 @@ internal fun DetailQuizScreen(
                                 fontWeight = FontWeight.SemiBold,
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis,
+                                color=MaterialTheme.colorScheme.onSurface
                             )
                             Spacer(modifier = Modifier.height(16.dp))
 
@@ -241,7 +243,7 @@ internal fun DetailQuizScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Outlined.Feed,
-                                        contentDescription = ""
+                                        contentDescription = "",
                                     )
                                     Spacer(modifier = Modifier.width(10.dp))
                                     Text(
@@ -279,6 +281,7 @@ internal fun DetailQuizScreen(
                                 fontWeight = FontWeight.Normal,
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis,
+                                color=MaterialTheme.colorScheme.onSurface
                             )
                             Text(
                                 text = state.quiz.quizDescription,
@@ -288,6 +291,7 @@ internal fun DetailQuizScreen(
                                 fontWeight = FontWeight.SemiBold,
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis,
+                                color=MaterialTheme.colorScheme.onSurface
                             )
                         }
 

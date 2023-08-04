@@ -34,7 +34,6 @@ object ChangePassword {
 
 @Navigation(
     route = ChangePassword.routeName,
-    group = Authentication.routeName,
     viewModel = ChangePasswordViewModel::class
 )
 @Composable

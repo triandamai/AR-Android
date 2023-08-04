@@ -47,7 +47,7 @@ fun BottomBarQuiz(
             modifier = Modifier
                 .fillMaxWidth()
                 .coloredShadow(
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 .clip(
                     RoundedCornerShape(

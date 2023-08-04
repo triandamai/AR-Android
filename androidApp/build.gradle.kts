@@ -94,12 +94,15 @@ android {
 }
 
 dependencies {
-    implementation("com.github.triandamai.core-ui:ui:0.10")
-    implementation("com.github.triandamai.core-ui:processor:0.10")
+    implementation("com.github.triandamai.core-ui:ui:0.13")
+    implementation("com.github.triandamai.core-ui:processor:0.13")
+    ksp("com.github.triandamai.core-ui:processor:0.13")
+
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    ksp("com.github.triandamai.core-ui:processor:0.10")
     implementation("io.github.sceneview:arsceneview:0.9.10")
+
+    implementation("com.squareup.picasso:picasso:2.8")
     coreLibraryDesugaring(libs.desugar.jdk.lib)
 
     implementation(libs.android.material)

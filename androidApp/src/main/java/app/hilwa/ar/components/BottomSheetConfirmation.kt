@@ -65,7 +65,7 @@ fun BottomSheetConfirmation(
                 text = message,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Normal,
-                color = Color.DarkGray
+                color=MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(16.dp))
             Row(

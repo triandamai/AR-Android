@@ -28,7 +28,12 @@ class HomeViewModel @Inject constructor(
         getUserProfileUseCase()
             .onEach(
                 success = {
-                    commit { copy(fullName = it.displayName.orEmpty()) }
+                    commit {
+                        copy(
+                            fullName = it.displayName.orEmpty(),
+                            profilePicture = it.photoUrl.toString()
+                        )
+                    }
                 }
             )
     }

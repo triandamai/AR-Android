@@ -8,6 +8,7 @@
 
 package app.hilwa.ar.feature.augmentedReality
 
+import android.graphics.Color as ViewColor
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,6 +21,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -33,22 +36,32 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.lifecycleScope
 import app.hilwa.ar.R
 import app.hilwa.ar.data.model.ItemAR
 import app.trian.mvi.ui.ResultStateData
+import app.trian.mvi.ui.extensions.getScreenWidth
 import app.trian.mvi.ui.theme.ApplicationTheme
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -104,14 +117,11 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                         setupInformationData(
                             visible = true,
                             item = it.data,
-                            onClick = { _name, _location, _scale ->
-
-                            }
                         )
                         try {
                             val bitmap = runBlocking(context = Dispatchers.IO) {
                                 //it.data.image
-                                Picasso.Builder(this@ArViewActivity).build().load("")
+                                Picasso.Builder(this@ArViewActivity).build().load(it.data.glb)
                                     .get()
                             }
                             sceneView.addChild(
@@ -171,11 +181,11 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
     private fun loadModel(
         modelNode: ModelNode,
         name: String,
-        location: String,
-        scale: Float
+        location: String
     ) {
         modelNode.loadModelGlbAsync(
             glbFileLocation = location,
+            autoAnimate = true,
             onError = {
                 Toast.makeText(
                     this@ArViewActivity,
@@ -225,13 +235,20 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
     @OptIn(ExperimentalLayoutApi::class)
     private fun setupInformationData(
         visible: Boolean = false,
-        item: ItemAR,
-        onClick: (String, String, Float) -> Unit = { _, _, _ -> }
+        item: ItemAR
     ) {
-        Log.e("HEHEH", item.part.toString())
         composeView.setContent {
             var showDialog by remember {
                 mutableStateOf(false)
+            }
+            val ctx = LocalContext.current
+            val size = ctx.getScreenWidth() / 2
+
+            var partName by remember {
+                mutableStateOf("")
+            }
+            var partDescription by remember {
+                mutableStateOf("")
             }
             val chipRounded = RoundedCornerShape(10.dp)
             val image = rememberAsyncImagePainter(
@@ -245,39 +262,90 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                 ModelNode(
                     position = Position(x = 0.0f, y = 0.0f, z = -4.0f),
                     rotation = Rotation(y = 90.0f),
-                    scale = SceneViewScale(0.5f),
+                    scale = SceneViewScale(3.5f),
                 ).apply {
                     loadModel(
                         this,
                         "Model",
-                        "models/corpus.glb",
-                        0.6f
+                        "models/corpus.glb"
                     )
 
                 }
             )
 
             if (showDialog) {
-                Dialog(onDismissRequest = { /*TODO*/ }) {
-                    Column(
+                Dialog(
+                    onDismissRequest = { /*TODO*/ },
+                    properties = DialogProperties(
+                        dismissOnBackPress = false,
+                        dismissOnClickOutside = false,
+                        usePlatformDefaultWidth = false
+                    )
+                ) {
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .fillMaxHeight(
-                                fraction = 0.5f
+                            .wrapContentHeight()
+                            .padding(
+                                horizontal = 20.dp
                             )
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(MaterialTheme.colorScheme.surface)
                     ) {
-                        Scene(
-                            modifier = Modifier.fillMaxSize(),
-                            nodes = node,
-                            onCreate = { sceneView ->
-                                // Apply your configuration
+                        Column(
+                            modifier = Modifier.padding(
+                                16.dp
+                            )
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Scene(
+                                    modifier = Modifier
+                                        .size(size)
+                                        .background(MaterialTheme.colorScheme.surface),
+                                    nodes = node,
+                                    onCreate = { sceneView ->
+                                        sceneView.scene.skybox?.setColor(255f, 255f, 255f, 1f)
+                                        // Apply your configuration
+                                    }
+                                )
                             }
-                        )
+                            Column {
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Text(
+                                    text = partName,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    text = partDescription,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+
+                        }
+                        IconButton(
+                            onClick = {
+                                showDialog = false
+                            },
+                            modifier = Modifier.align(Alignment.TopEnd)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Close,
+                                contentDescription = "",
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+
+                        }
                     }
                 }
             }
             ApplicationTheme {
-
                 AnimatedVisibility(visible = visible) {
                     Column(
                         modifier = Modifier
@@ -329,7 +397,7 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 FlowRow {
-                                    item.part.forEach {
+                                    item.part.forEach { part ->
                                         Row(
                                             modifier = Modifier
                                                 .clip(chipRounded)
@@ -346,17 +414,16 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                                     enabled = true,
                                                     onClick = {
                                                         showDialog = true
-                                                        onClick(
-                                                            it.value["name"] as String,
-                                                            it.value["glb"] as String,
-                                                            (it.value["scale"] as Double).toFloat()
-                                                        )
+                                                        partName = part.value["name"] as String
+                                                        partDescription =
+                                                            part.value["description"] as String
+
                                                     }
                                                 )
 
                                         ) {
                                             Text(
-                                                text = it.value["name"] as String,
+                                                text = part.value["name"] as String,
                                                 color = MaterialTheme.colorScheme.onSurface
                                             )
                                         }

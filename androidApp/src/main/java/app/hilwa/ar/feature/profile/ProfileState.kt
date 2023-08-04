@@ -6,18 +6,14 @@
  *
  */
 
-package app.hilwa.ar.feature.augmentedReality.arView
+package app.hilwa.ar.feature.profile
 
 import android.os.Parcelable
-import app.trian.mvi.ui.extensions.Empty
-//import io.github.sceneview.ar.node.ArNode
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
 
 @Immutable
 @Parcelize
-data class ArViewState(
-    val a: String = String.Empty,
-//    val nodes: @RawValue List<ArNode> = listOf()
+data class ProfileState(
+    val a:String=""
 ) : Parcelable

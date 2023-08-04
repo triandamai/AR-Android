@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
             BaseMainApp(
                 controller = uiController,
                 lightColor = lightColors,
-                darkColor = darkColors
+                darkColor = lightColors
             ) {
                 NavHost(
                     navController = uiController.navigator.navHost,

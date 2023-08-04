@@ -95,6 +95,7 @@ fun ScreenQuiz(
                                 fontWeight = FontWeight.SemiBold,
                                 maxLines = 3,
                                 overflow = TextOverflow.Ellipsis,
+                                color=MaterialTheme.colorScheme.onSurface
                             )
                     }
                 }

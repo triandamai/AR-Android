@@ -22,9 +22,9 @@ import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
 import app.trian.mvi.ui.theme.ApplicationTheme
-import io.github.sceneview.ar.ARScene
-import io.github.sceneview.ar.node.ArModelNode
-import io.github.sceneview.math.Position
+//import io.github.sceneview.ar.ARScene
+//import io.github.sceneview.ar.node.ArModelNode
+//import io.github.sceneview.math.Position
 
 object ArView {
     const val routeName = "ArView"
@@ -41,43 +41,43 @@ fun ArViewScreen(
 ) = UIWrapper(uiContract = uiContract) {
 
 
-    val modelNode = ArModelNode()
-    LaunchedEffect(key1 = Unit, block = {
-        modelNode.loadModelGlbAsync(
-            glbFileLocation = "models/brain.glb",
-            autoAnimate = true,
-            centerOrigin = Position(x = 0.0f, y = 0.0f, z = 0.0f),
-            onError = {
-
-            },
-            scaleToUnits = 0.5f
-        ) {
-
-        }
-    })
-
-    BaseScreen {
-        Box(modifier = Modifier.fillMaxSize()) {
-            ARScene(
-                modifier = Modifier.fillMaxSize(),
-                nodes = state.nodes,
-                planeRenderer = true,
-                onCreate = {
-                    it.addChild(modelNode)
-                },
-                onSessionCreate = {
-                    modelNode.anchor()
-                    this.planeRenderer.isVisible = false
-                },
-                onFrame = {
-
-                },
-                onTap = {
-
-                }
-            )
-        }
-    }
+//    val modelNode = ArModelNode()
+//    LaunchedEffect(key1 = Unit, block = {
+//        modelNode.loadModelGlbAsync(
+//            glbFileLocation = "models/brain.glb",
+//            autoAnimate = true,
+//            centerOrigin = Position(x = 0.0f, y = 0.0f, z = 0.0f),
+//            onError = {
+//
+//            },
+//            scaleToUnits = 0.7f
+//        ) {
+//
+//        }
+//    })
+//
+//    BaseScreen {
+//        Box(modifier = Modifier.fillMaxSize()) {
+//            ARScene(
+//                modifier = Modifier.fillMaxSize(),
+//                nodes = state.nodes,
+//                planeRenderer = true,
+//                onCreate = {
+//                    it.addChild(modelNode)
+//                },
+//                onSessionCreate = {
+//                    modelNode.anchor()
+//                    this.planeRenderer.isVisible = false
+//                },
+//                onFrame = {
+//
+//                },
+//                onTap = {
+//
+//                }
+//            )
+//        }
+//    }
 
 }
 
