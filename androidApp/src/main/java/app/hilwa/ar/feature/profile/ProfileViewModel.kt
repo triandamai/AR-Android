@@ -46,6 +46,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onAction(action: ProfileAction) {
-
+        //ignore empty block
     }
 }

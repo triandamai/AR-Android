@@ -10,7 +10,6 @@ package app.hilwa.ar.feature.augmentedReality
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
