@@ -8,6 +8,7 @@
 
 package app.hilwa.ar.feature.profile
 
+import android.graphics.Bitmap
 import android.os.Parcelable
 import app.trian.mvi.ui.extensions.Empty
 import kotlinx.parcelize.Parcelize
@@ -18,9 +19,11 @@ import javax.annotation.concurrent.Immutable
 data class ProfileState(
     val email:String=String.Empty,
     val displayName:String = String.Empty,
+    val profilePicture:String= String.Empty,
 
     val inputEmail:String=String.Empty,
     val inputDisplayName:String=String.Empty,
 
-    val isEdit:Boolean = false
+    val isEdit:Boolean = false,
+    val bitmap:Bitmap?=null
 ) : Parcelable

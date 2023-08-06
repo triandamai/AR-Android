@@ -8,4 +8,6 @@
 
 package app.hilwa.ar.feature.profile
 
-sealed interface ProfileAction
+sealed interface ProfileAction {
+    object SubmitUpdateProfile : ProfileAction
+}

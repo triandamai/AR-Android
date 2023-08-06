@@ -250,9 +250,12 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
             val showContent by viewModel.showContent.collectAsState(false)
 
             val ctx = LocalContext.current
-            val size = ctx.getScreenWidth() / 2
+            val size = ctx.getScreenWidth() - 40.dp
 
             var truncate by remember {
+                mutableStateOf(true)
+            }
+            var truncatePart by remember {
                 mutableStateOf(true)
             }
             var partName by remember {
@@ -261,6 +264,10 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
             var partDescription by remember {
                 mutableStateOf("")
             }
+            var selectedModel by remember {
+                mutableStateOf(0)
+            }
+
 
             val chipRounded = RoundedCornerShape(10.dp)
             val image = rememberAsyncImagePainter(
@@ -270,20 +277,24 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                     .scale(Scale.FILL)
                     .build()
             )
-            val node = listOf(
+
+            val node = item.parts.map {
                 ModelNode(
                     position = Position(x = 0.0f, y = 0.0f, z = -4.0f),
                     rotation = Rotation(y = 90.0f),
-                    scale = SceneViewScale(3.5f),
+                    scale = SceneViewScale((it["scale"] as Double).toFloat()),
                 ).apply {
                     loadModel(
                         this,
                         "Model",
-                        "models/corpus.glb"
+                        "models/${it["name"] as String}.glb"
                     )
-
                 }
-            )
+            }
+
+            var selectedNode by remember {
+                mutableStateOf(listOf(node[0]))
+            }
 
             if (showDialog) {
                 Dialog(
@@ -317,10 +328,11 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                     modifier = Modifier
                                         .size(size)
                                         .background(MaterialTheme.colorScheme.surface),
-                                    nodes = node,
+                                    nodes = selectedNode,
                                     onCreate = { sceneView ->
                                         sceneView.scene.skybox?.setColor(255f, 255f, 255f, 1f)
                                         // Apply your configuration
+
                                     }
                                 )
                             }
@@ -336,7 +348,19 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                 Text(
                                     text = partDescription,
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurface
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    maxLines = if (truncatePart) 1 else Int.MAX_VALUE,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    text = if (truncatePart) "Selengkapnya" else "Ciutkan",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.clickable {
+                                        truncatePart = !truncatePart
+                                    }
                                 )
                             }
 
@@ -422,7 +446,7 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 FlowRow {
-                                    item.parts.forEach { part ->
+                                    item.parts.forEachIndexed { index, part ->
                                         Box(
                                             modifier = Modifier.padding(
                                                 horizontal = 6.dp
@@ -448,6 +472,9 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                                             partName = part["name"] as String
                                                             partDescription =
                                                                 part["description"] as String
+
+                                                            selectedModel = index
+                                                            selectedNode = listOf(node[index])
 
                                                         }
                                                     )

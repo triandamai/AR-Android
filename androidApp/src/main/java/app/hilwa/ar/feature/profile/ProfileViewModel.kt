@@ -9,6 +9,7 @@
 package app.hilwa.ar.feature.profile
 
 import app.hilwa.ar.data.domain.user.GetUserProfileUseCase
+import app.hilwa.ar.data.domain.user.UpdateProfileUseCase
 import app.trian.mvi.ui.ResultState
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getUserProfileUseCase: GetUserProfileUseCase
+    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val updateProfileUseCase: UpdateProfileUseCase
 ) : MviViewModel<ProfileState, ProfileEffect, ProfileAction>(
     ProfileState()
 ) {
@@ -45,7 +47,24 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    private fun updateProfile() = asyncWithState {
+        updateProfileUseCase(
+            inputDisplayName,
+            bitmap
+        ).collect {
+            when (it) {
+                is ResultState.Error -> Unit
+                ResultState.Loading -> Unit
+                is ResultState.Result -> {
+
+                }
+            }
+        }
+    }
+
     override fun onAction(action: ProfileAction) {
-        //ignore empty block
+        when (action) {
+            ProfileAction.SubmitUpdateProfile -> updateProfile()
+        }
     }
 }
