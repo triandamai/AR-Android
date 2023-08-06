@@ -22,9 +22,6 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
 }
 
-val keystorePropertiesFile = rootProject.file("keystore.properties")
-val keystoreProperties = Properties()
-keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     namespace = findProperty("APP_NAME_SPACE").toString()
@@ -215,9 +212,9 @@ tasks.create<Copy>("installGitHook") {
 }
 
 fun ApkSigningConfig.setupKeystore(){
-    val filePath = keystoreProperties.getProperty("storeFile")
-    keyAlias = keystoreProperties.getProperty("keyAlias")
-    keyPassword = keystoreProperties.getProperty("keyPassword")
+    val filePath = findProperty("storeFile") as String
+    keyAlias = findProperty("keyAlias") as String
+    keyPassword = findProperty("keyPassword") as String
     storeFile = file(filePath)
-    storePassword = keystoreProperties.getProperty("storePassword")
+    storePassword = findProperty("storePassword") as String
 }
