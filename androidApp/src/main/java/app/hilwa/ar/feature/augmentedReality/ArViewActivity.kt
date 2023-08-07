@@ -58,10 +58,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.lifecycleScope
 import app.hilwa.ar.R
+import app.hilwa.ar.data.ResultStateData
 import app.hilwa.ar.data.model.ItemAR
-import app.trian.mvi.ui.ResultStateData
+import app.hilwa.ar.ui.ApplicationTheme
 import app.trian.mvi.ui.extensions.getScreenWidth
-import app.trian.mvi.ui.theme.ApplicationTheme
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale

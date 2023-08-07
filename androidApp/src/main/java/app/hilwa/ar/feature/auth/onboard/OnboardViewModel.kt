@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnboardViewModel @Inject constructor(
-) : MviViewModel<OnboardState,OnboardIntent, OnboardAction>(OnboardState()) {
+) : MviViewModel<OnboardState, OnboardAction>(OnboardState()) {
     override fun onAction(action: OnboardAction) {
         //no empty
     }

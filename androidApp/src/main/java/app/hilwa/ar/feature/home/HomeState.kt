@@ -16,6 +16,7 @@ import app.hilwa.ar.data.model.Quiz
 import app.hilwa.ar.feature.about.About
 import app.hilwa.ar.feature.quiz.listQuiz.ListQuiz
 import app.trian.mvi.ui.extensions.Empty
+import app.trian.mvi.ui.internal.contract.MviState
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
@@ -53,6 +54,7 @@ data class HomeState(
             route = About.routeName
         )
     ),
-    val latestQuiz: @RawValue List<Quiz> = listOf()
-) : Parcelable
+    val latestQuiz: @RawValue List<Quiz> = listOf(),
+    override val effect: @RawValue HomeEffect = HomeEffect.Nothing
+) : MviState<HomeEffect>(), Parcelable
 

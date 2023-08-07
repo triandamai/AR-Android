@@ -6,6 +6,11 @@
  *
  */
 
-package app.hilwa.ar.feature.quiz.historyQuiz
+package app.hilwa.ar.feature.auth.onboard
 
-sealed interface HistoryIntent
+import javax.annotation.concurrent.Immutable
+
+@Immutable
+sealed interface OnboardEffect {
+    object Nothing : OnboardEffect
+}

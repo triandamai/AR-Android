@@ -46,7 +46,7 @@ import app.hilwa.ar.R
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.data.model.ProgressModel
 import app.hilwa.ar.feature.home.Home
-import app.trian.mvi.ui.theme.ApplicationTheme
+import app.hilwa.ar.ui.ApplicationTheme
 
 @Composable
 fun ScreenQuizResult(

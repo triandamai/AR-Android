@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import app.hilwa.ar.components.HeaderStepWithProgress
 import app.hilwa.ar.components.ItemQuizOption
 import app.hilwa.ar.data.model.QuizQuestion
-import app.trian.mvi.ui.theme.ApplicationTheme
+import app.hilwa.ar.ui.ApplicationTheme
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 

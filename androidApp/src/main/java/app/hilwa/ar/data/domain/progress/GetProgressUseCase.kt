@@ -8,9 +8,9 @@
 
 package app.hilwa.ar.data.domain.progress
 
+import app.hilwa.ar.data.ResultState
 import app.hilwa.ar.data.model.ProgressModel
 import app.hilwa.ar.sqldelight.Database
-import app.trian.mvi.ui.ResultState
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

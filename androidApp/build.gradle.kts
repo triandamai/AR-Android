@@ -91,9 +91,9 @@ android {
 }
 
 dependencies {
-    implementation("com.github.triandamai.core-ui:ui:0.13")
-    implementation("com.github.triandamai.core-ui:processor:0.13")
-    ksp("com.github.triandamai.core-ui:processor:0.13")
+    implementation("com.github.triandamai.core-ui:ui:0.16")
+    implementation("com.github.triandamai.core-ui:processor:0.16")
+    ksp("com.github.triandamai.core-ui:processor:0.16")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

@@ -8,4 +8,6 @@
 
 package app.hilwa.ar.feature.profile
 
-sealed interface ProfileEffect
+sealed interface ProfileEffect {
+    object Nothing : ProfileEffect
+}

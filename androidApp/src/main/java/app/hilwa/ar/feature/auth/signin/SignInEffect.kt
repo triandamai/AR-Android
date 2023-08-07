@@ -6,14 +6,11 @@
  *
  */
 
-package app.hilwa.ar.feature.augmentedReality.listAR
+package app.hilwa.ar.feature.auth.signin
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import javax.annotation.concurrent.Immutable
 
 @Immutable
-@Parcelize
-data class ListARState(
-    val isLoading:Boolean=true
-) : Parcelable
+sealed interface SignInEffect {
+    object Nothing : SignInEffect
+}

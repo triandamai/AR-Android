@@ -9,10 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import app.hilwa.ar.components.BaseMainApp
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
@@ -27,7 +27,7 @@ object Splash {
 )
 @Composable
 internal fun SplashScreen(
-    uiContract: UIContract<SplashState, SplashEffect, SplashAction>,
+    uiContract: UIContract<SplashState, SplashAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
     Column(

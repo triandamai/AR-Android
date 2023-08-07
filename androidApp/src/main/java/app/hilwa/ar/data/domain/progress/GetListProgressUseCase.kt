@@ -8,9 +8,9 @@
 
 package app.hilwa.ar.data.domain.progress
 
+import app.hilwa.ar.data.ResultStateData
 import app.hilwa.ar.data.model.ProgressModel
 import app.hilwa.ar.data.model.Quiz
-import app.trian.mvi.ui.ResultStateData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers

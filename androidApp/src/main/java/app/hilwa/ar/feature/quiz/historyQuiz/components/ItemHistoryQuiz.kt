@@ -36,8 +36,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
+import app.hilwa.ar.ui.ApplicationTheme
 import app.trian.mvi.ui.extensions.Empty
-import app.trian.mvi.ui.theme.ApplicationTheme
 
 @Composable
 fun ItemHistoryQuiz(

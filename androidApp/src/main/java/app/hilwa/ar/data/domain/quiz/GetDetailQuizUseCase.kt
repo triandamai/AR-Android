@@ -9,11 +9,11 @@
 package app.hilwa.ar.data.domain.quiz
 
 import app.hilwa.ar.R
+import app.hilwa.ar.data.ResultState
 import app.hilwa.ar.data.model.Quiz
 import app.hilwa.ar.data.model.QuizQuestion
 import app.hilwa.ar.sqldelight.Database
 import app.hilwa.ar.table.question.Question
-import app.trian.mvi.ui.ResultState
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

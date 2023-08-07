@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R.string
 import app.hilwa.ar.components.AppbarAuth
+import app.hilwa.ar.components.BaseMainApp
+import app.hilwa.ar.components.BaseScreen
 import app.hilwa.ar.components.BottomSheetPrivacyPolicy
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.CheckBoxWithAction
@@ -36,10 +38,8 @@ import app.hilwa.ar.components.TextWithAction
 import app.hilwa.ar.feature.auth.Authentication
 import app.hilwa.ar.feature.auth.signin.SignIn
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseMainApp
-import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
@@ -56,7 +56,7 @@ object SignUp {
 )
 @Composable
 internal fun ScreenSignUp(
-    uiContract: UIContract<SignUpState, SignUpIntent,SignUpAction>,
+    uiContract: UIContract<SignUpState, SignUpAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
     val modalBottomSheet = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)

@@ -11,7 +11,7 @@ package app.hilwa.ar.feature.auth.signup
 import javax.annotation.concurrent.Immutable
 
 @Immutable
-sealed interface SignUpIntent {
-    object SignUpWithEmail : SignUpIntent
+sealed interface SignUpEffect {
+    object Nothing : SignUpEffect
 
 }

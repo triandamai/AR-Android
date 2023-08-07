@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.hilwa.ar.R.string
 import app.hilwa.ar.components.AppbarAuth
+import app.hilwa.ar.components.BaseMainApp
+import app.hilwa.ar.components.BaseScreen
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
@@ -40,10 +42,8 @@ import app.hilwa.ar.feature.auth.Authentication
 import app.hilwa.ar.feature.auth.resetPassword.ResetPassword
 import app.hilwa.ar.feature.auth.signup.SignUp
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseMainApp
-import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
@@ -59,7 +59,7 @@ object SignIn {
 )
 @Composable
 internal fun ScreenSignIn(
-    uiContract: UIContract<SignInState, SignInIntent, SignInAction>,
+    uiContract: UIContract<SignInState, SignInAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 

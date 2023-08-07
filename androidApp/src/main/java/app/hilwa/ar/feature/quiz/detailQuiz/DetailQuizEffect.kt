@@ -6,10 +6,8 @@
  *
  */
 
-package app.hilwa.ar.feature.home
+package app.hilwa.ar.feature.quiz.detailQuiz
 
-import javax.annotation.concurrent.Immutable
-
-@Immutable
-sealed interface HomeIntent {
+sealed interface DetailQuizEffect {
+    object Nothing:DetailQuizEffect
 }

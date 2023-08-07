@@ -8,6 +8,7 @@
 
 package app.hilwa.ar.feature.quiz.historyQuiz
 
+import app.hilwa.ar.data.ResultStateData
 import app.hilwa.ar.data.domain.progress.GetListProgressUseCase
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
     private val getListProgressUseCase: GetListProgressUseCase
-) : MviViewModel<HistoryState, HistoryIntent, HistoryAction>(
+) : MviViewModel<HistoryState, HistoryAction>(
     HistoryState()
 ) {
 
@@ -26,20 +27,15 @@ class HistoryViewModel @Inject constructor(
 
     private fun getHistory() = async {
         getListProgressUseCase()
-            .onEach(
-                loading = {
-                    commit { copy(isLoading = true, isEmpty = false) }
-                },
-                error = { message, _ ->
-                    commit { copy(isLoading = false, isEmpty = true) }
-                },
-                success = {
-                    commit { copy(isLoading = false, isEmpty = false, histories = it) }
-                },
-                empty = {
-                    commit { copy(isLoading = false, isEmpty = true) }
+            .collect{
+                when(it){
+                    ResultStateData.Empty ->  commit { copy(isLoading = false, isEmpty = true) }
+                    is ResultStateData.Error -> commit { copy(isLoading = false, isEmpty = true) }
+                    ResultStateData.Loading -> commit { copy(isLoading = true, isEmpty = false) }
+                    is ResultStateData.Result -> commit {
+                        copy(isLoading = false, isEmpty = false, histories = it.data) }
                 }
-            )
+            }
     }
 
     override fun onAction(action: HistoryAction) {

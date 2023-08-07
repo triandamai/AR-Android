@@ -9,6 +9,7 @@
 package app.hilwa.ar.feature.quiz.startQuiz
 
 import androidx.lifecycle.SavedStateHandle
+import app.hilwa.ar.data.ResultState
 import app.hilwa.ar.data.domain.progress.SaveProgressUseCase
 import app.hilwa.ar.data.domain.quiz.GetListQuestionUseCase
 import app.hilwa.ar.feature.quiz.startQuiz.component.ScreenType
@@ -21,7 +22,7 @@ class StartQuizViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getListQuestionUseCase: GetListQuestionUseCase,
     private val saveProgressUseCase: SaveProgressUseCase
-) : MviViewModel<StartQuizState, StartQuizEffect, StartQuizAction>(StartQuizState()) {
+) : MviViewModel<StartQuizState, StartQuizAction>(StartQuizState()) {
 
     private fun quizId(): String = savedStateHandle.get<String>(StartQuiz.argKey).orEmpty()
 
@@ -48,22 +49,18 @@ class StartQuizViewModel @Inject constructor(
 
     private fun getListQuestion() = async {
         getListQuestionUseCase(quizId())
-            .onEach(
-                loading = {
-                    commit { copy(screenType = ScreenType.LOADING) }
-                },
-                error = { _, _ ->
-                    commit { copy(screenType = ScreenType.LOADING) }
-                },
-                success = {
-                    commit {
+            .collect {
+                when (it) {
+                    is ResultState.Error -> commit { copy(screenType = ScreenType.LOADING) }
+                    ResultState.Loading -> commit { copy(screenType = ScreenType.LOADING) }
+                    is ResultState.Result -> commit {
                         copy(
-                            questions = it,
-                            screenType = if (it.isEmpty()) ScreenType.EMPTY else ScreenType.QUIZ
+                            questions = it.data,
+                            screenType = if (it.data.isEmpty()) ScreenType.EMPTY else ScreenType.QUIZ
                         )
                     }
                 }
-            )
+            }
 
     }
 
@@ -78,7 +75,6 @@ class StartQuizViewModel @Inject constructor(
             response.plus(userResponse)
         } else {
             response.toMutableList().apply {
-
                 val index = try {
                     response.withIndex()
                         .first { value -> value.value.first == userResponse.first }
@@ -106,36 +102,35 @@ class StartQuizViewModel @Inject constructor(
 
     private fun saveResponse() = asyncWithState {
         saveProgressUseCase(quizId = quizId(), response = response)
-            .onEach(
-                loading = {
-                    commit {
-                        copy(
-                            visibleButton = false,
-                            hasAnswer = null,
-                            screenType = ScreenType.LOADING
-                        )
-                    }
-                },
-                error = { _, _ ->
-                    commit {
+            .collect {
+                when (it) {
+                    is ResultState.Error -> commit {
                         copy(
                             visibleButton = true,
                             hasAnswer = null,
                             screenType = ScreenType.LOADING
                         )
                     }
-                },
-                success = {
-                    commit {
+
+                    ResultState.Loading -> commit {
+                        copy(
+                            visibleButton = false,
+                            hasAnswer = null,
+                            screenType = ScreenType.LOADING
+                        )
+                    }
+
+                    is ResultState.Result -> commit {
                         copy(
                             hasAnswer = null,
                             screenType = ScreenType.RESULT,
-                            scoreData = it,
+                            scoreData = it.data,
                             showResult = true
                         )
                     }
                 }
-            )
+            }
+
     }
 
     override fun onAction(action: StartQuizAction) {

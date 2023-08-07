@@ -13,7 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AboutViewModel @Inject constructor() : MviViewModel<AboutState, AboutIntent, AboutAction>(
+class AboutViewModel @Inject constructor() : MviViewModel<AboutState, AboutAction>(
     AboutState()
 ) {
     override fun onAction(action: AboutAction) {

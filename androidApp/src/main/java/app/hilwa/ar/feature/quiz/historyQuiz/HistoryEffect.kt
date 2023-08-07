@@ -6,6 +6,8 @@
  *
  */
 
-package app.hilwa.ar.feature.augmentedReality.arView
+package app.hilwa.ar.feature.quiz.historyQuiz
 
-sealed interface ArViewIntent
+sealed interface HistoryEffect {
+    object Nothing : HistoryEffect
+}

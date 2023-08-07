@@ -3,22 +3,22 @@ package app.hilwa.ar.feature.auth.signup
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Patterns
+import android.widget.Toast
 import app.hilwa.ar.R
+import app.hilwa.ar.data.ResultState
 import app.hilwa.ar.data.domain.user.SignUpWithEmailAndPasswordUseCase
 import app.hilwa.ar.feature.auth.signin.SignIn
 import app.hilwa.ar.feature.auth.signup.SignUpAction.SignUpWithEmail
-import app.trian.mvi.ui.UIEvent
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val signUpWithEmailUseCase: SignUpWithEmailAndPasswordUseCase
-) : MviViewModel<SignUpState, SignUpIntent, SignUpAction>(SignUpState()) {
+) : MviViewModel<SignUpState, SignUpAction>(SignUpState()) {
 
     private fun showLoading() = commit { copy(isLoading = true) }
     private fun hideLoading() = commit { copy(isLoading = false) }
@@ -27,41 +27,37 @@ class SignUpViewModel @Inject constructor(
             email.isEmpty()
                     || password.isEmpty()
                     || displayName.isEmpty() ->
-                sendUiEvent(
-                    UIEvent.ShowToast(
-                        context.getString(
-                            R.string.message_password_or_email_cannot_empty,
-                        )
-                    )
+                showToast(
+                    context.getString(
+                        R.string.message_password_or_email_cannot_empty,
+                    ),
+                    Toast.LENGTH_LONG
                 )
 
             password != confirmPassword ->
-                sendUiEvent(
-                    UIEvent.ShowToast(
-                        context.getString(
-                            R.string.message_confirm_password_not_match
-                        )
-                    )
+                showToast(
+                    context.getString(R.string.message_confirm_password_not_match),
+                    Toast.LENGTH_LONG
                 )
 
             !Patterns.EMAIL_ADDRESS
                 .matcher(email)
                 .matches() ->
-                sendUiEvent(
-                    UIEvent.ShowToast(
-                        context.getString(
-                            R.string.alert_validation_email
-                        )
-                    )
+                showToast(
+                    context.getString(
+                        R.string.alert_validation_email
+                    ),
+                    Toast.LENGTH_LONG
                 )
 
-            !agreeTnc ->
-                sendUiEvent(
-                    UIEvent.ShowToast(
-                        context.getString(
-                            R.string.error_message_agree_tnc
-                        )
-                    )
+            !agreeTnc
+
+            ->
+                showToast(
+                    context.getString(
+                        R.string.error_message_agree_tnc
+                    ),
+                    Toast.LENGTH_LONG
                 )
 
             else -> {
@@ -77,30 +73,28 @@ class SignUpViewModel @Inject constructor(
                     displayName = displayName,
                     email = email,
                     password = password
-                ).onEach(
-                    success = {
-                        hideLoading()
-                        sendUiEvent(
-                            UIEvent.ShowToast(
+                ).collect {
+                    when (it) {
+                        is ResultState.Error -> {
+                            hideLoading()
+                            showToast(
+                                it.message.ifEmpty { context.getString(it.stringId) },
+                                Toast.LENGTH_LONG
+                            )
+                        }
+                        ResultState.Loading -> showLoading()
+                        is ResultState.Result -> {
+                            showToast(
                                 context.getString(
                                     R.string.text_message_success_register
-                                )
+                                ),
+                                Toast.LENGTH_LONG
                             )
-                        )
-                        sendUiEvent(UIEvent.NavigateAndReplace(SignIn.routeName))
-                    },
-                    error = { message, string ->
-                        hideLoading()
-                        sendUiEvent(
-                            UIEvent.ShowToast(
-                                message.ifEmpty { context.getString(string) }
-                            )
-                        )
-                    },
-                    loading = {
-                        showLoading()
+                            hideLoading()
+                            navigateAndReplace(SignIn.routeName)
+                        }
                     }
-                )
+                }
             }
 
         }

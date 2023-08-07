@@ -9,9 +9,10 @@
 package app.hilwa.ar.feature.auth.changePassword
 
 import android.content.Context
+import android.widget.Toast
 import app.hilwa.ar.R
+import app.hilwa.ar.data.ResultState
 import app.hilwa.ar.data.domain.user.ChangePasswordUseCase
-import app.trian.mvi.ui.UIEvent
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -21,7 +22,7 @@ import javax.inject.Inject
 class ChangePasswordViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val changePasswordUseCase: ChangePasswordUseCase
-) : MviViewModel<ChangePasswordState, ChangePasswordIntent, ChangePasswordAction>(
+) : MviViewModel<ChangePasswordState, ChangePasswordAction>(
     ChangePasswordState()
 ) {
 
@@ -35,17 +36,15 @@ class ChangePasswordViewModel @Inject constructor(
 
         when {
             newPassword != confirmPassword ->
-                sendUiEvent(
-                    UIEvent.ShowToast(
-                        context.getString(R.string.message_confirm_password_not_match)
-                    )
+                showToast(
+                    context.getString(R.string.message_confirm_password_not_match),
+                    Toast.LENGTH_LONG
                 )
 
             newPassword.isEmpty() || confirmPassword.isEmpty() ->
-                sendUiEvent(
-                    UIEvent.ShowToast(
-                        context.getString(R.string.message_change_password_field_empty)
-                    )
+                showToast(
+                    context.getString(R.string.message_change_password_field_empty),
+                    Toast.LENGTH_LONG
                 )
 
             else -> cb(newPassword)
@@ -56,23 +55,26 @@ class ChangePasswordViewModel @Inject constructor(
     override fun onAction(action: ChangePasswordAction) {
         when (action) {
             ChangePasswordAction.Submit -> validateData { newPassword ->
-                changePasswordUseCase(newPassword).onEach(
-                    success = {
-                        hideLoading()
-                        sendUiEvent(
-                            UIEvent.ShowToast(
-                                context.getString(R.string.text_message_success_change_password)
+                changePasswordUseCase(newPassword).collect {
+                    when (it) {
+                        is ResultState.Error -> {
+                            hideLoading()
+                            showToast(
+                                it.message.ifEmpty { context.getString(it.stringId) },
+                                Toast.LENGTH_LONG
                             )
-                        )
-                    },
-                    error = { message, string ->
-                        hideLoading()
-                        sendUiEvent(
-                            UIEvent.ShowToast(message.ifEmpty { context.getString(string) })
-                        )
-                    },
-                    loading = ::showLoading
-                )
+                        }
+
+                        ResultState.Loading -> showLoading()
+                        is ResultState.Result -> {
+                            hideLoading()
+                            showToast(
+                                context.getString(R.string.text_message_success_change_password),
+                                Toast.LENGTH_LONG
+                            )
+                        }
+                    }
+                }
             }
 
         }

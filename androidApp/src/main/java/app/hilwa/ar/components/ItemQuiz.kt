@@ -38,7 +38,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
-import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.extensions.Empty
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest

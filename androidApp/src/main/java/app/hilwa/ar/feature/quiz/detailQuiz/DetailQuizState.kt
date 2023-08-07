@@ -10,6 +10,7 @@ package app.hilwa.ar.feature.quiz.detailQuiz
 
 import android.os.Parcelable
 import app.hilwa.ar.data.model.Quiz
+import app.trian.mvi.ui.internal.contract.MviState
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
@@ -19,6 +20,7 @@ import javax.annotation.concurrent.Immutable
 data class DetailQuizState(
     val quizId: String = "",
     val quiz: @RawValue Quiz = Quiz(),
-    val isLoading: Boolean = true
-) : Parcelable
+    val isLoading: Boolean = true,
+    override val effect: @RawValue DetailQuizEffect = DetailQuizEffect.Nothing
+) : MviState<DetailQuizEffect>(), Parcelable
 

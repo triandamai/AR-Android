@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
-import app.trian.mvi.ui.theme.ApplicationTheme
+import app.hilwa.ar.ui.ApplicationTheme
 
 @Composable
 fun ItemLatestQuiz(

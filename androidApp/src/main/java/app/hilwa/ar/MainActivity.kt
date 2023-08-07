@@ -6,16 +6,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
+import app.hilwa.ar.components.BaseMainApp
 import app.hilwa.ar.feature.quiz.startQuiz.StartQuiz
 import app.hilwa.ar.feature.splash.Splash
+import app.hilwa.ar.ui.darkColors
+import app.hilwa.ar.ui.lightColors
 import app.trian.mvi.androidAppComponent
-import app.trian.mvi.ui.BaseMainApp
 import app.trian.mvi.ui.extensions.formatTimer
 import app.trian.mvi.ui.internal.UIController
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
-import app.trian.mvi.ui.theme.lightColors
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -40,7 +41,7 @@ class MainActivity : ComponentActivity() {
             BaseMainApp(
                 controller = uiController,
                 lightColor = lightColors,
-                darkColor = lightColors
+                darkColor = darkColors
             ) {
                 NavHost(
                     navController = uiController.navigator.navHost,

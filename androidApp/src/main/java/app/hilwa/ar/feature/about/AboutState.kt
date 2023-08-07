@@ -10,12 +10,14 @@ package app.hilwa.ar.feature.about
 
 import android.os.Parcelable
 import app.trian.mvi.ui.extensions.Empty
+import app.trian.mvi.ui.internal.contract.MviState
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
 
 @Immutable
 @Parcelize
 data class AboutState(
-    val a: String = String.Empty,
-    val showContent:Boolean=false
-) : Parcelable
+    val showContent: Boolean = false,
+    override val effect: @RawValue AboutEffect = AboutEffect.Nothing
+) : MviState<AboutEffect>(), Parcelable

@@ -34,15 +34,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.base.format
+import app.hilwa.ar.components.BaseMainApp
+import app.hilwa.ar.components.BaseScreen
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.ItemQuiz
 import app.hilwa.ar.feature.quiz.detailQuiz.DetailQuiz
 import app.hilwa.ar.feature.quiz.historyQuiz.HistoryQuiz
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseMainApp
-import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
@@ -58,7 +58,7 @@ object ListQuiz {
 )
 @Composable
 internal fun ScreenListQuiz(
-    uiContract: UIContract<ListQuizState, ListQuizEffect, ListQuizAction>,
+    uiContract: UIContract<ListQuizState, ListQuizAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
     val modalBottomSheet =

@@ -8,8 +8,8 @@
 
 package app.hilwa.ar.data.domain.ar
 
+import app.hilwa.ar.data.ResultStateData
 import app.hilwa.ar.data.model.ItemAR
-import app.trian.mvi.ui.ResultStateData
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

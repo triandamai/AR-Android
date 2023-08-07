@@ -10,9 +10,9 @@ package app.hilwa.ar.feature.augmentedReality
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hilwa.ar.data.ResultStateData
 import app.hilwa.ar.data.domain.ar.GetArDataUseCase
 import app.hilwa.ar.data.model.ItemAR
-import app.trian.mvi.ui.ResultStateData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

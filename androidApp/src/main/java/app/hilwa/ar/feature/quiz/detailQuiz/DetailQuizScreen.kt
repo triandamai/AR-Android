@@ -49,6 +49,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.hilwa.ar.components.BaseMainApp
+import app.hilwa.ar.components.BaseScreen
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.feature.quiz.startQuiz.StartQuiz
@@ -56,11 +58,9 @@ import app.trian.mvi.Argument
 import app.trian.mvi.DeepLink
 import app.trian.mvi.NavType
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseMainApp
-import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
 import app.trian.mvi.ui.extensions.coloredShadow
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
@@ -89,7 +89,7 @@ object DetailQuiz {
 )
 @Composable
 internal fun DetailQuizScreen(
-    uiContract: UIContract<DetailQuizState, DetailQuizIntent, DetailQuizAction>,
+    uiContract: UIContract<DetailQuizState, DetailQuizAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 

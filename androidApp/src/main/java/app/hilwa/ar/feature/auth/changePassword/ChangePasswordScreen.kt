@@ -22,14 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import app.hilwa.ar.R
 import app.hilwa.ar.components.AppbarBasic
+import app.hilwa.ar.components.BaseMainApp
+import app.hilwa.ar.components.BaseScreen
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseMainApp
-import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
@@ -44,7 +44,7 @@ object ChangePassword {
 )
 @Composable
 internal fun ScreenChangePassword(
-    uiContract: UIContract<ChangePasswordState, ChangePasswordIntent, ChangePasswordAction>,
+    uiContract: UIContract<ChangePasswordState, ChangePasswordAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 

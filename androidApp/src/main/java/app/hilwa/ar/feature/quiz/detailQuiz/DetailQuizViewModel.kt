@@ -9,6 +9,7 @@
 package app.hilwa.ar.feature.quiz.detailQuiz
 
 import androidx.lifecycle.SavedStateHandle
+import app.hilwa.ar.data.ResultState
 import app.hilwa.ar.data.domain.quiz.GetDetailQuizUseCase
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,7 @@ import javax.inject.Inject
 class DetailQuizViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getDetailQuizUseCase: GetDetailQuizUseCase
-) : MviViewModel<DetailQuizState, DetailQuizIntent, DetailQuizAction>(
+) : MviViewModel<DetailQuizState, DetailQuizAction>(
     DetailQuizState()
 ) {
     init {
@@ -30,11 +31,13 @@ class DetailQuizViewModel @Inject constructor(
     private fun getQuiz() = async {
         commit { copy(quizId = quizId()) }
         getDetailQuizUseCase(quizId())
-            .onEach(
-                loading = { commit { copy(isLoading = true) } },
-                error = { _, _ -> commit { copy(isLoading = false) } },
-                success = { commit { copy(quiz = it.first, isLoading = false) } }
-            )
+            .collect {
+                when (it) {
+                    is ResultState.Error -> commit { copy(isLoading = false) }
+                    ResultState.Loading -> commit { copy(isLoading = true) }
+                    is ResultState.Result -> commit { copy(quiz = it.data.first, isLoading = false) }
+                }
+            }
     }
 
     override fun onAction(action: DetailQuizAction) {

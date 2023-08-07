@@ -40,14 +40,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
+import app.hilwa.ar.components.BaseScreen
+import app.hilwa.ar.ui.ApplicationTheme
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
-import app.trian.mvi.ui.theme.ApplicationTheme
 import kotlinx.coroutines.delay
 
 object About {
@@ -60,7 +60,7 @@ object About {
 )
 @Composable
 fun AboutScreen(
-    uiContract: UIContract<AboutState, AboutIntent, AboutAction>,
+    uiContract: UIContract<AboutState, AboutAction>,
     event: BaseEventListener
 ) = UIWrapper(uiContract = uiContract) {
     LaunchedEffect(key1 = Unit, block = {

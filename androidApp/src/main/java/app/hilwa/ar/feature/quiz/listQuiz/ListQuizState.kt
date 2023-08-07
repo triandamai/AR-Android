@@ -10,6 +10,7 @@ package app.hilwa.ar.feature.quiz.listQuiz
 
 import android.os.Parcelable
 import app.hilwa.ar.data.model.Quiz
+import app.trian.mvi.ui.internal.contract.MviState
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import javax.annotation.concurrent.Immutable
@@ -18,8 +19,8 @@ import javax.annotation.concurrent.Immutable
 @Parcelize
 data class ListQuizState(
     val isLoading: Boolean = true,
-    val isEmpty:Boolean=false,
-    val quiz: @RawValue List<Quiz> = listOf()
-) :  Parcelable {
-}
+    val isEmpty: Boolean = false,
+    val quiz: @RawValue List<Quiz> = listOf(),
+    override val effect: @RawValue ListQuizEffect = ListQuizEffect.Nothing
+) : MviState<ListQuizEffect>(), Parcelable
 

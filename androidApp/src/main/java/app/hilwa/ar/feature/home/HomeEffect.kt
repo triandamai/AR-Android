@@ -6,11 +6,11 @@
  *
  */
 
-package app.hilwa.ar.feature.auth.changePassword
+package app.hilwa.ar.feature.home
 
 import javax.annotation.concurrent.Immutable
 
 @Immutable
-sealed interface ChangePasswordIntent {
-    object Submit : ChangePasswordIntent
+sealed interface HomeEffect {
+    object Nothing:HomeEffect
 }

@@ -8,6 +8,7 @@
 
 package app.hilwa.ar.feature.quiz.listQuiz
 
+import app.hilwa.ar.data.ResultStateData
 import app.hilwa.ar.data.domain.quiz.GetListQuizUseCase
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ListQuizViewModel @Inject constructor(
     private val getListQuizUseCase: GetListQuizUseCase
-) : MviViewModel<ListQuizState, ListQuizEffect, ListQuizAction>(
+) : MviViewModel<ListQuizState, ListQuizAction>(
     ListQuizState()
 ) {
     init {
@@ -25,20 +26,14 @@ class ListQuizViewModel @Inject constructor(
 
     private fun getListQuiz() = async {
         getListQuizUseCase()
-            .onEach(
-                loading = {
-                    commit { copy(isLoading = true, isEmpty = false) }
-                },
-                error = { _, _ ->
-                    commit { copy(isLoading = false, isEmpty = true) }
-                },
-                success = {
-                    commit { copy(isLoading = false, isEmpty = false, quiz = it) }
-                },
-                empty = {
-                    commit { copy(isLoading = false, isEmpty = true) }
+            .collect{
+                when(it){
+                    ResultStateData.Empty -> commit { copy(isLoading = false, isEmpty = true) }
+                    is ResultStateData.Error ->  commit { copy(isLoading = false, isEmpty = true) }
+                    ResultStateData.Loading ->  commit { copy(isLoading = true, isEmpty = false) }
+                    is ResultStateData.Result ->  commit { copy(isLoading = false, isEmpty = false, quiz = it.data) }
                 }
-            )
+            }
     }
 
 

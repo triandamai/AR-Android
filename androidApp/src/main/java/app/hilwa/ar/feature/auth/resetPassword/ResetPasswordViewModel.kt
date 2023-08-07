@@ -10,9 +10,10 @@ package app.hilwa.ar.feature.auth.resetPassword
 
 import android.content.Context
 import android.util.Patterns
+import android.widget.Toast
 import app.hilwa.ar.R
+import app.hilwa.ar.data.ResultState
 import app.hilwa.ar.data.domain.user.ResetPasswordUseCase
-import app.trian.mvi.ui.UIEvent
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -22,7 +23,7 @@ import javax.inject.Inject
 class ResetPasswordViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val resetPasswordUseCase: ResetPasswordUseCase
-) : MviViewModel<ResetPasswordState, ResetPasswordIntent, ResetPasswordAction>(ResetPasswordState()) {
+) : MviViewModel<ResetPasswordState, ResetPasswordAction>(ResetPasswordState()) {
 
     private fun showLoading() = commit { copy(isLoading = true) }
     private fun hideLoading() = commit { copy(isLoading = false) }
@@ -30,20 +31,15 @@ class ResetPasswordViewModel @Inject constructor(
     private fun validateData(cb: suspend (String) -> Unit) = asyncWithState {
         when {
             email.isEmpty() ->
-                sendUiEvent(
-                    UIEvent.ShowToast(
-                        context.getString(R.string.alert_email_empty)
-                    )
+                showToast(
+                    context.getString(R.string.alert_email_empty), Toast.LENGTH_LONG
                 )
 
             !Patterns.EMAIL_ADDRESS
                 .matcher(email)
-                .matches() ->
-                sendUiEvent(
-                    UIEvent.ShowToast(
-                        context.getString(R.string.alert_validation_email)
-                    )
-                )
+                .matches() -> showToast(
+                context.getString(R.string.alert_validation_email), Toast.LENGTH_LONG
+            )
 
             else -> cb(email)
         }
@@ -54,26 +50,26 @@ class ResetPasswordViewModel @Inject constructor(
         when (action) {
             ResetPasswordAction.Submit -> validateData { email ->
                 resetPasswordUseCase(email)
-                    .onEach(
-                        success = {
-                            hideLoading()
-                            sendUiEvent(
-                                UIEvent.ShowToast(
-                                    context.getString(R.string.message_success_reset_password)
+                    .collect{
+                        when(it){
+                            is ResultState.Error -> {
+                                hideLoading()
+                                showToast(
+                                    it.message.ifEmpty { context.getString(it.stringId) },
+                                    Toast.LENGTH_LONG
                                 )
-                            )
-                            sendUiEvent(UIEvent.NavigateUp)
-                        },
-                        error = { message, string ->
-                            hideLoading()
-                            sendUiEvent(
-                                UIEvent.ShowToast(
-                                    message.ifEmpty { context.getString(string) }
+                            }
+                            ResultState.Loading -> showLoading()
+                            is ResultState.Result -> {
+                                hideLoading()
+                                showToast(
+                                    context.getString(R.string.message_success_reset_password),
+                                    Toast.LENGTH_LONG
                                 )
-                            )
-                        },
-                        loading = ::showLoading
-                    )
+                                navigateUp()
+                            }
+                        }
+                    }
             }
         }
     }

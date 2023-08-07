@@ -9,7 +9,7 @@
 package app.hilwa.ar.data.domain.user
 
 import android.graphics.Bitmap
-import app.trian.mvi.ui.ResultState
+import app.hilwa.ar.data.ResultState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage

@@ -32,6 +32,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.components.BaseBottomSheet
+import app.hilwa.ar.components.BaseMainApp
+import app.hilwa.ar.components.BaseScreen
 import app.hilwa.ar.components.BottomSheetConfirmation
 import app.hilwa.ar.feature.quiz.startQuiz.component.BottomBarQuiz
 import app.hilwa.ar.feature.quiz.startQuiz.component.BottomSheetType
@@ -41,10 +43,8 @@ import app.hilwa.ar.feature.quiz.startQuiz.component.ScreenType
 import app.trian.mvi.Argument
 import app.trian.mvi.NavType
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseMainApp
-import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
@@ -66,7 +66,7 @@ object StartQuiz {
 )
 @Composable
 internal fun StartQuizScreen(
-    uiContract: UIContract<StartQuizState, StartQuizEffect, StartQuizAction>,
+    uiContract: UIContract<StartQuizState, StartQuizAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 

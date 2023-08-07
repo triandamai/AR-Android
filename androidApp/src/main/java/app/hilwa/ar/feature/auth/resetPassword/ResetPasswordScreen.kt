@@ -16,15 +16,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.hilwa.ar.R
 import app.hilwa.ar.components.AppbarBasic
+import app.hilwa.ar.components.BaseMainApp
+import app.hilwa.ar.components.BaseScreen
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
 import app.hilwa.ar.feature.auth.Authentication
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseMainApp
-import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
@@ -41,7 +41,7 @@ object ResetPassword {
 )
 @Composable
 internal fun ResetPasswordScreen(
-    uiContract: UIContract<ResetPasswordState, ResetPasswordIntent, ResetPasswordAction>,
+    uiContract: UIContract<ResetPasswordState, ResetPasswordAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract) {
 

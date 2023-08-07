@@ -31,16 +31,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.hilwa.ar.components.BaseScreen
 import app.hilwa.ar.components.ButtonPrimary
 import app.hilwa.ar.feature.quiz.historyQuiz.components.ItemHistoryQuiz
+import app.hilwa.ar.ui.ApplicationTheme
 import app.trian.mvi.Navigation
-import app.trian.mvi.ui.BaseScreen
 import app.trian.mvi.ui.UIWrapper
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.listener.BaseEventListener
 import app.trian.mvi.ui.internal.listener.EventListener
 import app.trian.mvi.ui.internal.rememberUIController
-import app.trian.mvi.ui.theme.ApplicationTheme
 
 object HistoryQuiz {
     const val routeName = "HistoryQuiz"
@@ -52,7 +52,7 @@ object HistoryQuiz {
 )
 @Composable
 fun HistoryQuizScreen(
-    uiContract: UIContract<HistoryState, HistoryIntent, HistoryAction>,
+    uiContract: UIContract<HistoryState, HistoryAction>,
     event: BaseEventListener = EventListener()
 ) = UIWrapper(uiContract = uiContract) {
     LaunchedEffect(key1 = Unit, block = {

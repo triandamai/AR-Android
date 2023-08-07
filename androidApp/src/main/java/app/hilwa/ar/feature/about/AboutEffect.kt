@@ -6,6 +6,8 @@
  *
  */
 
-package app.hilwa.ar.feature.augmentedReality.arView
+package app.hilwa.ar.feature.about
 
-sealed interface ArViewAction
+sealed interface AboutEffect{
+    object Nothing:AboutEffect
+}

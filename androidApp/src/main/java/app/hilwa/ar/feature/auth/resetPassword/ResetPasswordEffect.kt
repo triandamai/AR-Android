@@ -6,11 +6,11 @@
  *
  */
 
-package app.hilwa.ar.feature.auth.signin
+package app.hilwa.ar.feature.auth.resetPassword
 
 import javax.annotation.concurrent.Immutable
 
 @Immutable
-sealed interface SignInIntent {
-    object SignInWithEmail : SignInIntent
+sealed interface ResetPasswordEffect {
+    object Nothing : ResetPasswordEffect
 }

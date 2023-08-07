@@ -9,6 +9,8 @@
 package app.hilwa.ar.feature.home
 
 
+import app.hilwa.ar.data.ResultState
+import app.hilwa.ar.data.ResultStateData
 import app.hilwa.ar.data.domain.quiz.GetLatestQuizUseCase
 import app.hilwa.ar.data.domain.user.GetUserProfileUseCase
 import app.trian.mvi.ui.viewModel.MviViewModel
@@ -19,41 +21,37 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getLatestQuizUseCase: GetLatestQuizUseCase,
     private val getUserProfileUseCase: GetUserProfileUseCase
-) : MviViewModel<HomeState, HomeIntent, HomeAction>(HomeState()) {
+) : MviViewModel<HomeState, HomeAction>(HomeState()) {
     init {
         getCurrentUserProfile()
     }
 
     private fun getCurrentUserProfile() = async {
         getUserProfileUseCase()
-            .onEach(
-                success = {
-                    commit {
+            .collect{
+                when(it){
+                    is ResultState.Error -> Unit
+                    ResultState.Loading -> Unit
+                    is ResultState.Result -> commit {
                         copy(
-                            fullName = it.displayName.orEmpty(),
-                            profilePicture = it.photoUrl.toString()
+                            fullName = it.data.displayName.orEmpty(),
+                            profilePicture = it.data.photoUrl.toString()
                         )
                     }
                 }
-            )
+            }
     }
 
     private fun getLatestQuiz() = async {
         getLatestQuizUseCase()
-            .onEach(
-                loading = {
-                    commit { copy(isLoadingLatestQuiz = true) }
-                },
-                error = { _, _ ->
-                    commit { copy(isLoadingLatestQuiz = false) }
-                },
-                success = {
-                    commit { copy(latestQuiz = it, isLoadingLatestQuiz = false) }
-                },
-                empty = {
-                    commit { copy(isLoadingLatestQuiz = false) }
+            .collect{
+                when(it){
+                    ResultStateData.Empty ->  commit { copy(isLoadingLatestQuiz = false) }
+                    is ResultStateData.Error ->  commit { copy(isLoadingLatestQuiz = false) }
+                    ResultStateData.Loading ->  commit { copy(isLoadingLatestQuiz = true) }
+                    is ResultStateData.Result ->  commit { copy(latestQuiz = it.data, isLoadingLatestQuiz = false) }
                 }
-            )
+            }
     }
 
     override fun onAction(action: HomeAction) {

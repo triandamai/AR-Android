@@ -56,13 +56,13 @@ import androidx.core.view.WindowCompat
 import app.hilwa.ar.R
 import app.hilwa.ar.components.FormInput
 import app.hilwa.ar.feature.auth.changePassword.ChangePassword
+import app.hilwa.ar.ui.ApplicationTheme
 import app.trian.mvi.Navigation
 import app.trian.mvi.ui.UIWrapper
+import app.trian.mvi.ui.extensions.getBitmap
 import app.trian.mvi.ui.extensions.getScreenHeight
-import app.trian.mvi.ui.internal.UIContract
+import app.trian.mvi.ui.internal.contract.UIContract
 import app.trian.mvi.ui.internal.rememberUIController
-import app.trian.mvi.ui.theme.ApplicationTheme
-import app.trian.mvi.ui.utils.getBitmap
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
@@ -77,7 +77,7 @@ object Profile {
 )
 @Composable
 fun ProfileScreen(
-    uiContract: UIContract<ProfileState, ProfileEffect, ProfileAction>
+    uiContract: UIContract<ProfileState, ProfileAction>
 ) = UIWrapper(uiContract = uiContract) {
     val ctx = LocalContext.current
     val screenHeight = ctx.getScreenHeight()

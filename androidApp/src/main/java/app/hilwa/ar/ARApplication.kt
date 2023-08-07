@@ -15,7 +15,6 @@ class ARApplication:Application(),Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
-
     }
     override fun getWorkManagerConfiguration(): Configuration=
         Configuration
