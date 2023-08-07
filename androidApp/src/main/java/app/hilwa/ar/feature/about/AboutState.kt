@@ -9,7 +9,6 @@
 package app.hilwa.ar.feature.about
 
 import android.os.Parcelable
-import app.trian.mvi.ui.extensions.Empty
 import app.trian.mvi.ui.internal.contract.MviState
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue

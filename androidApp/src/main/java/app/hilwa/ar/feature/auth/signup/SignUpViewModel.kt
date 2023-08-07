@@ -1,6 +1,5 @@
 package app.hilwa.ar.feature.auth.signup
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Patterns
 import android.widget.Toast
