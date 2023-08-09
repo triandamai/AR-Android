@@ -28,5 +28,7 @@ data class ProfileState(
 
     val isEdit: Boolean = false,
     val bitmap: Bitmap? = null,
+
+    val loading:Boolean=false,
     override val effect: @RawValue ProfileEffect = ProfileEffect.Nothing
 ) : MviState<ProfileEffect>(), Parcelable

@@ -5,6 +5,7 @@ import app.hilwa.ar.feature.auth.Authentication
 import app.hilwa.ar.feature.home.Home
 import app.trian.mvi.ui.viewModel.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +20,7 @@ class SplashViewModel @Inject constructor(
 
     private fun checkIfUserLoggedIn() = async {
         checkSessionUserUseCase().collect {
+            delay(500)
             if (it) {
                 navigateAndReplace(Home.routeName)
                 onCleared()

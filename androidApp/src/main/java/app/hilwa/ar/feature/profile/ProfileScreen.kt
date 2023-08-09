@@ -54,6 +54,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import app.hilwa.ar.R
+import app.hilwa.ar.components.DialogLoading
 import app.hilwa.ar.components.FormInput
 import app.hilwa.ar.feature.auth.changePassword.ChangePassword
 import app.hilwa.ar.ui.ApplicationTheme
@@ -103,7 +104,7 @@ fun ProfileScreen(
     val image = rememberAsyncImagePainter(
         model = ImageRequest
             .Builder(ctx)
-            .data(state.displayName)
+            .data(state.profilePicture)
             .placeholder(R.drawable.dummy_avatar_female)
             .error(R.drawable.dummy_avatar_female)
             .scale(Scale.FILL)
@@ -122,6 +123,9 @@ fun ProfileScreen(
                 }
             }
         }
+    )
+    DialogLoading(
+        show = state.loading
     )
 
     Scaffold(
@@ -194,10 +198,6 @@ fun ProfileScreen(
                                 Spacer(modifier = Modifier.height(16.dp))
                                 FormInput(
                                     initialValue = state.inputDisplayName,
-                                    placeholder = "Masukkan nama lengkap",
-                                    label = {
-                                        Text(text = "Name Lengkap")
-                                    },
                                     onChange = {
                                         commit {
                                             copy(
@@ -231,10 +231,10 @@ fun ProfileScreen(
                         ) {
                             Button(
                                 onClick = {
-                                    commit {
-                                        copy(
-                                            isEdit = !state.isEdit
-                                        )
+                                    if (state.isEdit) {
+                                        dispatch(ProfileAction.SubmitUpdateProfile)
+                                    } else {
+                                        commit { copy(isEdit = !state.isEdit) }
                                     }
                                 }
                             ) {
@@ -291,7 +291,7 @@ fun ProfileScreen(
                                     .size(80.dp)
                                     .clip(RoundedCornerShape(12.dp))
                                     .clickable {
-                                        imagePicker.launch("image/**")
+                                        imagePicker.launch("image/*")
                                     }
                                     .background(Color.Gray.copy(alpha = 0.4f)),
                                 horizontalAlignment = Alignment.CenterHorizontally,

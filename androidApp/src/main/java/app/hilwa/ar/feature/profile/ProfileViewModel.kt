@@ -8,6 +8,7 @@
 
 package app.hilwa.ar.feature.profile
 
+import android.widget.Toast
 import app.hilwa.ar.data.ResultState
 import app.hilwa.ar.data.domain.user.GetUserProfileUseCase
 import app.hilwa.ar.data.domain.user.UpdateProfileUseCase
@@ -25,7 +26,6 @@ class ProfileViewModel @Inject constructor(
 
     init {
         getProfileUser()
-
     }
 
     private fun getProfileUser() = async {
@@ -39,7 +39,8 @@ class ProfileViewModel @Inject constructor(
                             email = it.data.email.orEmpty(),
                             displayName = it.data.displayName.orEmpty(),
                             inputEmail = it.data.email.orEmpty(),
-                            inputDisplayName = it.data.displayName.orEmpty()
+                            inputDisplayName = it.data.displayName.orEmpty(),
+                            profilePicture = it.data.photoUrl.toString()
                         )
                     }
                 }
@@ -53,10 +54,23 @@ class ProfileViewModel @Inject constructor(
             bitmap
         ).collect {
             when (it) {
-                is ResultState.Error -> Unit
-                ResultState.Loading -> Unit
-                is ResultState.Result -> {
+                is ResultState.Error -> {
+                    commit { copy(loading=false) }
+                    showToast(it.message, Toast.LENGTH_SHORT)
+                }
 
+                ResultState.Loading -> {
+                    commit { copy(loading=true) }
+                }
+                is ResultState.Result -> {
+                    commit {
+                        copy(
+                            isEdit = !isEdit,
+                            displayName = inputDisplayName,
+                            loading=false
+                        )
+                    }
+                    showToast("Berhasil merubah profile", Toast.LENGTH_SHORT)
                 }
             }
         }

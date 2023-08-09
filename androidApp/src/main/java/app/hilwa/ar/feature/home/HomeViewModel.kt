@@ -43,15 +43,15 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getLatestQuiz() = async {
-        getLatestQuizUseCase()
-            .collect{
-                when(it){
-                    ResultStateData.Empty ->  commit { copy(isLoadingLatestQuiz = false) }
-                    is ResultStateData.Error ->  commit { copy(isLoadingLatestQuiz = false) }
-                    ResultStateData.Loading ->  commit { copy(isLoadingLatestQuiz = true) }
-                    is ResultStateData.Result ->  commit { copy(latestQuiz = it.data, isLoadingLatestQuiz = false) }
-                }
-            }
+//        getLatestQuizUseCase()
+//            .collect{
+//                when(it){
+//                    ResultStateData.Empty ->  commit { copy(isLoadingLatestQuiz = false) }
+//                    is ResultStateData.Error ->  commit { copy(isLoadingLatestQuiz = false) }
+//                    ResultStateData.Loading ->  commit { copy(isLoadingLatestQuiz = true) }
+//                    is ResultStateData.Result ->  commit { copy(latestQuiz = it.data, isLoadingLatestQuiz = false) }
+//                }
+//            }
     }
 
     override fun onAction(action: HomeAction) {
