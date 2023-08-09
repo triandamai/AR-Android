@@ -264,67 +264,67 @@ internal fun HomeScreen(
                     )
                 }
                 item {
-                    Column(
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.Top,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal = 20.dp
-                            )
-                    ) {
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(
-                                text = buildAnnotatedString {
-                                    append("Quiz ")
-                                    withStyle(
-                                        style = SpanStyle(
-                                            color = MaterialTheme.colorScheme.primary,
-                                            fontWeight = FontWeight.SemiBold
-                                        )
-                                    ) {
-                                        append("Terbaru")
-                                    }
-                                },
-                                style = MaterialTheme.typography.headlineSmall,
-                                modifier = Modifier.fillMaxWidth(fraction = 0.6f)
-                            )
-                            Text(
-                                text = "Lihat semua",
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(16.dp))
-                    }
+//                    Column(
+//                        horizontalAlignment = Alignment.Start,
+//                        verticalArrangement = Arrangement.Top,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(
+//                                horizontal = 20.dp
+//                            )
+//                    ) {
+//                        Spacer(modifier = Modifier.height(16.dp))
+//                        Row(
+//                            horizontalArrangement = Arrangement.SpaceBetween,
+//                            verticalAlignment = Alignment.CenterVertically,
+//                            modifier = Modifier.fillMaxWidth()
+//                        ) {
+//                            Text(
+//                                text = buildAnnotatedString {
+//                                    append("Quiz ")
+//                                    withStyle(
+//                                        style = SpanStyle(
+//                                            color = MaterialTheme.colorScheme.primary,
+//                                            fontWeight = FontWeight.SemiBold
+//                                        )
+//                                    ) {
+//                                        append("Terbaru")
+//                                    }
+//                                },
+//                                style = MaterialTheme.typography.headlineSmall,
+//                                modifier = Modifier.fillMaxWidth(fraction = 0.6f)
+//                            )
+//                            Text(
+//                                text = "Lihat semua",
+//                                fontWeight = FontWeight.SemiBold
+//                            )
+//                        }
+//                        Spacer(modifier = Modifier.height(16.dp))
+//                    }
                 }
-                if (state.latestQuiz.isEmpty() && !state.isLoadingLatestQuiz) {
-                    item {
-                        Text(
-                            text = "Yaah, belum ada quiz buat kamu nih",
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-                if (state.isLoadingLatestQuiz) {
-                    item {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 20.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
-                    }
-                }
+//                if (state.latestQuiz.isEmpty() && !state.isLoadingLatestQuiz) {
+//                    item {
+//                        Text(
+//                            text = "Yaah, belum ada quiz buat kamu nih",
+//                            fontWeight = FontWeight.SemiBold,
+//                            modifier = Modifier.fillMaxWidth(),
+//                            textAlign = TextAlign.Center
+//                        )
+//                    }
+//                }
+//                if (state.isLoadingLatestQuiz) {
+//                    item {
+//                        Column(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .padding(vertical = 20.dp),
+//                            horizontalAlignment = Alignment.CenterHorizontally,
+//                            verticalArrangement = Arrangement.Center
+//                        ) {
+//                            CircularProgressIndicator()
+//                        }
+//                    }
+//                }
                 items(state.latestQuiz) {
                     ItemLatestQuiz(
                         quizName = it.quizTitle,
@@ -337,7 +337,6 @@ internal fun HomeScreen(
                         }
                     )
                 }
-
 
             }
         }

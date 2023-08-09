@@ -40,13 +40,13 @@ data class HomeState(
             image = drawable.ic_start_ar,
             route = String.Empty
         ),
-        HomeMenu(
-            name = "Quiz",
-            description = "Uji pemahaman kamu tentang bagian-bagian otak manusia" +
-                    " yang sudah kamu pelajari sebelumnya",
-            image = drawable.ic_quiz,
-            route = ListQuiz.routeName
-        ),
+//        HomeMenu(
+//            name = "Quiz",
+//            description = "Uji pemahaman kamu tentang bagian-bagian otak manusia" +
+//                    " yang sudah kamu pelajari sebelumnya",
+//            image = drawable.ic_quiz,
+//            route = ListQuiz.routeName
+//        ),
         HomeMenu(
             name = "Tentang Aplikasi",
             description = "Ketahui lebih lanjut tentang creator aplikasi",
