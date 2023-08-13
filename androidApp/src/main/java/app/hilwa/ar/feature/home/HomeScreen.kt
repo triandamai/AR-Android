@@ -219,15 +219,16 @@ internal fun HomeScreen(
                                 ) {
                                     append("AR")
                                 }
-                                append("-nya dan kerjakan ")
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = MaterialTheme.colorScheme.primary,
-                                        fontWeight = FontWeight.SemiBold
-                                    )
-                                ) {
-                                    append("Quiz")
-                                }
+                                append("-nya")
+//                                append(" dan kerjakan ")
+//                                withStyle(
+//                                    style = SpanStyle(
+//                                        color = MaterialTheme.colorScheme.primary,
+//                                        fontWeight = FontWeight.SemiBold
+//                                    )
+//                                ) {
+//                                    append("Quiz")
+//                                }
                             },
                             style = MaterialTheme.typography.headlineSmall,
                             modifier = Modifier.fillMaxWidth(fraction = 0.6f)

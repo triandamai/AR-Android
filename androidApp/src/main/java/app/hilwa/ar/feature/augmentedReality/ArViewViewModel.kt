@@ -47,7 +47,7 @@ class ArViewViewModel @Inject constructor(
         _showContent.tryEmit(loading)
     }
     private fun getListInformation() = viewModelScope.launch {
-        getArDataUseCase("wy82dCzeBhFStp1S59wA")
+        getArDataUseCase("2Fwy82dCzeBhFStp1S59wA")
             .collect {
                 _items.tryEmit(it)
             }

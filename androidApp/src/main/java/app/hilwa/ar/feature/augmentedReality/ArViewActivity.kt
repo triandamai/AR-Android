@@ -105,61 +105,32 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                 composeView.visibility = View.VISIBLE
 
                 when (it) {
-                    ResultStateData.Empty -> {
-
-                    }
-
+                    ResultStateData.Empty -> {}
                     is ResultStateData.Error -> {}
-                    ResultStateData.Loading -> {
-
-                    }
-
+                    ResultStateData.Loading -> {}
                     is ResultStateData.Result -> {
-                        setupInformationData(
-                            item = it.data,
-                        )
+                        setupInformationData(item = it.data,)
                         try {
-//                            val bitmap = runBlocking(context = Dispatchers.IO) {
-//                                //it.data.image
-//                                Picasso.Builder(this@ArViewActivity).build().load(it.data.image)
-//                                    .get()
-//                            }
-
                             val bitmap = this@ArViewActivity.assets.open(urlImage)
                                 .use(BitmapFactory::decodeStream)
                             augmentedImageNode = AugmentedImageNode(
                                 imageName = it.data.type,
                                 bitmap = bitmap,
                                 onUpdate = { augImageNode, augImage ->
-//                                    Toast.makeText(
-//                                        this@ArViewActivity,
-//                                        "Detected ${augImage.name}",
-//                                        Toast.LENGTH_LONG
-//                                    ).show()
                                     when (augImage.trackingState) {
                                         TrackingState.TRACKING -> {
                                             viewModel.showContent(true)
-//                                            loadModel(
-//                                                augImageNode,
-//                                                it.data.name,
-//                                                urlGlb,
-//                                                it.data.scale
-//                                            )
                                         }
-
                                         TrackingState.PAUSED -> Unit
                                         TrackingState.STOPPED -> Unit
                                     }
-
-
                                 },
                                 onError = {
                                     Toast.makeText(
                                         this@ArViewActivity,
                                         it.message.orEmpty(),
                                         Toast.LENGTH_LONG
-                                    )
-                                        .show()
+                                    ).show()
                                 }
                             ).apply {
                                 loadModel(
@@ -233,7 +204,7 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
             onLoaded = { model ->
                 Toast.makeText(
                     this@ArViewActivity,
-                    "Model ${name} has been loaded ",
+                    "Model $name has been loaded ",
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -252,22 +223,11 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
             val ctx = LocalContext.current
             val size = ctx.getScreenWidth() - 40.dp
 
-            var truncate by remember {
-                mutableStateOf(true)
-            }
-            var truncatePart by remember {
-                mutableStateOf(true)
-            }
-            var partName by remember {
-                mutableStateOf("")
-            }
-            var partDescription by remember {
-                mutableStateOf("")
-            }
-            var selectedModel by remember {
-                mutableStateOf(0)
-            }
-
+            var truncate by remember { mutableStateOf(true) }
+            var truncatePart by remember { mutableStateOf(true) }
+            var partName by remember { mutableStateOf("") }
+            var partDescription by remember { mutableStateOf("") }
+            var selectedModel by remember { mutableStateOf(0) }
 
             val chipRounded = RoundedCornerShape(10.dp)
             val image = rememberAsyncImagePainter(
@@ -284,17 +244,11 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                     rotation = Rotation(y = 90.0f),
                     scale = SceneViewScale((it["scale"] as Double).toFloat()),
                 ).apply {
-                    loadModel(
-                        this,
-                        "Model",
-                        "models/${it["name"] as String}.glb"
-                    )
+                    loadModel(this, "Model", "models/${it["name"] as String}.glb")
                 }
             }
 
-            var selectedNode by remember {
-                mutableStateOf(listOf(node[0]))
-            }
+            var selectedNode by remember { mutableStateOf(listOf(node[0])) }
 
             if (showDialog) {
                 Dialog(
@@ -330,9 +284,9 @@ class ArViewActivity : AppCompatActivity(R.layout.activity_ar_view) {
                                         .background(MaterialTheme.colorScheme.surface),
                                     nodes = selectedNode,
                                     onCreate = { sceneView ->
-                                        sceneView.scene.skybox?.setColor(255f, 255f, 255f, 1f)
+                                        sceneView.scene.skybox?.
+                                        setColor(255f, 255f, 255f, 1f)
                                         // Apply your configuration
-
                                     }
                                 )
                             }

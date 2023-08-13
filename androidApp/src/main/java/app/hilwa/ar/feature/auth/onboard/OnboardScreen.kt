@@ -138,6 +138,15 @@ internal fun OnboardScreen(
                         color = MaterialTheme.colorScheme.primary
                     )
                 )
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    text = stringResource(R.string.subtitle2_onboard),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                )
             }
             Spacer(modifier = Modifier.height(20.dp))
             Column(
