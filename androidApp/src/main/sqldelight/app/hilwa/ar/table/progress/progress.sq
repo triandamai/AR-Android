@@ -1,4 +1,5 @@
 import kotlin.collections.List;
+import kotlin.String;
 
 CREATE TABLE IF NOT EXISTS Progress(
     quizId TEXT NOT NULL PRIMARY KEY,
