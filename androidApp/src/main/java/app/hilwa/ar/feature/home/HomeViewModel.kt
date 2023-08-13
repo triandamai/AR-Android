@@ -10,7 +10,6 @@ package app.hilwa.ar.feature.home
 
 
 import app.hilwa.ar.data.ResultState
-import app.hilwa.ar.data.ResultStateData
 import app.hilwa.ar.data.domain.quiz.GetLatestQuizUseCase
 import app.hilwa.ar.data.domain.user.GetUserProfileUseCase
 import app.trian.mvi.ui.viewModel.MviViewModel
